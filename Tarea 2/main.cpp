@@ -1,3 +1,9 @@
+//Programa de ordenamiento y búsqueda.  
+//Jose Angel Gonzalez Carrera - A01552274
+//Carlos Eduardo Ruiz Lira - A01735706
+//08 de septiembre, 2021
+
+
 #include <iostream>
 #include <vector>
 
@@ -7,7 +13,10 @@ using namespace std;
 int comparacionesSecuencial=0;
 int comparacionesBinaria=0;
 
-// Complejidad: O(n^2)
+//Funcion que ordena un vector de enteros utilizando el algoritmo de intercambio y retorna el numero de comparaciones realizadas. 
+//Entrada: vector de enteros
+//Salida: numero de comparaciones realizadas para ordenar el vector.
+// Complejidad: O(n^2)  
 int ordenaIntercambio(vector<int> v){
 
     int size = v.size();
@@ -19,11 +28,14 @@ int ordenaIntercambio(vector<int> v){
                 v.at(1) = v.at(j);
                 v.at(j) = temp;
             }
-        comparaciones++;
+        comparaciones++;    
         }
     return comparaciones;
 }
 
+//Funcion que ordena un vector de enteros utilizando el algoritmo de ordenamiento burbuja y retorna el numero de comparaciones realizadas. 
+//Entrada: vector de enteros
+//Salida: numero de comparaciones realizadas para ordenar el vector.
 // Complejidad: O(n^2)    Mejor caso: O(n)
 int ordenaBurbuja(vector<int> v){ 
 
@@ -46,7 +58,10 @@ int ordenaBurbuja(vector<int> v){
     return comparaciones;
 }
 
-//funcion auxiliar mergeSort
+//Funcion auxiliar de método de ordenamiento merge, ordena dos subarreglos del original y los vuelve unir. Retorna el numero de comparaciones realizadas.
+//Entrada: subvector izquierdo, subvector derecho, vector original que fue partido a la mitad.
+//Salida: numero de comparaciones realizadas para ordenar el vector.
+// Complejidad: O(n)    
 int merge(vector<int> &l,vector<int> &r,vector<int> &v)
 {
   int i,j,k,nL,nR;
@@ -89,6 +104,9 @@ int merge(vector<int> &l,vector<int> &r,vector<int> &v)
   return comparacion;
 }
 
+//Funcion que ordena un vector de enteros utilizando el algoritmo recursivo de ordenamiento merge y retorna el numero de comparaciones realizadas. 
+//Entrada: vector de enteros
+//Salida: numero de comparaciones realizadas para ordenar el vector.
 // Complejidad: O(nlogn)
 int ordenaMerge(vector<int> &v)
 {  
@@ -116,7 +134,11 @@ int ordenaMerge(vector<int> &v)
   
 }
 
-// Complejidad: O(n)
+
+//Funcion que busca un elemento en un vector utilizando el algoritmo de busqueda secuencial y retorna la posicion del elemento en el vector. 
+//Entrada: vector a buscar, elemento a buscar.
+//Salida: posicion del elemento buscado en el vector. 
+//Complejidad: O(n)
 int busqSecuencial(vector<int> v, int x){
 
     int size = v.size(); // MODIFICACION 
@@ -128,7 +150,9 @@ int busqSecuencial(vector<int> v, int x){
     return -1;
 }
 
-
+//Funcion que busca un elemento en un vector utilizando el algoritmo recursivo de busqueda binaria y retorna la posicion del elemento en el vector. 
+//Entrada: vector a buscar, elemento a buscar.
+//Salida: posicion del elemento buscado en el vector. 
 // Complejidad: O(logn)
 int busqBinaria(vector<int> v, int left, int right, int number){
 
