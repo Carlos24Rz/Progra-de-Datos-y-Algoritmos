@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -17,17 +16,14 @@ vector<Registro> leerArchivo()
 
     if (s.is_open())
     {
-        int contador = 0;
-        while (getline(s, str) && contador<10)
+        
+        while (getline(s, str))
         {
             stringstream ss(str);
+            string fecha[3];
             string string[5];
-
-            int i = 0;
-
-            // getline(ss, string[i], ' ');
             
-            for(int i = 0; i <= 4; i++){
+            for(int i = 0; i < 5; i++){
 
                 if(i==4)
                     getline(ss, string[i]);
@@ -35,14 +31,23 @@ vector<Registro> leerArchivo()
                 else
                     getline(ss, string[i], ' ');
 
+            stringstream sss(string[2]);
 
-
-                if(i==4)
-                    cout << string[i] << endl;
-                else
-                    cout << string[i] << " " ;
+            for(int i = 0; i < 3; i++){
+                getline(sss,fecha[3], ';');
             }
-            contador++;
+
+            Registro r(
+                string[0],
+                stoi(string[1]),
+                stoi(fecha[0]),
+                stoi(fecha[1]),
+                stoi(fecha[2]),
+                string[3],
+                string[4]
+            );
+
+            registro.push_back(r);
 
         }
     }
@@ -52,7 +57,8 @@ vector<Registro> leerArchivo()
 
 int main(){
 
-    leerArchivo();
+    vector<Registro> r = leerArchivo();
+    cout << r[0].getRegistro() << endl;
     return 1; 
 }
 
