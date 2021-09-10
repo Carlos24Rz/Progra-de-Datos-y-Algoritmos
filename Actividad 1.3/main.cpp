@@ -17,16 +17,33 @@ vector<Registro> leerArchivo()
 
     if (s.is_open())
     {
-        while (getline(s, str))
+        int contador = 0;
+        while (getline(s, str) && contador<10)
         {
             stringstream ss(str);
-            string string[4];
+            string string[5];
 
             int i = 0;
 
-            getline(ss, string[i++], ' ');
+            // getline(ss, string[i], ' ');
             
-            for(int i = 0; i < 4; i++) cout << string[i] << endl;;
+            for(int i = 0; i <= 4; i++){
+
+                if(i==4)
+                    getline(ss, string[i]);
+                
+                else
+                    getline(ss, string[i], ' ');
+
+
+
+                if(i==4)
+                    cout << string[i] << endl;
+                else
+                    cout << string[i] << " " ;
+            }
+            contador++;
+
         }
     }
 
