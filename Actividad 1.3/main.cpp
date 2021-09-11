@@ -23,13 +23,15 @@ vector<Registro> leerArchivo()
             string fecha[3];
             string string[5];
             
-            for(int i = 0; i < 5; i++){
-
+            for(int i = 0; i < 5; i++)
+            {
                 if(i==4)
                     getline(ss, string[i]);
                 
                 else
                     getline(ss, string[i], ' ');
+            }
+
 
             stringstream sss(string[2]);
 
@@ -55,7 +57,8 @@ vector<Registro> leerArchivo()
     return registro;
 }
 
-int main(){
+int main()
+{
 
     vector<Registro> r = leerArchivo();
     cout << r[0].getRegistro() << endl;
