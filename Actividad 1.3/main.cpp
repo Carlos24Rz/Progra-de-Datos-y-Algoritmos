@@ -63,7 +63,7 @@ vector<Registro> leerArchivo()
 int main()
 {
     vector<Registro> r = leerArchivo();
-    
+
     return 1; 
 }
 

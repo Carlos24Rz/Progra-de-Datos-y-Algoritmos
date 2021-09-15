@@ -129,4 +129,41 @@ class Registro{
             return str;
         }
     
+        bool operator<=(const Registro& b)
+        {
+            if(m_mes <= b.m_mes)
+            {
+                if(m_mes == b.m_mes)
+                {
+                    if(m_dia <= b.m_dia)
+                    {
+                        if(m_dia == b.m_dia)
+                        {
+                            if(m_hora <= b.m_hora)
+                            {
+                                if(m_hora == b.m_hora)
+                                {
+                                    if(m_minuto <= b.m_minuto)
+                                    {
+                                        if(m_minuto == b.m_minuto)
+                                        {
+                                            if(m_segundo <= b.m_segundo) return 1;
+                                            else return 0;
+                                        }
+                                        else return 1;
+                                    }
+                                    else return 0;
+                                }
+                                else return 1;
+                            }
+                            else return 0;
+                        }
+                        else return 1;
+                    }
+                    else return 0;
+                }
+                else return 1;
+            }
+            else return 0;
+        }
 };
