@@ -114,6 +114,12 @@ int binarySearch(vector<Registro> v, int left, int right, int number, int upOrDo
 
     int mid = (left+right) / 2;
 
+    if(left == v.size()) // En caso de que se llegue al final del arreglo, no se puede regresar algo que no este
+        return mid;
+    
+    if(right<0) // El right no puede ser negativo
+        return 0;
+
     if(left>right && upOrDown==0)
         return left;    
 
@@ -152,6 +158,9 @@ int binarySearch(vector<Registro> v, int left, int right, int number, int upOrDo
 // 1 = Queremos buscar por dia
 int lowerLimit(vector <Registro> v, int index, int dayOrMonth){
     
+    if(index==v.size()-1)   // Si tenemos el ultimo elemento del vector, signfica que no habia lo que se buscaba hacia arriba
+        return index;
+
     if(index>0 && dayOrMonth==0){
         int magicNumber = v.at(index).getMes();
         while(v.at(index-1).getMes()==magicNumber){
@@ -176,7 +185,8 @@ int lowerLimit(vector <Registro> v, int index, int dayOrMonth){
 // Cuando un elemento se repite, se busca el indice superior
 int upperLimit(vector <Registro> v, int index, int dayOrMonth){
     
-    cout << "Entrando al upper limit" << endl;
+    // cout << "Entrando al upper limit" << endl;
+    // cout << "indice: " << index << endl;
 
     if(index==v.size()-1)
         return index;
@@ -184,16 +194,22 @@ int upperLimit(vector <Registro> v, int index, int dayOrMonth){
     if(index>0 && dayOrMonth==0){
         int magicNumber = v.at(index).getMes();
         while(v.at(index+1).getMes()==magicNumber){
-            cout << "indice: " << index << endl;
             index++;
+
+            // IMPORTANTE, HACER ESTO PARA EL DIA
+            if(index==v.size()-1)
+                return index;
         }
             
     }
 
     else if(index>0 && dayOrMonth==1){
         int magicNumber = v.at(index).getDia();
-        while(v.at(index+1).getDia()==magicNumber)
+        while(v.at(index+1).getDia()==magicNumber){
             index++;
+            if(index==v.size()-1)
+                return index;
+        }
     }
     return index;
 }
@@ -219,7 +235,7 @@ int main()
     Myfile.close();
     
     
-
+    cout << r.size() << endl;
     cout << "\n--------------------------" << endl;
     
     int mesInferior, mesSuperior, diaInferior, diaSuperior;
@@ -229,10 +245,17 @@ int main()
     cout << "Ingresa el mes superior: ";    cin >> mesSuperior;
     cout << "Ingresa el dia superior: ";    cin >> diaSuperior;
 
+
+    // Componiendo caso 12 1 12 1
+
     // Se buscan los limites de ambos meses
     int indInferiorMes = binarySearch(r, 0, n-1, mesInferior, 0, 0);
+    cout << "\nBinary search mes inferior: " << indInferiorMes << endl;
     int downInferiorMes = lowerLimit(r, indInferiorMes, 0);
+    cout << "Limite inferior del mes: " << downInferiorMes << endl;
     int upInferiorMes = upperLimit(r, indInferiorMes, 0);
+    
+
 
     int indSuperiorMes = binarySearch(r, 0, n-1, mesSuperior, 1, 0);
     int downSuperiorMes = lowerLimit(r, indSuperiorMes, 0);
@@ -242,6 +265,7 @@ int main()
     cout << "\nBinary search mes inferior: " << indInferiorMes << endl;
     cout << "Limite inferior del mes: " << downInferiorMes << endl;
     cout << "Limite superior del mes: " << upInferiorMes << endl;
+
     cout << "\nBinary search mes superior: " << indSuperiorMes << endl;
     cout << "Limite inferior del mes: " << downSuperiorMes << endl;
     cout << "Limite superior del mes: " << upSuperiorMes << endl;
@@ -252,15 +276,22 @@ int main()
     int indInferiorDia = binarySearch(r, downInferiorMes, upInferiorMes, diaInferior, 0, 1);
     int downInferiorDia = lowerLimit(r, indInferiorDia, 1);
 
-    cout << "INFERIOR FUNCION" << endl;
+    
 
     // 1 1 12 30
-    int indSuperiorDia = 0;
 
-    if(upSuperiorMes==r.size()-1)
-        indSuperiorDia = r.size()-1;
-    else
-        indSuperiorDia = binarySearch(r, downSuperiorMes, upSuperiorMes, diaSuperior, 1, 1);
+    // if(upSuperiorMes==r.size()-1)
+    //     indSuperiorDia = r.size()-1;
+    // else
+
+    cout << "Comprobando binary search" << endl;
+    cout << "downSuperiorMes: " << downSuperiorMes << endl;
+    cout << "upSuperiorMes: " << upSuperiorMes << endl;
+    cout << "diaSuperior_ " << diaSuperior << endl;
+    cout << endl;
+
+
+    int indSuperiorDia = binarySearch(r, downSuperiorMes, upSuperiorMes, diaSuperior, 1, 1);
 
     cout << "Funciona binary search: " << indSuperiorDia << endl;
 
@@ -279,8 +310,13 @@ int main()
     // Se muestran los registros (BORRAR DESPUES)
     cout << "\nR E G I S T R O S" << endl;
 
-    for(int i=downInferiorDia; i<=upSuperiorDia; i++)
-        cout << r.at(i).getRegistro() << endl;
+    cout << "upSuperiorDia: " << upSuperiorDia << endl;
+    cout << "downInferiorDia: " << downInferiorDia << endl;
+    if(upSuperiorDia!=0 && downInferiorDia!=r.size()-1)
+        for(int i=downInferiorDia; i<=upSuperiorDia; i++)
+            cout << r.at(i).getRegistro() << endl;
+    else
+        cout << "No hay registros disponibles" << endl;
 
 
 

@@ -67,7 +67,7 @@ int main(){
     // vector <int> arr = {1,2,2,2,3,4,5,5,6,7,7,8,8};
     vector <int> arr = {3,5,5,6,6,6,9,9,10,11,11,11,15,20,20,27,29,30};
 
-    int number = 11;
+    int number = 1;
 
     int indexBusqueda = binarySearch(arr, 0,arr.size()-1, number, 0);
     cout << "Funciono binarySearch!" << endl;
