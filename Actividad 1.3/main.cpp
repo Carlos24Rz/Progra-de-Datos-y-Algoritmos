@@ -176,13 +176,18 @@ int lowerLimit(vector <Registro> v, int index, int dayOrMonth){
 // Cuando un elemento se repite, se busca el indice superior
 int upperLimit(vector <Registro> v, int index, int dayOrMonth){
     
+    cout << "Entrando al upper limit" << endl;
+
     if(index==v.size()-1)
         return index;
 
     if(index>0 && dayOrMonth==0){
         int magicNumber = v.at(index).getMes();
-        while(v.at(index+1).getMes()==magicNumber)
+        while(v.at(index+1).getMes()==magicNumber){
+            cout << "indice: " << index << endl;
             index++;
+        }
+            
     }
 
     else if(index>0 && dayOrMonth==1){
@@ -192,6 +197,7 @@ int upperLimit(vector <Registro> v, int index, int dayOrMonth){
     }
     return index;
 }
+
 
 
 int main()
@@ -246,7 +252,19 @@ int main()
     int indInferiorDia = binarySearch(r, downInferiorMes, upInferiorMes, diaInferior, 0, 1);
     int downInferiorDia = lowerLimit(r, indInferiorDia, 1);
 
-    int indSuperiorDia = binarySearch(r, downSuperiorMes, upSuperiorMes, diaSuperior, 1, 1);
+    cout << "INFERIOR FUNCION" << endl;
+
+    // 1 1 12 30
+    int indSuperiorDia = 0;
+
+    if(upSuperiorMes==r.size()-1)
+        indSuperiorDia = r.size()-1;
+    else
+        indSuperiorDia = binarySearch(r, downSuperiorMes, upSuperiorMes, diaSuperior, 1, 1);
+
+    cout << "Funciona binary search: " << indSuperiorDia << endl;
+
+
     int upSuperiorDia = upperLimit(r, indSuperiorDia, 1);
 
     // Se imprime el lower limit del dia inferior, y el upper limit del dia superior
