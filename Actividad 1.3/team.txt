@@ -1,0 +1,8 @@
+* Carlos Eduardo Ruiz Lira / a01735706
+
+
+* Carlos Daniel Díaz Arrazate / a01734902
+
+
+* José Ángel González Carrera / a01552274
+    Implementación de la busqueda binaria para encontrar el rango de la fecha de registros
