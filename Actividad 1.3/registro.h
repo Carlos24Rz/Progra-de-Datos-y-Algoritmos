@@ -8,7 +8,6 @@ class Registro{
 
     private:
         int m_mes, m_dia, m_hora, m_minuto, m_segundo;
-        /// crear objeto fecha 
         string m_ip, m_log;
 
     public:

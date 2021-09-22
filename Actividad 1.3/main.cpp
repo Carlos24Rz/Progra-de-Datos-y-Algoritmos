@@ -92,6 +92,7 @@ void merge(vector<Registro> &v, int l, int m, int r) {
    }
 }
 
+
 void mergeSort(vector<Registro> &v, int l, int r) {
    int m;
    if(l < r) {
@@ -104,6 +105,11 @@ void mergeSort(vector<Registro> &v, int l, int r) {
 }
 
 
+//Complejidad: O(logn)
+//Funcion que busca un elemento en un vector utilizando el algoritmo recursivo de busqueda binaria y retorna la posicion del elemento en el vector
+//En caso de no encontrar al elemento, retorna la posicion del elemento mas cercano
+//Entrada: vector a buscar, posicion inicial del vector, posicion final del vector, elemento a buscar, se busca limite inferior o superio, se busca dia o mes
+//Salida: posicion del elemento buscado en el vector o la posicion del mas cercano
 // upOrDown
 // 0 = Queremos buscar el numero mayor que el indice (Buscamos limite inferior)
 // 1 = Queremos buscar el numero menor que el indice (Buscamos el limite superior)
@@ -149,7 +155,12 @@ int binarySearch(vector<Registro> v, int left, int right, int number, int upOrDo
     }
 }
 
-// Cuando un elemento se repite, se busca el indice inferior de estas repeticiones
+
+//Complejidad: O(n)
+//Complejidad: O(logn)
+//Funcion que obtiene la posicion inferior de un elemento repetido en el vector
+//Entrada: vector a buscar, indice del elemento, int que indica si se busca un dia o mes
+//Salida: posicion inferior del elemento repetido
 // dayOrMonth
 // 0 = Queremos buscar por mes
 // 1 = Queremos buscar por dia
@@ -177,7 +188,11 @@ int lowerLimit(vector <Registro> v, int index, int dayOrMonth){
     return index;
 }
 
-// Cuando un elemento se repite, se busca el indice superior de estas repeticiones
+
+//Complejidad: O(n)
+//Funcion que obtiene la posicion superior de un elemento repetido en el vector
+//Entrada: vector a buscar, indice del elemento, int que indica si se busca un dia o mes
+//Salida: posicion superior del elemento repetido
 // dayOrMonth
 // 0 = Queremos buscar por mes
 // 1 = Queremos buscar por dia
@@ -282,7 +297,7 @@ int main()
     
 
     // Se imprime el lower limit del dia inferior, y el upper limit del dia superior
-    // De estos limites se tendran que generar los registros
+    // De estos limites se tendran que generar los registros (ESTE ES EL RANGO IMPORTANTE)
     // (BORRAR DESPUES)
     cout << "El dia inferior esta en la posicion: " << downInferiorDia << " y es: " << r.at(downInferiorDia).getDia() << endl;
     cout << "El dia superior esta en la posicion: " << upSuperiorDia << " y es: " << r.at(upSuperiorDia).getDia() << endl;
@@ -310,9 +325,3 @@ int main()
 
     return 0; 
 }
-
-
-
-// NOTAS
-// Revisar que en las busquedas funcionen bien los inferiores y superiores valores
-
