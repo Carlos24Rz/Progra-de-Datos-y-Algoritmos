@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//Funcion que guarda contenido de archivo txt en un vector
+//Funcion que guarda contenido de archivo txt en un vector de registros
 vector<Registro> leerArchivo()
 {
     vector<Registro> registro;
