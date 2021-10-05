@@ -47,22 +47,24 @@ void Inserta_al_final(struct Node* &pthead, int node_data) {
 }
 
 void Elimina_al_inicio(struct Node* &pthead) {
-  //Si la lista esta vacia, mantenerla igual
+  //Si la lista esta vacia, imprimir "ERROR"
   if(pthead == NULL) {
-    cout << "ERROR";
+    cout << "ERROR" << endl;
   }
+  else {
   //Placeholder del nodo a borrar
   Node* temp = pthead;
   //Set head al siguiente nodo
   pthead = pthead->next;
   //Delete node
   delete temp;
+  }
 }
 
 void Elimina_al_final(struct Node* &pthead) {
   //Si la lista esta vacia, mantenerla igual
   if(pthead == NULL) {
-    cout << "ERROR";
+    cout << "ERROR" << endl;
   }
   else{
     Node* temp = pthead;
@@ -82,31 +84,37 @@ void Imprime(struct Node *tmp) {
    //traverse the list to display each node
    while (tmp != NULL)
    {
-      cout<<tmp->data<<"-->";
+      cout << tmp->data << endl;
       tmp = tmp->next;
    }
-
-  // if(tmp== NULL)
-  //  return;
 }
 
 
 
 int main() {
-/* empty list */
-struct Node* head = NULL;
-
-
-  // Inserta_al_final(head, 10);
-  // Inserta_al_final(head, 8);
-  // Inserta_al_final(head, 4);
-  // Inserta_al_inicio(head, 20);
-  // Elimina_al_final(head);
-
-
-  // cout<<"Final linked list: "<<endl;
-  Imprime(head);
-  cout << endl;
-
+  /* empty list */
+  struct Node* head = NULL;
+  int user = 1;
+  int input;
+  while(user != 0){
+    cin >> user;
+    if (user == 1) {
+      cin >> input;
+      Inserta_al_inicio(head,input);
+    }
+    else if (user == 2) {
+      cin >> input;
+      Inserta_al_final(head,input);
+    }
+    else if (user == 3) {
+      Elimina_al_inicio(head);
+    }
+    else if (user == 4) {
+      Elimina_al_final(head);
+    }
+    else if (user == 5) {
+      Imprime(head);
+    }
+  }
   return 0;
 }
