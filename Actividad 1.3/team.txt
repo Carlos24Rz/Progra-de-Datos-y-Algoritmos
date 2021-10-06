@@ -1,8 +1,8 @@
 * Carlos Eduardo Ruiz Lira / a01735706
-
+    Implementación del algoritmo merge sort y lectura de bitacora.txt
 
 * Carlos Daniel Díaz Arrazate / a01734902
-
+    Implementación de la clase registro y sobrecarga del operador =>
 
 * José Ángel González Carrera / a01552274
     Implementación de la busqueda binaria para encontrar el rango de la fecha de registros

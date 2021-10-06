@@ -231,7 +231,7 @@ int main()
     
     mergeSort(r, 0, n-1);
 
-    ofstream Myfile("ordenado.txt");
+    ofstream Myfile("sorted.txt");
 
     for (int i = 0; i < n; i++)
     {
