@@ -7,31 +7,14 @@ struct Node {
    struct Node *next;
 };
 
-
-void Inserta_al_inicio(struct Node* &pthead, int node_data) {
-  struct Node* newNode = new Node;
-
-  newNode->data = node_data;
-
-  newNode->next = pthead;
-
-  pthead = newNode;
-}
-
-
-
 void Inserta_al_final(struct Node* &pthead, int node_data) {
   /* 1. create and allocate node */
   struct Node* newNode = new Node;
-
   struct Node* last = pthead; /* used in step 5*/
-
   /* 2. assign data to the node */
   newNode->data = node_data;
-
   /* 3. set next pointer of new node to null as its the last node*/
   newNode->next = NULL;
-
   /* 4. if list is empty, new node becomes first node */
   if (pthead == NULL) {
     pthead = newNode;
@@ -40,44 +23,31 @@ void Inserta_al_final(struct Node* &pthead, int node_data) {
   /* 5. Else traverse till the last node */
   while (last->next != NULL)
     last = last->next;
-
   /* 6. Change the next of last node */
   last->next = newNode;
   return;
 }
 
-void Elimina_al_inicio(struct Node* &pthead) {
-  //Si la lista esta vacia, imprimir "ERROR"
-  if(pthead == NULL) {
-    cout << "ERROR" << endl;
-  }
-  else {
-  //Placeholder del nodo a borrar
-  Node* temp = pthead;
-  //Set head al siguiente nodo
-  pthead = pthead->next;
-  //Delete node
-  delete temp;
-  }
-}
 
-void Elimina_al_final(struct Node* &pthead) {
-  //Si la lista esta vacia, mantenerla igual
-  if(pthead == NULL) {
-    cout << "ERROR" << endl;
-  }
-  else{
-    Node* temp = pthead;
-    while (temp->next->next != NULL) {
-      temp = temp->next;
+bool equals(struct Node* pthead_m, struct Node* pthead_n) {
+  while (pthead_m != NULL && pthead_n != NULL) {
+    if (pthead_m->data != pthead_n->data) {
+      return false;
     }
+    pthead_m = pthead_m->next;
+    pthead_n = pthead_n->next;
 
-    Node* last = temp->next;
-    temp->next = NULL;
-    delete last;
   }
+  return (pthead_m == NULL && pthead_n == NULL);
 }
 
+void concat(struct Node* &pthead_m, struct Node* &pthead_n) {
+  struct Node* last = pthead_m;
+  while (last->next != NULL) {
+    last = last->next;
+  }
+  last->next = pthead_n;
+}
 
 
 void Imprime(struct Node *tmp) {
@@ -90,31 +60,56 @@ void Imprime(struct Node *tmp) {
 }
 
 
+void reverse(struct Node* &pthead) {
+  struct Node* prev, *curr, *next;
+  curr = pthead;
+  prev = NULL;
+  next = NULL;
+
+  while (curr != NULL) {
+    next = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+  }
+  pthead = prev;
+}
+
+
 
 int main() {
   /* empty list */
-  struct Node* head = NULL;
-  int user = 1;
-  int input;
-  while(user != 0){
-    cin >> user;
-    if (user == 1) {
-      cin >> input;
-      Inserta_al_inicio(head,input);
-    }
-    else if (user == 2) {
-      cin >> input;
-      Inserta_al_final(head,input);
-    }
-    else if (user == 3) {
-      Elimina_al_inicio(head);
-    }
-    else if (user == 4) {
-      Elimina_al_final(head);
-    }
-    else if (user == 5) {
-      Imprime(head);
-    }
+  struct Node* head_m = NULL;
+  struct Node* head_n = NULL;
+  int m, n, input;
+
+  cin >> m;
+  for (int i = 0; i < m; i++) {
+    cin >> input;
+    Inserta_al_final(head_m,input);
   }
+  cin >> n;
+  for (int i = 0; i < n; i++) {
+    cin >> input;
+    Inserta_al_final(head_n,input);
+  }
+
+  reverse(head_m);
+  reverse(head_n);
+  Imprime(head_m);
+  Imprime(head_n);
+  concat(head_n,head_m);
+  Imprime(head_n);
+  //Como se comparan las listas si a la n se le concatena la lista m
+  if(equals(head_m,head_n)){
+    cout << "true" << endl;
+  }
+  else cout << "false" << endl;
+
+
+
+
+
+
   return 0;
 }
