@@ -7,59 +7,31 @@ struct Node {
    struct Node *next;
 };
 
+
+// Descripcion: Inserta un nodo al final de la lista ligada
+// Entrada: Referencia de estructura de datos y entero del nodo a insertar
+// Salida: Lista con el nuevo nodo
+// Complejidad: O(n)
 void Inserta_al_final(struct Node* &pthead, int node_data) {
-  /* 1. create and allocate node */
   struct Node* newNode = new Node;
-  struct Node* last = pthead; /* used in step 5*/
-  /* 2. assign data to the node */
+  struct Node* last = pthead;
   newNode->data = node_data;
-  /* 3. set next pointer of new node to null as its the last node*/
   newNode->next = NULL;
-  /* 4. if list is empty, new node becomes first node */
   if (pthead == NULL) {
     pthead = newNode;
     return;
   }
-  /* 5. Else traverse till the last node */
   while (last->next != NULL)
     last = last->next;
-  /* 6. Change the next of last node */
   last->next = newNode;
   return;
 }
 
 
-bool equals(struct Node* pthead_m, struct Node* pthead_n) {
-  while (pthead_m != NULL && pthead_n != NULL) {
-    if (pthead_m->data != pthead_n->data) {
-      return false;
-    }
-    pthead_m = pthead_m->next;
-    pthead_n = pthead_n->next;
-
-  }
-  return (pthead_m == NULL && pthead_n == NULL);
-}
-
-void concat(struct Node* &pthead_m, struct Node* &pthead_n) {
-  struct Node* last = pthead_m;
-  while (last->next != NULL) {
-    last = last->next;
-  }
-  last->next = pthead_n;
-}
-
-
-void Imprime(struct Node *tmp) {
-   //traverse the list to display each node
-   while (tmp != NULL)
-   {
-      cout << tmp->data << endl;
-      tmp = tmp->next;
-   }
-}
-
-
+// Descripcion: Invierte el orden de la lista ligada
+// Entrada: Referencia de estructura de datos y entero del nodo a insertar
+// Salida: Lista invertida
+// Complejidad: O(n)
 void reverse(struct Node* &pthead) {
   struct Node* prev, *curr, *next;
   curr = pthead;
@@ -76,9 +48,55 @@ void reverse(struct Node* &pthead) {
 }
 
 
+// Descripcion: Compara si dos listas ligadas son iguales
+// Entrada: 2 Pointers a las listas
+// Salida: Bool
+// Complejidad: O(n)
+bool equals(struct Node* pthead_m, struct Node* pthead_n) {
+  while (pthead_m != NULL && pthead_n != NULL) {
+    if (pthead_m->data != pthead_n->data) {
+      return false;
+    }
+    pthead_m = pthead_m->next;
+    pthead_n = pthead_n->next;
+
+  }
+  return (pthead_m == NULL && pthead_n == NULL);
+}
+
+
+// Descripcion: Concatena el cotenido de una lista a otra
+// Entrada: Referencia del pointer a 2 listas
+// Salida: Lista concatenada
+// Complejidad: O(n)
+void concat(struct Node* &pthead_m, struct Node* &pthead_n) {
+  struct Node* last = pthead_m;
+  while (last->next != NULL) {
+    last = last->next;
+  }
+  last->next = pthead_n;
+}
+
+
+// Descripcion: Imprime los datos de la lista ligada
+// Entrada: Pointer a estructura de datos
+// Salida: Impresión de la lista
+// Complejidad: O(n)
+void Imprime(struct Node *tmp) {
+   //traverse the list to display each node
+   while (tmp != NULL)
+   {
+      cout << tmp->data << endl;
+      tmp = tmp->next;
+   }
+}
+
+
+
+
+
 
 int main() {
-  /* empty list */
   struct Node* head_m = NULL;
   struct Node* head_n = NULL;
   int m, n, input;
