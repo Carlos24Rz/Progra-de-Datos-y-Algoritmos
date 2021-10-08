@@ -18,7 +18,6 @@ void Inserta_al_inicio(struct Node* &pthead, int node_data) {
   pthead = newNode;
 }
 
-
 // Descripcion: Inserta un nodo al final de la lista ligada
 // Entrada: Referencia de estructura de datos y entero del nodo a insertar
 // Salida: Lista con el nuevo nodo
@@ -28,16 +27,17 @@ void Inserta_al_final(struct Node* &pthead, int node_data) {
   struct Node* last = pthead;
   newNode->data = node_data;
   newNode->next = NULL;
+
   if (pthead == NULL) {
     pthead = newNode;
     return;
   }
+  
   while (last->next != NULL)
     last = last->next;
   last->next = newNode;
   return;
 }
-
 
 // Descripcion: Elimina un nodo al inicio de la lista ligada
 // Entrada: Referencia de estructura de datos
@@ -49,15 +49,14 @@ void Elimina_al_inicio(struct Node* &pthead) {
     cout << "ERROR" << endl;
   }
   else {
-  //Placeholder del nodo a borrar
-  Node* temp = pthead;
-  //Set head al siguiente nodo
-  pthead = pthead->next;
-  //Delete node
-  delete temp;
+    //Placeholder del nodo a borrar
+    Node* temp = pthead;
+    //Set head al siguiente nodo
+    pthead = pthead->next;
+    //Delete node
+    delete temp;
   }
 }
-
 
 // Descripcion: Elimina un nodo al final de la lista ligada
 // Entrada: Referencia de estructura de datos
@@ -68,6 +67,14 @@ void Elimina_al_final(struct Node* &pthead) {
   if(pthead == NULL) {
     cout << "ERROR" << endl;
   }
+
+  //Cuando se quiere eliminar al final cuando hay un elemento
+  else if(pthead->next == NULL){
+    Node* temp = pthead;
+    pthead = NULL;
+    delete temp;
+  }
+
   else{
     Node* temp = pthead;
     while (temp->next->next != NULL) {
@@ -79,7 +86,6 @@ void Elimina_al_final(struct Node* &pthead) {
     delete last;
   }
 }
-
 
 // Descripcion: Imprime los datos de la lista ligada
 // Entrada: Pointer a estructura de datos
@@ -95,11 +101,11 @@ void Imprime(struct Node *tmp) {
 }
 
 
-
 int main() {
   struct Node* head = NULL;
   int user = 1;
   int input;
+
   while(user != 0){
     cin >> user;
     if (user == 1) {
@@ -110,15 +116,16 @@ int main() {
       cin >> input;
       Inserta_al_final(head,input);
     }
-    else if (user == 3) {
+    else if (user == 3) 
       Elimina_al_inicio(head);
-    }
-    else if (user == 4) {
+    
+    else if (user == 4) 
       Elimina_al_final(head);
-    }
-    else if (user == 5) {
+    
+    else if (user == 5) 
+      cout << "Imprimiendo: " ;
       Imprime(head);
-    }
+    
   }
   return 0;
 }
