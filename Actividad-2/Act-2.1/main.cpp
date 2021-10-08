@@ -1,3 +1,9 @@
+// Programa que trabaja con una lista ligada de nodos
+// Carlos Daniel Diaz Arrazate - A01734902
+// Jose Angel Gonzalez Carrera - A01552274
+// Carlos Eduardo Ruiz Lira - A01735706
+// 8/10/21
+
 #include <iostream>
 using namespace std;
 
@@ -32,7 +38,7 @@ void Inserta_al_final(struct Node* &pthead, int node_data) {
     pthead = newNode;
     return;
   }
-  
+
   while (last->next != NULL)
     last = last->next;
   last->next = newNode;
@@ -106,7 +112,7 @@ int main() {
   int user = 1;
   int input;
 
-  while(user != 0){
+  while(user != 0) {
     cin >> user;
     if (user == 1) {
       cin >> input;
@@ -116,16 +122,16 @@ int main() {
       cin >> input;
       Inserta_al_final(head,input);
     }
-    else if (user == 3) 
+    else if (user == 3)
       Elimina_al_inicio(head);
-    
-    else if (user == 4) 
+
+    else if (user == 4)
       Elimina_al_final(head);
-    
-    else if (user == 5) 
+
+    else if (user == 5) {
       cout << "Imprimiendo: " ;
       Imprime(head);
-    
+    }
   }
   return 0;
 }

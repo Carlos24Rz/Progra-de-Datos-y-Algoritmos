@@ -1,3 +1,9 @@
+// Programa que trabaja con listas ligadas de nodos
+// Carlos Daniel Diaz Arrazate - A01734902
+// Jose Angel Gonzalez Carrera - A01552274
+// Carlos Eduardo Ruiz Lira - A01735706
+// 8/10/21
+
 #include <iostream>
 using namespace std;
 
@@ -55,7 +61,7 @@ bool equals(struct Node* pthead_m, struct Node* pthead_n) {
   while (pthead_m != NULL && pthead_n != NULL){
     if (pthead_m->data != pthead_n->data)
       return false;
-    
+
     pthead_m = pthead_m->next;
     pthead_n = pthead_n->next;
   }
@@ -70,7 +76,7 @@ void concat(struct Node* &pthead_m, struct Node* &pthead_n) {
     struct Node* last = pthead_m;
     while (last->next != NULL)
         last = last->next;
-    
+
     last->next = pthead_n;
 }
 
@@ -118,5 +124,3 @@ int main() {
 
     return 0;
 }
-
-
