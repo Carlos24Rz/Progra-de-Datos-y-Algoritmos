@@ -28,7 +28,8 @@ void Inserta_al_final(struct Node* &pthead, int node_data) {
   return;
 }
 
-
+// IMPORTANTE REVISAR
+// LOS POINTERS TO HEAD SE PUEDEN VER MODIFICADOS???
 bool equals(struct Node* pthead_m, struct Node* pthead_n) {
   while (pthead_m != NULL && pthead_n != NULL) {
     if (pthead_m->data != pthead_n->data) {
