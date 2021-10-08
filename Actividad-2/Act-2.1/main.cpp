@@ -128,10 +128,8 @@ int main() {
     else if (user == 4)
       Elimina_al_final(head);
 
-    else if (user == 5) {
-      cout << "Imprimiendo: " ;
+    else if (user == 5)
       Imprime(head);
-    }
   }
   return 0;
 }
