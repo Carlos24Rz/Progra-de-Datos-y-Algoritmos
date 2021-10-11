@@ -56,15 +56,9 @@ int mesNumero(string mes)
 // Entrada: Referencia de estructura de datos y entero del nodo a insertar
 // Salida: Lista con el nuevo nodo
 // Complejidad: O(1)
-<<<<<<< HEAD
 void Inserta_al_inicio(int node_mes, int node_dia, int node_hora, int node_minuto, int node_segundo, string node_ip, string node_log, struct Node *&pthead)
 {
   struct Node *newNode = new Node;
-=======
-void Inserta_al_inicio(int node_mes, int node_dia, int node_hora, int node_minuto, int node_segundo, string node_ip, string node_log, struct Node* &pthead) {
-  struct Node* newNode = new Node;
-
->>>>>>> afda50a151d88a5c872e94192ec65e0afefd0c6a
   newNode->mes = node_mes;
   newNode->dia = node_dia;
   newNode->hora = node_hora;
@@ -165,15 +159,7 @@ int main()
 {
   struct Node *head = NULL;
   leerArchivo(head);
-<<<<<<< HEAD
   Imprime(head);
 
   ordenaBurbuja(head);
-=======
-  // Imprime(head);
-
-  cout << "NUEVO: " << head->next->prev->ip  <<endl;
-
-
->>>>>>> afda50a151d88a5c872e94192ec65e0afefd0c6a
 }
