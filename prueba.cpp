@@ -19,36 +19,66 @@ void Imprime(struct Node *tmp)
   }
 }
 
-void ordenaBurbuja(struct Node *pthead)
+void ordenaBurbuja(struct Node *&pthead)
 {
-  Node *newNode = pthead;
-  Node *temp = newNode->next;
+  struct Node *current = pthead;
+  bool found = 1;
+  
 
-  while (newNode != NULL && temp != NULL)
+  while(found == 1)
   {
-    if (newNode->valor > temp->valor)
-    {
-      if (newNode->prev != NULL)
-      {
-        newNode->prev->next = temp;
-        pthead = temp;
-      }
+    struct Node *nextNode = current->next;
+    int contador = 0;
 
-      temp->next->prev = newNode;
-      newNode -> next = temp -> next;
-      temp->prev = newNode->prev;
-      temp-> next = newNode;
-      newNode->prev = temp;
+    while(nextNode !=NULL)
+    {
+
+      if(current->valor > nextNode->valor)
+      {
+        current -> next = nextNode -> next;
+
+        if(nextNode-> next != NULL)
+        {
+          nextNode->next->prev = current;
+        }
+
+        nextNode -> next = current;
+        nextNode -> prev = current -> prev;
+
+        if(current->prev != NULL)
+        {
+          current->prev->next = nextNode;
+        }
+
+        current -> prev = nextNode;
+        nextNode = current->next;
+        contador++;
+      }
+      else
+      {
+        current = current->next;
+        nextNode = current->next;
+      }
       
+
     }
 
-    Imprime(pthead);
-    cout << endl;
+    while(current->prev != NULL)
+    {
+      current = current -> prev;
+    }
 
-    newNode = newNode->next;
-    temp = newNode -> next;
+    if(contador == 0)
+    {
+      found = 0;
+    }
+
+    delete nextNode;
 
   }
+
+  pthead = current;
+  
 }
 
 void Inserta_al_inicio(int valor, struct Node *&pthead)
@@ -60,8 +90,7 @@ void Inserta_al_inicio(int valor, struct Node *&pthead)
 
   newNode->prev = NULL;
   newNode->next = pthead;
-  if(pthead != NULL)
-    pthead->prev = newNode;
+  if(pthead != NULL) pthead->prev = newNode;
   
   pthead = newNode;
 }
@@ -73,10 +102,10 @@ int main()
   struct Node *head = NULL;
   Inserta_al_inicio(1,head);
   Inserta_al_inicio(2,head);
-  Inserta_al_inicio(3,head);
-  Inserta_al_inicio(4,head);
-  Inserta_al_inicio(5,head);
   Inserta_al_inicio(6,head);
+  Inserta_al_inicio(4,head);
+  Inserta_al_inicio(8,head);
+  Inserta_al_inicio(0,head);
 
 
   Imprime(head);
@@ -84,4 +113,6 @@ int main()
   cout << endl;
 
   ordenaBurbuja(head);
+
+  Imprime(head);
 }
