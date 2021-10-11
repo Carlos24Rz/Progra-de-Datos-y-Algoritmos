@@ -45,6 +45,7 @@ int mesNumero(string mes) {
 // Complejidad: O(1)
 void Inserta_al_inicio(int node_mes, int node_dia, int node_hora, int node_minuto, int node_segundo, string node_ip, string node_log, struct Node* &pthead) {
   struct Node* newNode = new Node;
+
   newNode->mes = node_mes;
   newNode->dia = node_dia;
   newNode->hora = node_hora;
@@ -52,10 +53,17 @@ void Inserta_al_inicio(int node_mes, int node_dia, int node_hora, int node_minut
   newNode->segundo = node_segundo;
   newNode->ip = node_ip;
   newNode->log = node_log;
-  newNode->next = pthead;
+
+  
+
   newNode->prev = NULL;
+  newNode->next = pthead;
+  if(pthead != NULL)
+    pthead->prev = newNode;
+  
   pthead = newNode;
 }
+
 
 //Funcion que guarda contenido de archivo txt en un vector de registros
 void leerArchivo(struct Node* &head) {
@@ -102,5 +110,9 @@ void Imprime(struct Node *tmp) {
 int main() {
   struct Node* head = NULL;
   leerArchivo(head);
-  Imprime(head);
+  // Imprime(head);
+
+  cout << "NUEVO: " << head->next->prev->ip  <<endl;
+
+
 }
