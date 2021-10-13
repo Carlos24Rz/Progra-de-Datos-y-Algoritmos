@@ -25,7 +25,7 @@ using namespace std;
 class Node{
     
     public:
-        Registro registro;
+        Registro* registro;
         struct Node* next;
         struct Node* prev;
 };
@@ -35,16 +35,25 @@ class Node{
 // Entrada: Referencia de estructura de datos y entero del nodo a insertar
 // Salida: Lista con el nuevo nodo
 // Complejidad: O(1)
-void Inserta_al_inicio(Registro registro, struct Node* &pthead)
+void Inserta_al_inicio(string node_mes, int node_dia, int node_hora, int node_minuto, int node_segundo, string node_ip, string node_log, struct Node *&pthead)
 {
-  // Node* newNode = new Node; // This doesn't work
-  Node* newNode;
-  newNode = (Node*)malloc(sizeof(Node));
+  struct Node *newNode = new Node();
 
-  newNode->registro = registro;
+  Registro registro(
+    node_mes,
+    node_dia,
+    node_hora,
+    node_minuto,
+    node_segundo,
+    node_ip,
+    node_log
 
+  );
+
+  newNode->registro = &registro;
   newNode->prev = NULL;
   newNode->next = pthead;
+  
   if(pthead != NULL)
     pthead->prev = newNode;
   
@@ -79,17 +88,7 @@ void leerArchivo(struct Node *&head)
         getline(sss, fechas[i], ':');
       }
 
-      Registro r(
-                string[0],
-                stoi(string[1]),
-                stoi(fechas[0]),
-                stoi(fechas[1]),
-                stoi(fechas[2]),
-                string[3],
-                string[4]
-            );
-
-      Inserta_al_inicio(r, head);
+      Inserta_al_inicio(string[0], stoi(string[1]),stoi(fechas[0]),stoi(fechas[1]),stoi(fechas[2]),string[3],string[4], head);
     }
   }
 }
@@ -99,7 +98,7 @@ void Imprime(struct Node *tmp)
 {
   while (tmp != NULL)
   {
-    cout << tmp->registro.getRegistro() << endl;
+    cout << tmp->registro->getRegistro() << endl;
     tmp = tmp->next;
   }
 }
@@ -108,46 +107,6 @@ void Imprime(struct Node *tmp)
 
 // https://www.py4u.net/discuss/114256
 // verificar funcionamiento
-void burbuja(Node* &pthead){
-
-  Node* temp = pthead;
-  bool swapped = true;
-  int var = 0;
-  while(swapped){
-
-    swapped = false;
-    temp = pthead;
-
-    while(temp->next != NULL){
-
-      if(temp->registro.getMes() > temp->next->registro.getMes()){
-        swapped = true;
-
-        if(temp == pthead){
-          temp->next->prev = NULL;
-          pthead = temp->next;
-        }
-        else{
-          temp->prev->next = temp->next;
-          temp->next->prev = temp->prev;
-        }
-        temp->prev = temp->next;
-        if(temp->next == NULL){
-          temp->next = NULL;
-        }
-        else{
-          temp->next = temp->next->next;
-          temp->next->prev = temp;
-        }
-        temp->prev->next = temp;
-        temp = temp->prev;
-      }
-      temp = temp->next;
-    }
-  }
-}
-
-
 
 
 // void burbujaPorValor(Node* &pthead){

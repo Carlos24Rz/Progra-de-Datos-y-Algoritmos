@@ -137,5 +137,151 @@ public:
         return str;
     }
 
-    // AQUI VA LA SOBRECARGA DEL OPERADOR < / > PARA REGISTRO
+    bool operator>(const Registro& b)
+{
+    string ip_1[5];
+    string ip_2[5];
+
+    stringstream ss_1(m_ip);
+
+    stringstream ss_2(b.m_ip);
+
+    for (int i = 0; i < 5; i++)
+    {
+      if(i >= 3)
+      {
+        getline(ss_1,ip_1[i], ':');
+        getline(ss_2,ip_2[i], ':');
+      }
+      else
+      {
+        getline(ss_1, ip_1[i], '.');
+        getline(ss_2, ip_2[i], '.');
+      }
+    }
+
+    if(stoi(ip_1[0]) > stoi(ip_2[0]))
+    {
+      return 1;
+    }
+    else if(stoi(ip_1[0]) == stoi(ip_2[0]))
+    {
+      if (stoi(ip_1[1]) > stoi(ip_2[1]))
+      {
+        return 1;
+      }
+      else if(stoi(ip_1[1]) == stoi(ip_2[1]))
+      {
+        if (stoi(ip_1[2]) > stoi(ip_2[2]))
+        {
+         return 1;
+        }
+        else if(stoi(ip_1[2]) == stoi(ip_2[2]))
+        {
+          if (stoi(ip_1[3]) > stoi(ip_2[3]))
+          {
+            return 1;
+          }
+          else if(stoi(ip_1[3]) == stoi(ip_2[3]))
+          {
+            if (stoi(ip_1[4]) > stoi(ip_2[4]))
+            {
+              return 1;
+            }
+            else if(stoi(ip_1[4]) == stoi(ip_2[4]))
+            {
+              if(m_mes > b.m_mes)
+              {
+                return 1;
+              }
+              else if(m_mes == b.m_mes)
+              {
+                if (m_dia > b.m_dia)
+                {
+                  return 1;
+                }
+                else if(m_dia == b.m_dia)
+                {
+                  if (m_hora > b.m_hora)
+                  {
+                    return 1;
+                  }
+                  else if(m_hora == b.m_hora)
+                  {
+                    if(m_minuto > b.m_minuto)
+                    {
+                      return 1;
+                    }
+                    else if(m_minuto == b.m_minuto)
+                    {
+                      if(m_segundo > b.m_segundo)
+                      {
+                        return 1;
+                      }
+                      else if(m_segundo == b.m_segundo)
+                      {
+                        if(m_log > b.m_log)
+                        {
+                          return 1;
+                        }
+                        else
+                        {
+                          return 0;
+                        }
+                      }
+                      else
+                      {
+                        return 0;
+                      }
+                    }
+                    else
+                    {
+                      return 0;
+                    }
+                  }
+                  else
+                  {
+                    return 0;
+                  }
+                  
+                }
+                else
+                {
+                  return 0;
+                }
+                
+              }
+              else
+              {
+                return 0;
+              }
+            }
+            else
+            {
+              return 0;
+            } 
+          }
+          else
+          {
+            return 0;
+          }
+          
+        }
+        else
+        {
+          return 0;
+        }
+        
+      }
+      else
+      {
+        return 0;
+      }
+      
+    }
+    else
+    {
+      return 0;
+    }
+  }
 };
