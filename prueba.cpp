@@ -90,6 +90,163 @@ void ordenaBurbuja(struct Node *&pthead)
   pthead = current;
 }
 
+
+void otroBurbuja(Node* &pthead){
+
+  Node* current = pthead;
+
+  while(current != NULL){
+
+    Node* nextNode = current->next;
+
+    while(nextNode != NULL){
+
+      if(current->valor > nextNode->valor){
+        cout << "current > nextNode" << endl;
+
+        if(nextNode->next != NULL)
+          nextNode->next->prev = current;
+        
+        if(current->prev != NULL)
+          current->prev->next = nextNode;
+
+        current->prev = nextNode;
+        current->next = nextNode->next;
+        
+        nextNode->prev = current->prev;
+        nextNode->next = current;
+        
+        // OJO
+        nextNode = current->next;
+        
+      }
+      else{
+        cout << "nextNode > current" << endl;
+        current = current->next;
+        nextNode = current->next;
+      }
+    }
+    current = pthead->next;
+    
+  }
+}
+
+void burbujaFor(Node* &head, int size){
+
+  bool swapped = true;
+
+  for(int i=0; i<size-1 && swapped; i++){
+    
+    // We change swapped to understand there hasn't been any changes
+    swapped = false;
+    Node* h = head;
+    
+    for(int j=0; j<size-i-1; j++){
+            
+      Node* current = head;
+      Node* nextNode = current->next;
+
+      if(current->valor > nextNode->valor){
+    
+        if(nextNode->next != NULL)
+            nextNode->next->prev = current;
+
+        if(current->prev != NULL)
+            current->prev->next = nextNode;
+            
+        current->prev = nextNode;
+        current->next = nextNode->next; 
+
+        nextNode->prev = current->prev;
+        nextNode->next = current;
+
+        swapped = true;
+      }
+      h = h->next;
+    }
+  }
+}
+
+
+
+
+// Funciona
+void burbujaValor(Node* &pthead){
+
+  bool swapped = true;
+  Node* ltptr = NULL;
+
+  while(swapped){
+    
+    Node* head = pthead;
+    swapped = false;
+
+    while(head->next != ltptr){
+
+      if(head->valor > head->next->valor){
+
+        Node* current = head;
+        Node* nextNode = head->next;
+        Node* temp = new Node();
+
+        temp->valor = current->valor;
+        current->valor = nextNode->valor;
+        nextNode->valor = temp->valor;
+
+        swapped = true;
+        head = head->next;
+      }
+      else
+        head = head->next;
+    }
+    ltptr = head;
+  }
+}
+
+
+
+void ultimoBurbuja(Node* &pthead){
+
+  Node* temp = pthead;
+  bool swapped = true;
+
+  while(swapped){
+
+    swapped = false;
+    temp = pthead;
+
+    while(temp->next != NULL){
+
+      if(temp->valor > temp->next->valor){
+        swapped = true;
+
+        if(temp == pthead){
+          temp->next->prev = NULL;
+          pthead = temp->next;
+        }
+        else{
+          temp->prev->next = temp->next;
+          temp->next->prev = temp->prev;
+        }
+        temp->prev = temp->next;
+        if(temp->next == NULL){
+          temp->next = NULL;
+        }
+        else{
+          temp->next = temp->next->next;
+          temp->next->prev = temp;
+        }
+        temp->prev->next = temp;
+        temp = temp->prev;
+      }
+      temp = temp->next;
+    }
+  }
+}
+
+
+
+
 void Inserta_al_inicio(int valor, struct Node *&pthead)
 {
   struct Node *newNode = new Node;
@@ -103,6 +260,8 @@ void Inserta_al_inicio(int valor, struct Node *&pthead)
   pthead = newNode;
 }
 
+
+
 int main()
 {
   struct Node *head = NULL;
@@ -113,24 +272,32 @@ int main()
   Inserta_al_inicio(8, head);
   Inserta_al_inicio(2, head);
   Inserta_al_inicio(4, head);
-  Inserta_al_inicio(14, head);
-  Inserta_al_inicio(7, head);
-  Inserta_al_inicio(10, head);
-  Inserta_al_inicio(12, head);
-  Inserta_al_inicio(3, head);
-  Inserta_al_inicio(19, head);
-  Inserta_al_inicio(13, head);
-  Inserta_al_inicio(18, head);
-  Inserta_al_inicio(17, head);
-  Inserta_al_inicio(11, head);
-  Inserta_al_inicio(5, head);
-  Inserta_al_inicio(9, head);
+  // Inserta_al_inicio(14, head);
+  // Inserta_al_inicio(7, head);
+  // Inserta_al_inicio(10, head);
+  // Inserta_al_inicio(12, head);
+  // Inserta_al_inicio(3, head);
+  // Inserta_al_inicio(19, head);
+  // Inserta_al_inicio(13, head);
+  // Inserta_al_inicio(18, head);
+  // Inserta_al_inicio(17, head);
+  // Inserta_al_inicio(11, head);
+  // Inserta_al_inicio(5, head);
+  // Inserta_al_inicio(9, head);
 
   Imprime(head);
 
   cout << endl;
 
-  ordenaBurbuja(head);
+  // ordenaBurbuja(head);
+  // otroBurbuja(head);
+  // newBurbuja(head, 7);
+  // burbujaValor(head);
+  ultimoBurbuja(head);
 
+  cout << "\nOrdenado: " << endl;
   Imprime(head);
+
+  // cout << endl;
+  // cout << head->valor << endl;
 }

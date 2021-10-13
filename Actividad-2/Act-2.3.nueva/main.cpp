@@ -1,3 +1,13 @@
+// registro.h                       listo
+// el registro este en el nodo      listo
+// lectura del archivo              listo
+// hacer la sobrecarga              
+// burbuja                          
+// hacer la busqueda
+
+
+
+
 // Programa que trabaja con una lista ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
@@ -7,67 +17,31 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "registro.h"
 using namespace std;
 
-struct Node
-{
-  int mes;
-  int dia;
-  int hora;
-  int minuto;
-  int segundo;
-  string ip;
-  string log;
-  struct Node *next;
-  struct Node *prev;
+
+
+class Node{
+    
+    public:
+        Registro registro;
+        struct Node* next;
+        struct Node* prev;
 };
 
-// Conversion de mes a número
-int mesNumero(string mes)
-{
-  int m_mes;
-  if (mes == "Jan")
-    return m_mes = 1;
-  else if (mes == "Feb")
-    return m_mes = 2;
-  else if (mes == "Mar")
-    return m_mes = 3;
-  else if (mes == "Apr")
-    return m_mes = 4;
-  else if (mes == "May")
-    return m_mes = 5;
-  else if (mes == "Jun")
-    return m_mes = 6;
-  else if (mes == "Jul")
-    return m_mes = 7;
-  else if (mes == "Aug")
-    return m_mes = 8;
-  else if (mes == "Sep")
-    return m_mes = 9;
-  else if (mes == "Oct")
-    return m_mes = 10;
-  else if (mes == "Nov")
-    return m_mes = 11;
-  else
-    return m_mes = 12;
-}
 
 // Descripcion: Inserta un nodo al inicio de la lista ligada
 // Entrada: Referencia de estructura de datos y entero del nodo a insertar
 // Salida: Lista con el nuevo nodo
 // Complejidad: O(1)
-void Inserta_al_inicio(int node_mes, int node_dia, int node_hora, int node_minuto, int node_segundo, string node_ip, string node_log, struct Node *&pthead)
+void Inserta_al_inicio(Registro registro, struct Node* &pthead)
 {
-  struct Node *newNode = new Node;
-  newNode->mes = node_mes;
-  newNode->dia = node_dia;
-  newNode->hora = node_hora;
-  newNode->minuto = node_minuto;
-  newNode->segundo = node_segundo;
-  newNode->ip = node_ip;
-  newNode->log = node_log;
+  // Node* newNode = new Node; // This doesn't work
+  Node* newNode;
+  newNode = (Node*)malloc(sizeof(Node));
 
-  
+  newNode->registro = registro;
 
   newNode->prev = NULL;
   newNode->next = pthead;
@@ -105,62 +79,40 @@ void leerArchivo(struct Node *&head)
         getline(sss, fechas[i], ':');
       }
 
-      Inserta_al_inicio(
-          mesNumero(string[0]),
-          stoi(string[1]),
-          stoi(fechas[0]),
-          stoi(fechas[1]),
-          stoi(fechas[2]),
-          string[3],
-          string[4],
-          head);
+      Registro r(
+                string[0],
+                stoi(string[1]),
+                stoi(fechas[0]),
+                stoi(fechas[1]),
+                stoi(fechas[2]),
+                string[3],
+                string[4]
+            );
+
+      Inserta_al_inicio(r, head);
     }
   }
 }
+
 
 void Imprime(struct Node *tmp)
 {
   while (tmp != NULL)
   {
-    cout << tmp->mes << endl;
+    cout << tmp->registro.getRegistro() << endl;
     tmp = tmp->next;
   }
 }
 
-void ordenaBurbuja(struct Node *pthead)
-{
-  Node *newNode = pthead;
-  Node *temp = new Node;
-
-  while (newNode != NULL)
-  {
-    temp = newNode->next;
-    
-    if (newNode >= temp)
-    {
-      if (newNode->prev != NULL)
-      {
-        newNode->prev->next = temp;
-      }
-
-      temp->next->prev = newNode;
-      newNode -> next = temp -> next;
-      temp->prev = newNode->prev;
-      temp-> next = newNode;
-      newNode->prev = temp;
-    }
-
-    newNode = newNode->next;
-
-  }
-}
 
 
-void ultimoBurbuja(Node* &pthead){
+// https://www.py4u.net/discuss/114256
+// verificar funcionamiento
+void burbuja(Node* &pthead){
 
   Node* temp = pthead;
   bool swapped = true;
-
+  int var = 0;
   while(swapped){
 
     swapped = false;
@@ -168,7 +120,7 @@ void ultimoBurbuja(Node* &pthead){
 
     while(temp->next != NULL){
 
-      if(temp->mes > temp->next->mes){
+      if(temp->registro.getMes() > temp->next->registro.getMes()){
         swapped = true;
 
         if(temp == pthead){
@@ -196,15 +148,51 @@ void ultimoBurbuja(Node* &pthead){
 }
 
 
+
+
+// void burbujaPorValor(Node* &pthead){
+
+//   bool swapped = true;
+//   Node* ltptr = NULL;
+
+//   while(swapped){
+    
+//     Node* head = pthead;
+//     swapped = false;
+
+//     while(head->next != ltptr){
+
+//       if(head->next->registro <= head->registro){
+
+//         Node* current = head;
+//         Node* nextNode = head->next;
+//         Node* temp;
+//         temp = (Node*)malloc(sizeof(Node));
+
+//         temp->registro = current->registro;
+//         current->registro = nextNode->registro;
+//         nextNode->registro = temp->registro;
+
+//         swapped = true;
+//         head = head->next;
+//       }
+//       else
+//         head = head->next;
+//     }
+//     ltptr = head;
+//   }
+// }
+
+
+
 int main()
 {
   struct Node *head = NULL;
   leerArchivo(head);
-  // Imprime(head);
-
-  ultimoBurbuja(head);
-  cout << "funciono el burbuja: " << endl;
+  // burbuja(head);
+  
   Imprime(head);
-
-  // ordenaBurbuja(head);
 }
+
+
+
