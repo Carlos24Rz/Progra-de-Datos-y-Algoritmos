@@ -1,8 +1,8 @@
 // registro.h                       listo
 // el registro este en el nodo      listo
 // lectura del archivo              listo
-// hacer la sobrecarga              
-// burbuja                          
+// hacer la sobrecarga
+// burbuja
 // hacer la busqueda
 
 
@@ -23,7 +23,7 @@ using namespace std;
 
 
 class Node{
-    
+
     public:
         Registro registro;
         struct Node* next;
@@ -37,11 +37,11 @@ Node *merge(Node *first, Node *second)
     // If first linked list is empty
     if (!first)
         return second;
- 
+
     // If second linked list is empty
     if (!second)
         return first;
- 
+
     // Pick the smaller value
     if (first->registro < second->registro)
     {
@@ -64,11 +64,11 @@ Node *mergeSort(Node *head)
     if (!head || !head->next)
         return head;
     Node *second = split(head);
- 
+
     // Recur for left and right halves
     head = mergeSort(head);
     second = mergeSort(second);
- 
+
     // Merge the two sorted halves
     return merge(head,second);
 }
@@ -102,7 +102,7 @@ void Inserta_al_inicio(Registro registro, struct Node* &pthead)
   newNode->next = pthead;
   if(pthead != NULL)
     pthead->prev = newNode;
-  
+
   pthead = newNode;
 }
 
@@ -149,6 +149,86 @@ void leerArchivo(struct Node *&head)
   }
 }
 
+void splitIp(string *ptstring, string ip) {
+  stringstream ss(ip);
+  for (int i = 0; i < 5; i++)
+  {
+    if(i >= 3)
+    {
+      getline(ss,ptstring[i], ':');
+    }
+    else
+    {
+      getline(ss,ptstring[i], '.');
+    }
+  }
+}
+
+void busqueda(struct Node *head, string ip1, string ip2)
+{
+  struct Node* ptini = NULL, *ptfin = NULL;
+  struct Node* temp = head;
+
+  string ip_1[5];
+  string* pt_1 = ip_1;
+  splitIp(pt_1, ip1);
+
+
+  string ip_list[5];
+  string* pt_list = ip_list;
+
+  while (temp != NULL) {
+    string iplist = temp->registro.getIP();
+    splitIp(pt_list, iplist);
+      if(ip_list[0] > ip_1[0]) {
+        ptini = temp;
+        break;
+      }
+      else if(ip_list[0] == ip_1[0]) {
+        if(ip_list[1] > ip_1[1]) {
+          ptini = temp;
+          break;
+        }
+        else if(ip_list[1] == ip_1[1]) {
+          if(ip_list[2] > ip_1[2]) {
+            ptini = temp;
+            break;
+          }
+          else if(ip_list[2] == ip_1[2]) {
+            if(ip_list[3] > ip_1[3]) {
+              ptini = temp;
+              break;
+            }
+            else if(ip_list[3] == ip_1[3]) {
+              if(ip_list[4] > ip_1[4]) {
+                ptini = temp;
+                break;
+              }
+              else if(ip_list[4] == ip_1[4]) {
+                if(ip_list[5] > ip_1[5] || ip_list[5] == ip_1[5]) {
+                  ptini = temp;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      temp = temp->next;
+  }
+  cout << "Input: " << ip1 << endl;
+  cout << "Ini: " << ptini->registro.getIP() << endl;
+
+
+  // string a = ptini->registro.getIP();
+  // cout << a << endl;
+
+  string ip_2[5];
+  string* ptip_2 = ip_2;
+
+  splitIp(ptip_2, ip2);
+
+}
 
 void Imprime(struct Node *tmp)
 {
@@ -164,7 +244,7 @@ int main()
   struct Node *head = NULL;
   leerArchivo(head);
   head = mergeSort(head);
-  
+
   ofstream Myfile("sorted.txt");
 
   struct Node *temp = head;
@@ -176,6 +256,3 @@ int main()
   Myfile.close();
 
 }
-
-
-
