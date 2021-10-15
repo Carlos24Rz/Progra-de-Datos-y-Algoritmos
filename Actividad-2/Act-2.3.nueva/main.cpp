@@ -111,7 +111,7 @@ void Inserta_al_inicio(Registro registro, struct Node* &pthead)
 void leerArchivo(struct Node *&head)
 {
   string line;
-  ifstream file("bitacora.txt");
+  ifstream file("bitacora2.txt");
   if (file.is_open())
   {
     while (getline(file, line))
@@ -164,6 +164,8 @@ void splitIp(string *ptstring, string ip) {
   }
 }
 
+
+
 void busqueda(struct Node *head, string ip1, string ip2)
 {
   struct Node* ptini = NULL, *ptfin = NULL;
@@ -205,30 +207,27 @@ void busqueda(struct Node *head, string ip1, string ip2)
                 break;
               }
               else if(ip_list[4] == ip_1[4]) {
-                if(ip_list[5] > ip_1[5] || ip_list[5] == ip_1[5]) {
-                  ptini = temp;
-                  break;
-                }
+                ptini = temp;
+                break;
               }
             }
           }
         }
       }
-      temp = temp->next;
+    temp = temp->next;
   }
-  cout << "Input: " << ip1 << endl;
-  cout << "Ini: " << ptini->registro.getIP() << endl;
 
-
-  // string a = ptini->registro.getIP();
-  // cout << a << endl;
-
-  string ip_2[5];
-  string* ptip_2 = ip_2;
-
-  splitIp(ptip_2, ip2);
 
 }
+
+
+
+
+
+
+
+
+
 
 void Imprime(struct Node *tmp)
 {
@@ -255,4 +254,5 @@ int main()
   }
   Myfile.close();
 
+  busqueda(head, "118.15.416.57:4487", "960.96.3.29:5267");
 }
