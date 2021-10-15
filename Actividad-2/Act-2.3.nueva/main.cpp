@@ -218,6 +218,53 @@ void busqueda(struct Node *head, string ip1, string ip2)
   }
 
 
+  string ip_2[5];
+  string* pt_2 = ip_2;
+  splitIp(pt_2, ip2);
+
+  temp = ptini;
+
+  // cout <<"Puerto: "<< ip_2[4] << endl;
+  while (temp != NULL) {
+    string iplist = temp->registro.getIP();
+    splitIp(pt_list, iplist);
+      if(ip_list[0] > ip_2[0]) {
+        ptfin = temp;
+        break;
+      }
+      else if(ip_list[0] == ip_2[0]) {
+        if(ip_list[1] > ip_2[1]) {
+          ptfin = temp;
+          break;
+        }
+        else if(ip_list[1] == ip_2[1]) {
+          if(ip_list[2] > ip_2[2]) {
+            ptfin = temp;
+            break;
+          }
+          else if(ip_list[2] == ip_2[2]) {
+            if(ip_list[3] > ip_2[3]) {
+              ptfin = temp;
+              break;
+            }
+            else if(ip_list[3] == ip_2[3]) {
+              if(ip_list[4] > ip_2[4]) {
+                ptfin = temp;
+                break;
+              }
+              else if(ip_list[4] == ip_2[4]) {
+                ptfin = temp;
+                break;
+              }
+            }
+          }
+        }
+      }
+      temp = temp->next;
+    }
+
+  cout << "Ini: " << ptini->registro.getIP() << endl;
+  cout << "Fin: " << ptfin->registro.getIP() << endl;
 }
 
 
