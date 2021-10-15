@@ -137,7 +137,7 @@ public:
         return str;
     }
 
-    bool operator>(const Registro& b)
+    bool operator<(const Registro& b)
 {
     string ip_1[5];
     string ip_2[5];
@@ -160,67 +160,67 @@ public:
       }
     }
 
-    if(stoi(ip_1[0]) > stoi(ip_2[0]))
+    if(stoi(ip_1[0]) < stoi(ip_2[0]))
     {
       return 1;
     }
     else if(stoi(ip_1[0]) == stoi(ip_2[0]))
     {
-      if (stoi(ip_1[1]) > stoi(ip_2[1]))
+      if (stoi(ip_1[1]) < stoi(ip_2[1]))
       {
         return 1;
       }
       else if(stoi(ip_1[1]) == stoi(ip_2[1]))
       {
-        if (stoi(ip_1[2]) > stoi(ip_2[2]))
+        if (stoi(ip_1[2]) < stoi(ip_2[2]))
         {
          return 1;
         }
         else if(stoi(ip_1[2]) == stoi(ip_2[2]))
         {
-          if (stoi(ip_1[3]) > stoi(ip_2[3]))
+          if (stoi(ip_1[3]) < stoi(ip_2[3]))
           {
             return 1;
           }
           else if(stoi(ip_1[3]) == stoi(ip_2[3]))
           {
-            if (stoi(ip_1[4]) > stoi(ip_2[4]))
+            if (stoi(ip_1[4]) < stoi(ip_2[4]))
             {
               return 1;
             }
             else if(stoi(ip_1[4]) == stoi(ip_2[4]))
             {
-              if(m_mes > b.m_mes)
+              if(m_mes < b.m_mes)
               {
                 return 1;
               }
               else if(m_mes == b.m_mes)
               {
-                if (m_dia > b.m_dia)
+                if (m_dia < b.m_dia)
                 {
                   return 1;
                 }
                 else if(m_dia == b.m_dia)
                 {
-                  if (m_hora > b.m_hora)
+                  if (m_hora < b.m_hora)
                   {
                     return 1;
                   }
                   else if(m_hora == b.m_hora)
                   {
-                    if(m_minuto > b.m_minuto)
+                    if(m_minuto < b.m_minuto)
                     {
                       return 1;
                     }
                     else if(m_minuto == b.m_minuto)
                     {
-                      if(m_segundo > b.m_segundo)
+                      if(m_segundo < b.m_segundo)
                       {
                         return 1;
                       }
                       else if(m_segundo == b.m_segundo)
                       {
-                        if(m_log > b.m_log)
+                        if(m_log < b.m_log)
                         {
                           return 1;
                         }

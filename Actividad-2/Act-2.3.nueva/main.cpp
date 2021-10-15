@@ -30,6 +30,61 @@ class Node{
         struct Node* prev;
 };
 
+Node *split(Node *head);
+
+Node *merge(Node *first, Node *second)
+{
+    // If first linked list is empty
+    if (!first)
+        return second;
+ 
+    // If second linked list is empty
+    if (!second)
+        return first;
+ 
+    // Pick the smaller value
+    if (first->registro < second->registro)
+    {
+        first->next = merge(first->next,second);
+        first->next->prev = first;
+        first->prev = NULL;
+        return first;
+    }
+    else
+    {
+        second->next = merge(first,second->next);
+        second->next->prev = second;
+        second->prev = NULL;
+        return second;
+    }
+}
+
+Node *mergeSort(Node *head)
+{
+    if (!head || !head->next)
+        return head;
+    Node *second = split(head);
+ 
+    // Recur for left and right halves
+    head = mergeSort(head);
+    second = mergeSort(second);
+ 
+    // Merge the two sorted halves
+    return merge(head,second);
+}
+
+Node *split(Node *head)
+{
+    Node *fast = head,*slow = head;
+    while (fast->next && fast->next->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    Node *temp = slow->next;
+    slow->next = NULL;
+    return temp;
+}
 
 // Descripcion: Inserta un nodo al inicio de la lista ligada
 // Entrada: Referencia de estructura de datos y entero del nodo a insertar
@@ -104,94 +159,22 @@ void Imprime(struct Node *tmp)
   }
 }
 
-
-
-// https://www.py4u.net/discuss/114256
-// verificar funcionamiento
-void burbuja(Node* &pthead){
-
-  Node* temp = pthead;
-  bool swapped = true;
-  int var = 0;
-  while(swapped){
-
-    swapped = false;
-    temp = pthead;
-
-    while(temp->next != NULL){
-
-      if(temp->registro.getMes() > temp->next->registro.getMes()){
-        swapped = true;
-
-        if(temp == pthead){
-          temp->next->prev = NULL;
-          pthead = temp->next;
-        }
-        else{
-          temp->prev->next = temp->next;
-          temp->next->prev = temp->prev;
-        }
-        temp->prev = temp->next;
-        if(temp->next == NULL){
-          temp->next = NULL;
-        }
-        else{
-          temp->next = temp->next->next;
-          temp->next->prev = temp;
-        }
-        temp->prev->next = temp;
-        temp = temp->prev;
-      }
-      temp = temp->next;
-    }
-  }
-}
-
-
-
-
-// void burbujaPorValor(Node* &pthead){
-
-//   bool swapped = true;
-//   Node* ltptr = NULL;
-
-//   while(swapped){
-    
-//     Node* head = pthead;
-//     swapped = false;
-
-//     while(head->next != ltptr){
-
-//       if(head->next->registro <= head->registro){
-
-//         Node* current = head;
-//         Node* nextNode = head->next;
-//         Node* temp;
-//         temp = (Node*)malloc(sizeof(Node));
-
-//         temp->registro = current->registro;
-//         current->registro = nextNode->registro;
-//         nextNode->registro = temp->registro;
-
-//         swapped = true;
-//         head = head->next;
-//       }
-//       else
-//         head = head->next;
-//     }
-//     ltptr = head;
-//   }
-// }
-
-
-
 int main()
 {
   struct Node *head = NULL;
   leerArchivo(head);
-  // burbuja(head);
+  head = mergeSort(head);
   
-  Imprime(head);
+  ofstream Myfile("sorted.txt");
+
+  struct Node *temp = head;
+  while(temp!=NULL)
+  {
+    Myfile << temp->registro.getRegistro() << endl;
+    temp = temp->next;
+  }
+  Myfile.close();
+
 }
 
 
