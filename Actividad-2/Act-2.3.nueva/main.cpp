@@ -86,10 +86,6 @@ Node *split(Node *head)
     return temp;
 }
 
-// Descripcion: Inserta un nodo al inicio de la lista ligada
-// Entrada: Referencia de estructura de datos y entero del nodo a insertar
-// Salida: Lista con el nuevo nodo
-// Complejidad: O(1)
 void Inserta_al_inicio(Registro registro, struct Node* &pthead)
 {
   // Node* newNode = new Node; // This doesn't work
@@ -106,12 +102,10 @@ void Inserta_al_inicio(Registro registro, struct Node* &pthead)
   pthead = newNode;
 }
 
-
-//Funcion que guarda contenido de archivo txt en un vector de registros
 void leerArchivo(struct Node *&head)
 {
   string line;
-  ifstream file("bitacora2.txt");
+  ifstream file("bitacora.txt");
   if (file.is_open())
   {
     while (getline(file, line))
@@ -175,38 +169,50 @@ void busqueda(struct Node *head, string ip1, string ip2)
   string* pt_1 = ip_1;
   splitIp(pt_1, ip1);
 
+  int ip_split[5];
+
+  for (int i = 0; i < 5; i++) {
+    ip_split[i] = stoi(ip_1[i]);
+  }
 
   string ip_list[5];
   string* pt_list = ip_list;
+  int ip_split_list[5];
 
   while (temp != NULL) {
     string iplist = temp->registro.getIP();
     splitIp(pt_list, iplist);
-      if(ip_list[0] > ip_1[0]) {
+
+
+    for (int i = 0; i < 5; i++) {
+      ip_split_list[i] = stoi(ip_list[i]);
+    }
+
+      if(ip_split_list[0] > ip_split[0]) {
         ptini = temp;
         break;
       }
-      else if(ip_list[0] == ip_1[0]) {
-        if(ip_list[1] > ip_1[1]) {
+      else if(ip_split_list[0] == ip_split[0]) {
+        if(ip_split_list[1] > ip_split[1]) {
           ptini = temp;
           break;
         }
-        else if(ip_list[1] == ip_1[1]) {
-          if(ip_list[2] > ip_1[2]) {
+        else if(ip_split_list[1] == ip_split[1]) {
+          if(ip_split_list[2] > ip_split[2]) {
             ptini = temp;
             break;
           }
-          else if(ip_list[2] == ip_1[2]) {
-            if(ip_list[3] > ip_1[3]) {
+          else if(ip_split_list[2] == ip_split[2]) {
+            if(ip_split_list[3] > ip_split[3]) {
               ptini = temp;
               break;
             }
-            else if(ip_list[3] == ip_1[3]) {
-              if(ip_list[4] > ip_1[4]) {
+            else if(ip_split_list[3] == ip_split[3]) {
+              if(ip_split_list[4] > ip_split[4]) {
                 ptini = temp;
                 break;
               }
-              else if(ip_list[4] == ip_1[4]) {
+              else if(ip_split_list[4] == ip_split[4]) {
                 ptini = temp;
                 break;
               }
@@ -224,47 +230,12 @@ void busqueda(struct Node *head, string ip1, string ip2)
 
   temp = ptini;
 
-  // cout <<"Puerto: "<< ip_2[4] << endl;
-  while (temp != NULL) {
-    string iplist = temp->registro.getIP();
-    splitIp(pt_list, iplist);
-      if(ip_list[0] > ip_2[0]) {
-        ptfin = temp;
-        break;
-      }
-      else if(ip_list[0] == ip_2[0]) {
-        if(ip_list[1] > ip_2[1]) {
-          ptfin = temp;
-          break;
-        }
-        else if(ip_list[1] == ip_2[1]) {
-          if(ip_list[2] > ip_2[2]) {
-            ptfin = temp;
-            break;
-          }
-          else if(ip_list[2] == ip_2[2]) {
-            if(ip_list[3] > ip_2[3]) {
-              ptfin = temp;
-              break;
-            }
-            else if(ip_list[3] == ip_2[3]) {
-              if(ip_list[4] > ip_2[4]) {
-                ptfin = temp;
-                break;
-              }
-              else if(ip_list[4] == ip_2[4]) {
-                ptfin = temp;
-                break;
-              }
-            }
-          }
-        }
-      }
-      temp = temp->next;
-    }
-
-  cout << "Ini: " << ptini->registro.getIP() << endl;
-  cout << "Fin: " << ptfin->registro.getIP() << endl;
+  if (ptini != NULL) {
+    cout << "Ini: " << ptini->registro.getRegistro() << endl;
+  }
+  else {
+    cout << "Error" << endl;
+  }
 }
 
 
@@ -300,6 +271,5 @@ int main()
     temp = temp->next;
   }
   Myfile.close();
-
-  busqueda(head, "118.15.416.57:4487", "960.96.3.29:5267");
+  busqueda(head, "999.94.195.38:4160", "960.96.3.29:5267");
 }
