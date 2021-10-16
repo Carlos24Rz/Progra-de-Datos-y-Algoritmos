@@ -224,18 +224,20 @@ void busqueda(struct Node *head, string ip1, string ip2)
   }
 
 
-  string ip_2[5];
-  string* pt_2 = ip_2;
-  splitIp(pt_2, ip2);
-
-  temp = ptini;
-
   if (ptini != NULL) {
     cout << "Ini: " << ptini->registro.getRegistro() << endl;
   }
   else {
     cout << "Error" << endl;
   }
+
+  temp = ptini;
+
+  string ip_2[5];
+  string* pt_2 = ip_2;
+  splitIp(pt_2, ip2);
+
+
 }
 
 
