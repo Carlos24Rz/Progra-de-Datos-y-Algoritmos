@@ -163,7 +163,7 @@ void splitIp(vector<int> &arr, string ip) {
     }
 }
 
-bool compararInf(string ipUsuario, string ipLista)
+bool compararMenor(string ipUsuario, string ipLista)
 {
   string ipU = ipUsuario;
   string ipL = ipLista;
@@ -174,35 +174,8 @@ bool compararInf(string ipUsuario, string ipLista)
 
   for (int i = 0; i < 5; i++)
   {
-    if(usuario[i] > lista[i])
-    {
-      return 1;
-    }
-    else if(usuario[i] < lista[i])
-    {
-      return 0;
-    }
-  }
-
-  return 0;
-}
-
-bool compararSup(string ipUsuario, string ipLista)
-{
-  string ipU = ipUsuario;
-  string ipL = ipLista;
-
-  vector<int> usuario, lista;
-  splitIp(usuario, ipU);
-  splitIp(lista, ipL);
-
-  for (int i = 0; i < 5; i++)
-  {
-    if(usuario[i] > lista[i])
-    {
-      return 1;
-    }
-    else if(usuario[i] < lista[i]) return 0;
+    if(usuario[i] < lista[i]) return 1;
+    else if(usuario[i] > lista[i]) return 0;
   }
 
   return 0;
@@ -223,19 +196,21 @@ void Imprime(struct Node *inicio,struct Node *final)
 {
   struct Node *tmp = inicio;
 
-  if(inicio == final && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
-  else if(tmp == NULL || (tmp != NULL && final == NULL)) cout << " " << endl;
+  if( inicio == NULL && final == NULL)
+  {
+    cout << " " << endl;
+  }
+  else if(tmp == final)
+  {
+    cout << tmp->registro.getRegistro() << endl;
+  }
   else
   {
-    while (tmp != NULL)
+    while(tmp != NULL && tmp != final)
     {
       cout << tmp->registro.getRegistro() << endl;
       tmp = tmp->next;
-      if(tmp == final)
-      {
-        cout << tmp->registro.getRegistro() << endl;
-        break;
-      }
+      if(tmp == final && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
     }
   }
   
@@ -244,23 +219,26 @@ void Imprime(struct Node *inicio,struct Node *final)
 void guardarBusqueda(struct Node *inicio,struct Node *final)
 {
   ofstream Myfile1("sortedSearched.txt");
-  struct Node* temp = inicio;
+  struct Node* tmp = inicio;
 
-  if(temp == final && temp != NULL) Myfile1 << temp->registro.getRegistro() << endl;
-  else if(temp == NULL || (temp != NULL && final == NULL)) Myfile1 << " " << endl;
+  if( inicio == NULL && final == NULL)
+  {
+    Myfile1 << " " << endl;
+  }
+  else if(inicio == final)
+  {
+    Myfile1 << tmp->registro.getRegistro() << endl;
+  }
   else
   {
-    while (temp != NULL)
+    while(tmp != NULL && tmp != final)
     {
-      Myfile1 << temp->registro.getRegistro() << endl;
-      temp = temp->next;
-      if(temp == final)
-      {
-        Myfile1 << temp->registro.getRegistro() << endl;
-        break;
-      }
+      Myfile1 << tmp->registro.getRegistro() << endl;
+      tmp = tmp->next;
+      if(tmp == final && tmp != NULL) Myfile1 << tmp->registro.getRegistro() << endl;
     }
   }
+
   Myfile1.close();
 
 }
@@ -270,8 +248,9 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
   struct Node* ptini = NULL, *ptfin = NULL;
   struct Node* temp = head;
 
-  while (temp != NULL) {
-
+  //obtener el limite inferior
+  while (temp != NULL) 
+  {
     if(ipInicio == temp->registro.getIP())
     {
       ptini = temp;
@@ -279,58 +258,47 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
     }
     else
     {
-      if(compararInf(ipInicio,temp->registro.getIP())) 
+      if(compararMenor(ipInicio,temp->registro.getIP()))
       {
         ptini = temp;
-      }
-      
-      else
-      { 
-        ptini= temp;
         break;
       }
+
+      ptini = temp;
     }
 
     temp = temp->next;
   }
 
+  if(temp == NULL) ptini = NULL;
+
   temp = head;
 
-  while (temp != NULL) {
-
-    if(ipFinal == temp->registro.getIP())
+  //obtener el limite superior
+  while (temp != NULL)
+  {
+    if (ipFinal == temp->registro.getIP())
     {
       ptfin = temp;
       break;
     }
     else
     {
-      if(compararSup(ipFinal,temp->registro.getIP()))
+      if(compararMenor(ipFinal,temp->registro.getIP()))
       {
-        ptfin = temp;
-      }
-      else 
-      {
-        ptfin = temp-> prev;
+        ptfin = temp->prev;
         break;
       }
+
+      ptfin = temp;
     }
+
     temp = temp->next;
   }
 
-  if( ptini == NULL && ptfin == NULL)
-  {
-    head = NULL;
-  }
-  else if( ptini != NULL && ptfin == NULL)
-  {
-    head = NULL;
-  }
-  else if( ptini == NULL && ptfin != NULL)
-  {
-    ptini = head;
-  }
-  else head = ptini;
+  if(temp == NULL) ptfin = NULL;
+
+  if(compararMenor(ipFinal,head->registro.getIP())) ptini = NULL;
   
   
   Imprime(ptini,ptfin);
@@ -358,6 +326,6 @@ int main()
   }
   Myfile.close();
   
-  busqueda(head, "999.999.999.999:9999","1000.0.0.0:0000");
+  busqueda(head, "998.6.378.65:6772","1000.0.0.0:0");
   
 }
