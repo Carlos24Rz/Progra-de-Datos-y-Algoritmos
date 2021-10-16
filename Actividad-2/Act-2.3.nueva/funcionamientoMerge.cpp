@@ -5,9 +5,6 @@
 // burbuja                          
 // hacer la busqueda
 
-
-
-
 // Programa que trabaja con una lista ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
@@ -19,7 +16,6 @@
 #include <sstream>
 #include "registro.h"
 using namespace std;
-
 
 
 class Node{
@@ -34,43 +30,74 @@ Node *split(Node *head);
 
 Node *merge(Node *first, Node *second)
 {
+    cout << "\n***Entrando a merge()" << endl;
+
+    if(first != NULL)
+      cout << "first: " <<  first->registro.getIP()[0] << endl;
+    else
+      cout << "first: " << first << endl;
+
+    if(second != NULL)
+      cout << "second: " <<  second->registro.getIP()[0] << endl;
+    else
+      cout << "second: " << second << endl;
+  
+
     // If first linked list is empty
-    if (!first)
+    // if (!first)
+    if(first == NULL)
         return second;
  
     // If second linked list is empty
-    if (!second)
+    // if (!second)
+    if(second == NULL)
         return first;
  
     // Pick the smaller value
     if (first->registro < second->registro)
     {
+        cout << "first->registro < second->registro" << endl;
         first->next = merge(first->next,second);
         first->next->prev = first;
         first->prev = NULL;
+        cout << "New first: " << first->registro.getIP()[0] << endl;
         return first;
     }
     else
     {
+        cout << "first->registro > second->registro" << endl;
         second->next = merge(first,second->next);
         second->next->prev = second;
         second->prev = NULL;
+        cout << "New second: " << second->registro.getIP()[0] << endl;
         return second;
     }
 }
 
 Node *mergeSort(Node *head)
 {
-    if (!head || !head->next)
+    cout << "\n---Iniciando un mergeSort()" << endl;
+    
+    // if (!head || !head->next)
+    cout << "head before: " << head->registro.getIP()[0] << endl;
+    if(head == NULL || head->next == NULL){
+        cout << "entrando al condicional" << endl;
         return head;
+    }
+    
     Node *second = split(head);
+
+    cout << "second before: " << second->registro.getIP()[0] << endl;
  
     // Recur for left and right halves
     head = mergeSort(head);
     second = mergeSort(second);
- 
-    // Merge the two sorted halves
+
+    cout << "head after: " << head->registro.getIP()[0] << endl;
+    cout << "second after: " << second->registro.getIP()[0] << endl;
+    
     return merge(head,second);
+    // Merge the two sorted halves
 }
 
 Node *split(Node *head)
@@ -82,9 +109,11 @@ Node *split(Node *head)
         slow = slow->next;
     }
     Node *temp = slow->next;
-    slow->next = NULL;
+    slow->next = NULL;                // por que es necesaria esta linea???????????????????
     return temp;
 }
+
+
 
 // Descripcion: Inserta un nodo al inicio de la lista ligada
 // Entrada: Referencia de estructura de datos y entero del nodo a insertar
@@ -111,7 +140,7 @@ void Inserta_al_inicio(Registro registro, struct Node* &pthead)
 void leerArchivo(struct Node *&head)
 {
   string line;
-  ifstream file("bitacora.txt");
+  ifstream file("bitacora2.txt");
   if (file.is_open())
   {
     while (getline(file, line))
@@ -154,10 +183,15 @@ void Imprime(struct Node *tmp)
 {
   while (tmp != NULL)
   {
-    cout << tmp->registro.getRegistro() << endl;
+    cout << tmp->registro.getIP() << endl;
     tmp = tmp->next;
   }
 }
+
+
+
+
+
 
 int main()
 {
@@ -175,4 +209,27 @@ int main()
   }
   Myfile.close();
 
+  cout << "\n-------------------------" << endl;
+  Imprime(head);
+
+
+
+
+  // cout << "\nRecorriendo el final del arreglo: " << endl;
+  // string ip = "998.94.195.38:4160";
+
+  // Node* temp2 = head;
+  // int count = 0;
+  // while(temp2!=NULL){
+  //   if(temp2->registro.getIP() == ip)
+  //     cout << "We found it" << endl;
+  //   count++;
+  //   temp2 = temp2->next;
+  // }
+  // cout << "\nEl count es: " << count << endl;
+
+
 }
+
+
+
