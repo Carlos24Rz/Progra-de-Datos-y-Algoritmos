@@ -224,7 +224,7 @@ void Imprime(struct Node *inicio,struct Node *final)
   struct Node *tmp = inicio;
 
   if(inicio == final && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
-  else if(tmp == NULL) cout << " " << endl;
+  else if(tmp == NULL || (tmp != NULL && final == NULL)) cout << " " << endl;
   else
   {
     while (tmp != NULL)
@@ -245,8 +245,9 @@ void guardarBusqueda(struct Node *inicio,struct Node *final)
 {
   ofstream Myfile1("sortedSearched.txt");
   struct Node* temp = inicio;
+
   if(temp == final && temp != NULL) Myfile1 << temp->registro.getRegistro() << endl;
-  else if(temp == NULL) Myfile1 << " " << endl;
+  else if(temp == NULL || (temp != NULL && final == NULL)) Myfile1 << " " << endl;
   else
   {
     while (temp != NULL)
@@ -278,7 +279,6 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
     }
     else
     {
-      cout << ipInicio << " " << temp->registro.getIP() << endl;
       if(compararInf(ipInicio,temp->registro.getIP())) 
       {
         ptini = temp;
@@ -318,9 +318,6 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
     temp = temp->next;
   }
 
-  cout << ptini->registro.getRegistro() << endl;
-  cout << ptfin->registro.getRegistro() << endl;
-
   if( ptini == NULL && ptfin == NULL)
   {
     head = NULL;
@@ -334,6 +331,7 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
     ptini = head;
   }
   else head = ptini;
+  
   
   Imprime(ptini,ptfin);
   guardarBusqueda(ptini,ptfin);
@@ -359,7 +357,7 @@ int main()
     temp = temp->next;
   }
   Myfile.close();
-
-  busqueda(head, "1.900.378.65:6772", "994.52.458.77:5972");
+  
+  busqueda(head, "999.999.999.999:9999","1000.0.0.0:0000");
   
 }
