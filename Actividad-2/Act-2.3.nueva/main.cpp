@@ -1,13 +1,3 @@
-// registro.h                       listo
-// el registro este en el nodo      listo
-// lectura del archivo              listo
-// hacer la sobrecarga
-// burbuja
-// hacer la busqueda
-
-
-
-
 // Programa que trabaja con una lista ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
@@ -149,6 +139,7 @@ void leerArchivo(struct Node *&head)
   }
 }
 
+
 void splitIp(string *ptstring, string ip) {
   stringstream ss(ip);
   for (int i = 0; i < 5; i++)
@@ -165,119 +156,167 @@ void splitIp(string *ptstring, string ip) {
 }
 
 
+Node* limitInferior(Node* head, string ip){
 
-void busqueda(struct Node *head, string ip1, string ip2)
-{
-  struct Node* ptini = NULL, *ptfin = NULL;
-  struct Node* temp = head;
+  Node* temp = head;
 
+  // Creating our arrya of int's of the ip
   string ip_1[5];
   string* pt_1 = ip_1;
-  splitIp(pt_1, ip1);
+  splitIp(pt_1, ip);
 
-
-  string ip_list[5];
-  string* pt_list = ip_list;
-
-  while (temp != NULL) {
-    string iplist = temp->registro.getIP();
-    splitIp(pt_list, iplist);
-      if(ip_list[0] > ip_1[0]) {
-        ptini = temp;
-        break;
-      }
-      else if(ip_list[0] == ip_1[0]) {
-        if(ip_list[1] > ip_1[1]) {
-          ptini = temp;
-          break;
-        }
-        else if(ip_list[1] == ip_1[1]) {
-          if(ip_list[2] > ip_1[2]) {
-            ptini = temp;
-            break;
-          }
-          else if(ip_list[2] == ip_1[2]) {
-            if(ip_list[3] > ip_1[3]) {
-              ptini = temp;
-              break;
-            }
-            else if(ip_list[3] == ip_1[3]) {
-              if(ip_list[4] > ip_1[4]) {
-                ptini = temp;
-                break;
-              }
-              else if(ip_list[4] == ip_1[4]) {
-                ptini = temp;
-                break;
-              }
-            }
-          }
-        }
-      }
-    temp = temp->next;
+  int ip_split[5];
+  for (int i = 0; i < 5; i++) {
+    ip_split[i] = stoi(ip_1[i]);
   }
 
+  // Base of ip .txt, this changes in the loop
+  string ip_list[5];
+  string* pt_list = ip_list;
+  int ip_split_list[5];
 
-  string ip_2[5];
-  string* pt_2 = ip_2;
-  splitIp(pt_2, ip2);
 
-  temp = ptini;
-
-  // cout <<"Puerto: "<< ip_2[4] << endl;
   while (temp != NULL) {
+
     string iplist = temp->registro.getIP();
     splitIp(pt_list, iplist);
-      if(ip_list[0] > ip_2[0]) {
-        ptfin = temp;
-        break;
-      }
-      else if(ip_list[0] == ip_2[0]) {
-        if(ip_list[1] > ip_2[1]) {
-          ptfin = temp;
-          break;
-        }
-        else if(ip_list[1] == ip_2[1]) {
-          if(ip_list[2] > ip_2[2]) {
-            ptfin = temp;
-            break;
-          }
-          else if(ip_list[2] == ip_2[2]) {
-            if(ip_list[3] > ip_2[3]) {
-              ptfin = temp;
-              break;
-            }
-            else if(ip_list[3] == ip_2[3]) {
-              if(ip_list[4] > ip_2[4]) {
-                ptfin = temp;
-                break;
-              }
-              else if(ip_list[4] == ip_2[4]) {
-                ptfin = temp;
-                break;
-              }
-            }
-          }
-        }
-      }
-      temp = temp->next;
+    
+    for (int i = 0; i < 5; i++) {
+      ip_split_list[i] = stoi(ip_list[i]);
     }
 
-  cout << "Ini: " << ptini->registro.getIP() << endl;
-  cout << "Fin: " << ptfin->registro.getIP() << endl;
+    if(ip_split[0] < ip_split_list[0]){
+      break;
+    }
+    else if(ip_split[0] == ip_split_list[0]){
+
+      if(ip_split[1] < ip_split_list[1])
+        break;
+
+      else if(ip_split[1] == ip_split_list[1]){
+
+        if(ip_split[2] < ip_split_list[2])
+          break;
+        
+        else if(ip_split[2] == ip_split_list[2]){
+
+          if(ip_split[3] < ip_split_list[3])
+            break;
+          
+          else if(ip_split[3] == ip_split_list[3]){
+
+            if(ip_split[4] < ip_split_list[4])
+              break;
+            
+            else if(ip_split[4] == ip_split_list[4])
+              if(ip_split[5] < ip_split_list[5])
+                break; 
+          }
+        }
+      }
+    }
+    temp = temp->next;
+  }
+  return temp->prev;
 }
 
 
 
+Node* limitSuperior(Node* ini, string ip){
+
+  Node* temp = ini;
+
+  // Creating our arrya of int's of the ip
+  string ip_1[5];
+  string* pt_1 = ip_1;
+  splitIp(pt_1, ip);
+
+  int ip_split[5];
+  for (int i = 0; i < 5; i++) {
+    ip_split[i] = stoi(ip_1[i]);
+  }
+
+  // Base of ip .txt, this changes in the loop
+  string ip_list[5];
+  string* pt_list = ip_list;
+  int ip_split_list[5];
+
+  string ip_listNext[5];
+  string* pt_listNext = ip_listNext;
+  int ip_split_list_next[5];
 
 
+  while(temp->next != NULL){
+
+    string iplist = temp->registro.getIP();
+    splitIp(pt_list, iplist);
+
+    string iplistNext = temp->next->registro.getIP();
+    splitIp(pt_listNext, iplistNext);
+
+    for (int i = 0; i < 5; i++) {
+      ip_split_list[i] = stoi(ip_list[i]);
+      ip_split_list_next[i] = stoi(ip_listNext[i]);
+    }
+
+    // cout << "---------------" << endl;
+    // cout << "ip_list: " << temp->registro.getIP() << endl;
+    // cout << "user_ip: " << ip << endl;
+    // cout << "ip_list_next: " << temp->next->registro.getIP() << endl;
+
+    cout << "ip[0]" << ip_split_list[0] << " < " << ip_split[0] << " < " << ip_split_list_next[0] << endl;
+
+    if((ip_split_list[0] <= ip_split[0]) && (ip_split[0] < ip_split_list_next[0])){
+      break;
+    }
+    else if((ip_split_list[0] == ip_split[0]) && (ip_split[0] == ip_split_list_next[0])){
+
+      cout << "ip[1]" << ip_split_list[1] << " < " << ip_split[1] << " < " << ip_split_list_next[1] << endl;
+
+      if((ip_split_list[1] <= ip_split[1]) && (ip_split[1] <= ip_split_list_next[1])){
+        break;
+      }
+      else if((ip_split_list[1] == ip_split[1]) && (ip_split[1] == ip_split_list_next[1])){
+
+        cout << "ip[2]" << ip_split_list[2] << " < " << ip_split[2] << " < " << ip_split_list_next[2] << endl;
+
+        if((ip_split_list[2] <= ip_split[2]) && (ip_split[2] <= ip_split_list_next[2])){
+          break;
+        }
+        else if((ip_split_list[2] == ip_split[2]) && (ip_split[2] == ip_split_list_next[2])){
+
+          cout << "ip[3]" << ip_split_list[3] << " < " << ip_split[3] << " < " << ip_split_list_next[3] << endl;
+
+          if((ip_split_list[3] <= ip_split[3]) && (ip_split[3] <= ip_split_list_next[3])){
+            break;
+          }
+          else if((ip_split_list[3] == ip_split[3]) && (ip_split[3] == ip_split_list_next[3])){
+
+            cout << "ip[4]" << ip_split_list[4] << " < " << ip_split[4] << " < " << ip_split_list_next[4] << endl;
+
+            if((ip_split_list[4] <= ip_split[4]) && (ip_split[4] <= ip_split_list_next[4])){
+              break;
+            }
+            else if((ip_split_list[4] == ip_split[4]) && (ip_split[4] == ip_split_list_next[4])){
+              break;
+            }
+          }
+        }
+      }
+    }
+    temp = temp->next;
+  }
+  return temp;
+}
 
 
+// upperLimit
+// recorrer la ip a la derecha hasta que sea diferente
 
 
 
 void Imprime(struct Node *tmp)
-{
+{ 
   while (tmp != NULL)
   {
     cout << tmp->registro.getRegistro() << endl;
@@ -287,6 +326,7 @@ void Imprime(struct Node *tmp)
 
 int main()
 {
+
   struct Node *head = NULL;
   leerArchivo(head);
   head = mergeSort(head);
@@ -301,5 +341,16 @@ int main()
   }
   Myfile.close();
 
-  busqueda(head, "118.15.416.57:4487", "960.96.3.29:5267");
+  cout << "PRUEBAS:::: " << endl;
+  
+  Node* ini = limitInferior(head, "118.15.416.57:4486");
+  cout << "ini: " << ini->registro.getRegistro() << endl;
+
+  Node* fin = limitSuperior(head, "107.96.3.29:5268");
+  cout << "fin: " << fin->registro.getRegistro() << endl;
+
+
 }
+
+
+
