@@ -336,20 +336,24 @@ int main()
     temp = temp->next;
   }
   Myfile.close();
-  
-  
-  //if left > right dile que no
 
-  cout << " La lista es: " << endl;
-  
-  // busqueda(head, "0.6.378.65:6772","0.6.378.65:6772"); /// por debajo  de
-  // busqueda(head, "999.6.378.65:6772","1000.6.378.65:6772"); /// por encima de
+  string ipInicio;
+  string ipFinal;
+  struct Node *final;
 
+  cin >> ipInicio;
+  cin >> ipFinal;
 
-  // busqueda(head, "0.6.378.65:6772","1000.6.378.65:6772"); /// inicio a fin sin utilizar valores presentes en los datos 
-  busqueda(head, "1.6.378.65:6772","1.6.378.65:6772"); // entre los valores posibles 
-
-
-
+  if (ipInicio > ipFinal)
+  {
+    head = NULL;
+    final = NULL;
+    Imprime(head, final);
+    guardarBusqueda(head,final);
+  }
+  else
+  {
+    busqueda(head, ipInicio, ipFinal);
+  }
   
 }
