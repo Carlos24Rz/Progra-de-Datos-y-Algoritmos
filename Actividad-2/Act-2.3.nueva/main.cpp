@@ -1,8 +1,8 @@
-// Programa que trabaja con una lista ligada de nodos
+// Programa que trabaja con una lista doblemente ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
 // Carlos Eduardo Ruiz Lira - A01735706
-// 8/10/21
+// 16/10/21
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -23,6 +23,10 @@ class Node
 Node *split(Node *head);
 
 
+// Descripcion: Une las listas ligadas
+// Entrada: apuntador al inicio de la primera lista y de la segunda
+// Salida: apuntador al inicio de la lista unificada
+// Complejidad: O(n)
 Node *merge(Node *first, Node *second)
 {
     // Si la primera lista ligada esta vacia
@@ -50,7 +54,10 @@ Node *merge(Node *first, Node *second)
     }
 }
 
-
+// Descripcion: Separa la lista ligada
+// Entrada: apuntador al inicio de la lista
+// Salida: apuntador al inicio de la lista modificada
+// Complejidad: O(nlogn)
 Node *mergeSort(Node *head)
 {
     if (!head || !head->next)
@@ -65,7 +72,10 @@ Node *mergeSort(Node *head)
     return merge(head,second);
 }
 
-
+// Descripcion: Separa la lista en dos
+// Entrada: apuntador al inicio de la lista 
+// Salida: apuntador al inicio de la lista izquierda
+// Complejidad: O(n)
 Node *split(Node *head)
 {
     Node *fast = head,*slow = head;
