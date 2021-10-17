@@ -1,13 +1,3 @@
-// registro.h                       listo
-// el registro este en el nodo      listo
-// lectura del archivo              listo
-// hacer la sobrecarga
-// burbuja
-// hacer la busqueda
-
-
-
-
 // Programa que trabaja con una lista ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
@@ -21,9 +11,8 @@
 #include <vector>
 using namespace std;
 
-
-
-class Node{
+class Node
+{
 
     public:
         Registro registro;
