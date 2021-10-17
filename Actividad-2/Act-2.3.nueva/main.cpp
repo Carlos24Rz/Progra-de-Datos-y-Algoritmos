@@ -308,20 +308,13 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
     }
   }
   
-  cout << ptini << endl;
-
-  /// si lo quitamos funcionan los casos donde no estamos ni abajo ni arriba
-  // si lo ponemos funcionan los casos donde estamos abajo o arriba
-  // if(temp == NULL) ptfin = NULL;
-
-  if(compararMenor(ipFinal,head->registro.getIP())) ptini = NULL;
-  
-  if (ptfin != NULL)
+  if(compararMenor(ipFinal,head->registro.getIP()) || ptini == NULL) 
   {
-    Imprime(ptini,ptfin);
+    ptini = NULL;
+    if(temp == NULL) ptfin = NULL;
   }
-  
-  
+
+  Imprime(ptini,ptfin);
   guardarBusqueda(ptini,ptfin);
 
 }
@@ -350,11 +343,11 @@ int main()
   cout << " La lista es: " << endl;
   
   // busqueda(head, "0.6.378.65:6772","0.6.378.65:6772"); /// por debajo  de
-  busqueda(head, "999.6.378.65:6772","1000.6.378.65:6772"); /// por encima de
+  // busqueda(head, "999.6.378.65:6772","1000.6.378.65:6772"); /// por encima de
 
 
   // busqueda(head, "0.6.378.65:6772","1000.6.378.65:6772"); /// inicio a fin sin utilizar valores presentes en los datos 
-  // busqueda(head, "1.6.378.65:6772","1.93.577.53:4679"); // entre los valores posibles 
+  busqueda(head, "1.6.378.65:6772","1.6.378.65:6772"); // entre los valores posibles 
 
 
 
