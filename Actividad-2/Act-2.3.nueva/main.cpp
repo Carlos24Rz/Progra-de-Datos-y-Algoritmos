@@ -1,8 +1,8 @@
-// Programa que trabaja con una lista ligada de nodos
+// Programa que trabaja con una lista doblemente ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
 // Carlos Eduardo Ruiz Lira - A01735706
-// 8/10/21
+// 16/10/21
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -379,5 +379,5 @@ int main()
   {
     busqueda(head, ipInicio, ipFinal);
   }
-
+  return 0;
 }
