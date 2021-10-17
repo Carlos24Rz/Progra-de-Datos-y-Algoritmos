@@ -1,19 +1,8 @@
-// registro.h                       listo
-// el registro este en el nodo      listo
-// lectura del archivo              listo
-// hacer la sobrecarga
-// burbuja
-// hacer la busqueda
-
-
-
-
 // Programa que trabaja con una lista ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
 // Carlos Eduardo Ruiz Lira - A01735706
 // 8/10/21
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -22,28 +11,29 @@
 using namespace std;
 
 
-
-class Node{
-
+class Node
+{
     public:
         Registro registro;
         struct Node* next;
         struct Node* prev;
 };
 
+
 Node *split(Node *head);
+
 
 Node *merge(Node *first, Node *second)
 {
-    // If first linked list is empty
+    // Si la primera lista ligada esta vacia
     if (!first)
         return second;
 
-    // If second linked list is empty
+    // Si la segunda lista ligada esta vacia
     if (!second)
         return first;
 
-    // Pick the smaller value
+    // Escoger el valor mas pequeño
     if (first->registro < second->registro)
     {
         first->next = merge(first->next,second);
@@ -60,19 +50,21 @@ Node *merge(Node *first, Node *second)
     }
 }
 
+
 Node *mergeSort(Node *head)
 {
     if (!head || !head->next)
         return head;
     Node *second = split(head);
 
-    // Recur for left and right halves
+    // Llamada recursiva a ambas mitades
     head = mergeSort(head);
     second = mergeSort(second);
 
-    // Merge the two sorted halves
+    // Juntar las mitades
     return merge(head,second);
 }
+
 
 Node *split(Node *head)
 {
@@ -87,22 +79,29 @@ Node *split(Node *head)
     return temp;
 }
 
+// Descripcion: Inserta un nodo al inicio de la lista ligada
+// Entrada: Objeto de clase registro y referencia de apuntador a head de lista ligada
+// Salida: Nada
+// Complejidad: O(1)
 void Inserta_al_inicio(Registro registro, struct Node* &pthead)
 {
-  // Node* newNode = new Node; // This doesn't work
   Node* newNode;
   newNode = (Node*)malloc(sizeof(Node));
 
   newNode->registro = registro;
-
   newNode->prev = NULL;
   newNode->next = pthead;
+
   if(pthead != NULL)
     pthead->prev = newNode;
-
   pthead = newNode;
 }
 
+
+// Descripcion: Lectura del archivo para la creacion de la lista ligada
+// Entrada: Apuntador a head de lista ligada
+// Salida: Nada
+// Complejidad: O(n)
 void leerArchivo(struct Node *&head)
 {
   string line;
@@ -144,7 +143,13 @@ void leerArchivo(struct Node *&head)
   }
 }
 
-void splitIp(vector<int> &arr, string ip) {
+
+// Descripcion: Division de ip en elementos de un vector
+// Entrada: Vector de tipo int y string de ip
+// Salida: Nada
+// Complejidad: O(1)
+void splitIp(vector<int> &arr, string ip)
+{
   string arrIp[5];
   stringstream ss(ip);
 
@@ -163,6 +168,11 @@ void splitIp(vector<int> &arr, string ip) {
     }
 }
 
+
+// Descripcion: Comparacion si la ip del usuario es menor a la ip del nodo
+// Entrada: String de ip del input del usuario y string de la ip del objeto del nodo
+// Salida: Bool
+// Complejidad: O(1)
 bool compararMenor(string ipUsuario, string ipLista)
 {
   string ipU = ipUsuario;
@@ -177,10 +187,14 @@ bool compararMenor(string ipUsuario, string ipLista)
     if(usuario[i] < lista[i]) return 1;
     else if(usuario[i] > lista[i]) return 0;
   }
-
   return 0;
 }
 
+
+// Descripcion: Impresion de la lista ligada
+// Entrada: Apuntador a head de la lista
+// Salida: Nada
+// Complejidad: O(n)
 void Imprime(struct Node *pthead)
 {
   struct Node *tmp = pthead;
@@ -192,6 +206,11 @@ void Imprime(struct Node *pthead)
   delete tmp;
 }
 
+
+// Descripcion: Impresion de la lista desde el pointer inicial hasta el pointer final
+// Entrada: Apuntador inicial y apuntador final
+// Salida: Nada
+// Complejidad: O(n)
 void Imprime(struct Node *inicio,struct Node *final)
 {
   struct Node *tmp = final;
@@ -213,9 +232,13 @@ void Imprime(struct Node *inicio,struct Node *final)
       if(tmp == inicio && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
     }
   }
-  
 }
 
+
+// Descripcion: Guardado de los registros correspondientes a la busqueda en un txt
+// Entrada: Apuntador inicial y apuntador final
+// Salida: Nada
+// Complejidad: O(n)
 void guardarBusqueda(struct Node *inicio,struct Node *final)
 {
   ofstream Myfile1("sortedSearched.txt");
@@ -238,18 +261,21 @@ void guardarBusqueda(struct Node *inicio,struct Node *final)
       if(tmp == final && tmp != NULL) Myfile1 << tmp->registro.getRegistro() << endl;
     }
   }
-
   Myfile1.close();
-
 }
 
+
+// Descripcion: Busqueda de las ips correspondientes al input del usuario
+// Entrada: Apuntador al head de la lista ligada, string de ip inicial y string de ip final
+// Salida: Nada
+// Complejidad: O(n)
 void busqueda(struct Node *head, string ipInicio, string ipFinal)
 {
   struct Node* ptini = NULL, *ptfin = NULL;
   struct Node* temp = head;
 
-  //obtener el limite inferior
-  while (temp != NULL) 
+  // Obtener el limite inferior
+  while (temp != NULL)
   {
     if(ipInicio == temp->registro.getIP())
     {
@@ -263,18 +289,18 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
         ptini = temp;
         break;
       }
-
       ptini = temp;
     }
-
     temp = temp->next;
   }
 
-  if(temp == NULL) ptini = NULL;
-  
+  // Si la ip inicial es mayor al ultimo nodo
+  if(temp == NULL)
+    ptini = NULL;
+
   temp = head;
 
-  //obtener el limite superior
+  // Obtener el limite superior
   while (temp != NULL)
   {
     if (ipFinal == temp->registro.getIP())
@@ -289,13 +315,12 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
         ptfin = temp->prev;
         break;
       }
-
       ptfin = temp;
     }
-
     temp = temp->next;
   }
 
+  // Si el nodo de ptfin se repite, encontrar el ultimo
   if(ptfin != NULL)
   {
     while(ptfin->next != NULL)
@@ -307,8 +332,9 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
       else break;
     }
   }
-  
-  if(compararMenor(ipFinal,head->registro.getIP()) || ptini == NULL) 
+
+  // Si la ip final es menor al primer nodo
+  if(compararMenor(ipFinal,head->registro.getIP()) || ptini == NULL)
   {
     ptini = NULL;
     if(temp == NULL) ptfin = NULL;
@@ -316,9 +342,7 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
 
   Imprime(ptini,ptfin);
   guardarBusqueda(ptini,ptfin);
-
 }
-
 
 
 int main()
@@ -336,20 +360,13 @@ int main()
     temp = temp->next;
   }
   Myfile.close();
-  
-  
-  //if left > right dile que no
 
   cout << " La lista es: " << endl;
-  
+
   // busqueda(head, "0.6.378.65:6772","0.6.378.65:6772"); /// por debajo  de
   // busqueda(head, "999.6.378.65:6772","1000.6.378.65:6772"); /// por encima de
 
 
-  // busqueda(head, "0.6.378.65:6772","1000.6.378.65:6772"); /// inicio a fin sin utilizar valores presentes en los datos 
-  busqueda(head, "1.6.378.65:6772","1.6.378.65:6772"); // entre los valores posibles 
-
-
-
-  
+  // busqueda(head, "0.6.378.65:6772","1000.6.378.65:6772"); /// inicio a fin sin utilizar valores presentes en los datos
+  busqueda(head, "1.6.378.65:6772","1.6.378.65:6772"); // entre los valores posibles
 }
