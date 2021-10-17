@@ -1,7 +1,15 @@
-Equipo:
-
 * Carlos Eduardo Ruiz Lira / a01735706
+    - Merge sort
+    - Implementacion de la busqueda de las ip
+    - Sobrecarga de operador
+
 
 * Carlos Daniel Díaz Arrazate / a01734902
+    - Merge sort
+    - Creación de la clase Registro
+    - Implementacion de la estructura de la lista doblemente ligada
 
-* José Ángel González Carrera / a01552274
+* Jose Angel González Carrera / a01552274
+    - Merge sort
+    - Lectura e impresion de archivos
+    - Debugging de la busqueda para los casos de prueba

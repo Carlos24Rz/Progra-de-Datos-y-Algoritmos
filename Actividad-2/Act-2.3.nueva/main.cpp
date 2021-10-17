@@ -1,8 +1,8 @@
-// Programa que trabaja con una lista doblemente ligada de nodos
+// Programa que trabaja con una lista ligada de nodos
 // Carlos Daniel Diaz Arrazate - A01734902
 // Jose Angel Gonzalez Carrera - A01552274
 // Carlos Eduardo Ruiz Lira - A01735706
-// 16/10/21
+// 8/10/21
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -191,22 +191,6 @@ bool compararMenor(string ipUsuario, string ipLista)
 }
 
 
-// Descripcion: Impresion de la lista ligada
-// Entrada: Apuntador a head de la lista
-// Salida: Nada
-// Complejidad: O(n)
-void Imprime(struct Node *pthead)
-{
-  struct Node *tmp = pthead;
-  while (tmp != NULL)
-  {
-    cout << tmp->registro.getRegistro() << endl;
-    tmp = tmp->next;
-  }
-  delete tmp;
-}
-
-
 // Descripcion: Impresion de la lista desde el pointer inicial hasta el pointer final
 // Entrada: Apuntador inicial y apuntador final
 // Salida: Nada
@@ -232,36 +216,6 @@ void Imprime(struct Node *inicio,struct Node *final)
       if(tmp == inicio && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
     }
   }
-}
-
-
-// Descripcion: Guardado de los registros correspondientes a la busqueda en un txt
-// Entrada: Apuntador inicial y apuntador final
-// Salida: Nada
-// Complejidad: O(n)
-void guardarBusqueda(struct Node *inicio,struct Node *final)
-{
-  ofstream Myfile1("sortedSearched.txt");
-  struct Node* tmp = inicio;
-
-  if( inicio == NULL && final == NULL)
-  {
-    Myfile1 << " " << endl;
-  }
-  else if(inicio == final)
-  {
-    Myfile1 << tmp->registro.getRegistro() << endl;
-  }
-  else
-  {
-    while(tmp != NULL && tmp != final)
-    {
-      Myfile1 << tmp->registro.getRegistro() << endl;
-      tmp = tmp->next;
-      if(tmp == final && tmp != NULL) Myfile1 << tmp->registro.getRegistro() << endl;
-    }
-  }
-  Myfile1.close();
 }
 
 
@@ -341,7 +295,6 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
   }
 
   Imprime(ptini,ptfin);
-  guardarBusqueda(ptini,ptfin);
 }
 
 
@@ -351,7 +304,7 @@ int main()
   leerArchivo(head);
   head = mergeSort(head);
 
-  ofstream Myfile("sorted.txt");
+  ofstream Myfile("SortedData.txt");
 
   struct Node *temp = head;
   while(temp!=NULL)
@@ -373,11 +326,9 @@ int main()
     head = NULL;
     final = NULL;
     Imprime(head, final);
-    guardarBusqueda(head,final);
   }
   else
   {
     busqueda(head, ipInicio, ipFinal);
   }
-  return 0;
 }
