@@ -379,5 +379,5 @@ int main()
   {
     busqueda(head, ipInicio, ipFinal);
   }
-
+  return 0;
 }
