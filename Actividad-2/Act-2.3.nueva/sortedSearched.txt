@@ -1,6 +1,1 @@
-Jun 05 4:12:47 1.6.378.65:6772 Failed password for root
-Oct 27 18:48:25 1.14.815.77:4402 Failed password for admin
-Sep 19 12:46:4 1.16.249.84:5139 Failed password for root
-Jul 26 22:52:23 1.26.288.72:4768 Failed password for illegal user guest
-Aug 13 20:0:40 1.29.485.70:4613 Failed password for illegal user guest
-Sep 13 6:15:34 1.36.64.55:6486 Failed password for illegal user test
+ 

@@ -295,14 +295,17 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
 
     temp = temp->next;
   }
-  
-  while(ptfin->next != NULL)
+
+  if(ptfin != NULL)
   {
-    if(ptfin->registro.getIP() == ptfin->next->registro.getIP())
+    while(ptfin->next != NULL)
     {
-      ptfin = ptfin -> next;
+      if(ptfin->registro.getIP() == ptfin->next->registro.getIP())
+      {
+        ptfin = ptfin -> next;
+      }
+      else break;
     }
-    else break;
   }
   
   if(temp == NULL) ptfin = NULL;
@@ -335,6 +338,6 @@ int main()
   
   //if left > right dile que no
   
-  busqueda(head, "1.6.378.65:6772","1.36.64.55:6486");
+  busqueda(head, "0.6.378.65:6772","0.36.64.55:6486");
   
 }
