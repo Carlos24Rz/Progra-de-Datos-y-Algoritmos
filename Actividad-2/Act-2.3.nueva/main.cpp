@@ -18,6 +18,7 @@
 #include <fstream>
 #include <sstream>
 #include "registro.h"
+#include <vector>
 using namespace std;
 
 
@@ -105,7 +106,7 @@ void Inserta_al_inicio(Registro registro, struct Node* &pthead)
 void leerArchivo(struct Node *&head)
 {
   string line;
-  ifstream file("bitacora.txt");
+  ifstream file("bitacora2.txt");
   if (file.is_open())
   {
     while (getline(file, line))
@@ -143,120 +144,187 @@ void leerArchivo(struct Node *&head)
   }
 }
 
-void splitIp(string *ptstring, string ip) {
+void splitIp(vector<int> &arr, string ip) {
+  string arrIp[5];
   stringstream ss(ip);
+
   for (int i = 0; i < 5; i++)
   {
     if(i >= 3)
     {
-      getline(ss,ptstring[i], ':');
+      getline(ss,arrIp[i], ':');
     }
     else
     {
-      getline(ss,ptstring[i], '.');
-    }
-  }
-}
-
-
-
-void busqueda(struct Node *head, string ip1, string ip2)
-{
-  struct Node* ptini = NULL, *ptfin = NULL;
-  struct Node* temp = head;
-
-  string ip_1[5];
-  string* pt_1 = ip_1;
-  splitIp(pt_1, ip1);
-
-  int ip_split[5];
-
-  for (int i = 0; i < 5; i++) {
-    ip_split[i] = stoi(ip_1[i]);
-  }
-
-  string ip_list[5];
-  string* pt_list = ip_list;
-  int ip_split_list[5];
-
-  while (temp != NULL) {
-    string iplist = temp->registro.getIP();
-    splitIp(pt_list, iplist);
-
-
-    for (int i = 0; i < 5; i++) {
-      ip_split_list[i] = stoi(ip_list[i]);
+      getline(ss,arrIp[i], '.');
     }
 
-      if(ip_split_list[0] > ip_split[0]) {
-        ptini = temp;
-        break;
-      }
-      else if(ip_split_list[0] == ip_split[0]) {
-        if(ip_split_list[1] > ip_split[1]) {
-          ptini = temp;
-          break;
-        }
-        else if(ip_split_list[1] == ip_split[1]) {
-          if(ip_split_list[2] > ip_split[2]) {
-            ptini = temp;
-            break;
-          }
-          else if(ip_split_list[2] == ip_split[2]) {
-            if(ip_split_list[3] > ip_split[3]) {
-              ptini = temp;
-              break;
-            }
-            else if(ip_split_list[3] == ip_split[3]) {
-              if(ip_split_list[4] > ip_split[4]) {
-                ptini = temp;
-                break;
-              }
-              else if(ip_split_list[4] == ip_split[4]) {
-                ptini = temp;
-                break;
-              }
-            }
-          }
-        }
-      }
-    temp = temp->next;
-  }
-
-
-  if (ptini != NULL) {
-    cout << "Ini: " << ptini->registro.getRegistro() << endl;
-  }
-  else {
-    cout << "Error" << endl;
-  }
-
-  temp = ptini;
-
-  string ip_2[5];
-  string* pt_2 = ip_2;
-  splitIp(pt_2, ip2);
-
-
+    arr.push_back(stoi(arrIp[i]));
+    }
 }
 
-
-
-
-
-
-
-
-
-
-void Imprime(struct Node *tmp)
+bool compararMenor(string ipUsuario, string ipLista)
 {
+  string ipU = ipUsuario;
+  string ipL = ipLista;
+
+  vector<int> usuario, lista;
+  splitIp(usuario, ipU);
+  splitIp(lista, ipL);
+
+  for (int i = 0; i < 5; i++)
+  {
+    if(usuario[i] < lista[i]) return 1;
+    else if(usuario[i] > lista[i]) return 0;
+  }
+
+  return 0;
+}
+
+void Imprime(struct Node *pthead)
+{
+  struct Node *tmp = pthead;
   while (tmp != NULL)
   {
     cout << tmp->registro.getRegistro() << endl;
     tmp = tmp->next;
   }
+  delete tmp;
 }
+
+void Imprime(struct Node *inicio,struct Node *final)
+{
+  struct Node *tmp = final;
+
+  if( inicio == NULL && final == NULL)
+  {
+    cout << " " << endl;
+  }
+  else if(tmp == inicio)
+  {
+    cout << tmp->registro.getRegistro() << endl;
+  }
+  else
+  {
+    while(tmp != NULL && tmp != inicio)
+    {
+      cout << tmp->registro.getRegistro() << endl;
+      tmp = tmp->prev;
+      if(tmp == inicio && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
+    }
+  }
+
+}
+
+void guardarBusqueda(struct Node *inicio,struct Node *final)
+{
+  ofstream Myfile1("sortedSearched.txt");
+  struct Node* tmp = inicio;
+
+  if( inicio == NULL && final == NULL)
+  {
+    Myfile1 << " " << endl;
+  }
+  else if(inicio == final)
+  {
+    Myfile1 << tmp->registro.getRegistro() << endl;
+  }
+  else
+  {
+    while(tmp != NULL && tmp != final)
+    {
+      Myfile1 << tmp->registro.getRegistro() << endl;
+      tmp = tmp->next;
+      if(tmp == final && tmp != NULL) Myfile1 << tmp->registro.getRegistro() << endl;
+    }
+  }
+
+  Myfile1.close();
+
+}
+
+void busqueda(struct Node *head, string ipInicio, string ipFinal)
+{
+  struct Node* ptini = NULL, *ptfin = NULL;
+  struct Node* temp = head;
+
+  //obtener el limite inferior
+  while (temp != NULL)
+  {
+    if(ipInicio == temp->registro.getIP())
+    {
+      ptini = temp;
+      break;
+    }
+    else
+    {
+      if(compararMenor(ipInicio,temp->registro.getIP()))
+      {
+        ptini = temp;
+        break;
+      }
+
+      ptini = temp;
+    }
+
+    temp = temp->next;
+  }
+
+  if(temp == NULL) ptini = NULL;
+
+  temp = head;
+
+  //obtener el limite superior
+  while (temp != NULL)
+  {
+    if (ipFinal == temp->registro.getIP())
+    {
+      ptfin = temp;
+      break;
+    }
+    else
+    {
+      if(compararMenor(ipFinal,temp->registro.getIP()))
+      {
+        ptfin = temp->prev;
+        break;
+      }
+
+      ptfin = temp;
+    }
+
+    temp = temp->next;
+  }
+
+  if(ptfin != NULL)
+  {
+    while(ptfin->next != NULL)
+    {
+      if(ptfin->registro.getIP() == ptfin->next->registro.getIP())
+      {
+        ptfin = ptfin -> next;
+      }
+      else break;
+    }
+  }
+
+  // cout << ptini << endl;
+  // cout << ptfin << endl;
+
+  /// si lo quitamos funcionan los casos donde no estamos ni abajo ni arriba
+  // si lo ponemos funcionan los casos donde estamos abajo o arriba
+  // if(temp == NULL) ptfin = NULL;
+
+  if(compararMenor(ipFinal,head->registro.getIP())) ptini = NULL;
+
+  if (ptini != NULL && ptfin != NULL)
+  {
+    Imprime(ptini,ptfin);
+    guardarBusqueda(ptini,ptfin);
+  }
+}
+
+
 
 int main()
 {
@@ -273,5 +341,18 @@ int main()
     temp = temp->next;
   }
   Myfile.close();
-  busqueda(head, "999.94.195.38:4160", "960.96.3.29:5267");
+
+
+  //if left > right dile que no
+
+  cout << " La lista es: " << endl;
+
+  // busqueda(head, "0.6.378.65:6772","0.6.378.65:6772"); /// por debajo  de
+  // busqueda(head, "999.6.378.65:6772","1000.6.378.65:6772"); /// por encima de
+  // busqueda(head, "0.6.378.65:6772","1000.6.378.65:6772"); /// inicio a fin sin utilizar valores presentes en los datos
+  // busqueda(head, "1.36.64.55:6486","108.57.27.85:5491"); // entre los valores posibles
+
+
+
+
 }
