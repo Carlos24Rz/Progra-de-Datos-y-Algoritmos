@@ -194,23 +194,23 @@ void Imprime(struct Node *pthead)
 
 void Imprime(struct Node *inicio,struct Node *final)
 {
-  struct Node *tmp = inicio;
+  struct Node *tmp = final;
 
   if( inicio == NULL && final == NULL)
   {
     cout << " " << endl;
   }
-  else if(tmp == final)
+  else if(tmp == inicio)
   {
     cout << tmp->registro.getRegistro() << endl;
   }
   else
   {
-    while(tmp != NULL && tmp != final)
+    while(tmp != NULL && tmp != inicio)
     {
       cout << tmp->registro.getRegistro() << endl;
-      tmp = tmp->next;
-      if(tmp == final && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
+      tmp = tmp->prev;
+      if(tmp == inicio && tmp != NULL) cout << tmp->registro.getRegistro() << endl;
     }
   }
   
@@ -271,7 +271,7 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
   }
 
   if(temp == NULL) ptini = NULL;
-
+  
   temp = head;
 
   //obtener el limite superior
@@ -295,16 +295,22 @@ void busqueda(struct Node *head, string ipInicio, string ipFinal)
 
     temp = temp->next;
   }
-
+  
+  while(ptfin->next != NULL)
+  {
+    if(ptfin->registro.getIP() == ptfin->next->registro.getIP())
+    {
+      ptfin = ptfin -> next;
+    }
+    else break;
+  }
+  
   if(temp == NULL) ptfin = NULL;
 
   if(compararMenor(ipFinal,head->registro.getIP())) ptini = NULL;
   
-  
   Imprime(ptini,ptfin);
   guardarBusqueda(ptini,ptfin);
-
-  delete ptini,ptfin,temp;
 
 }
 
@@ -326,6 +332,9 @@ int main()
   }
   Myfile.close();
   
-  busqueda(head, "998.6.378.65:6772","1000.0.0.0:0");
+  
+  //if left > right dile que no
+  
+  busqueda(head, "1.6.378.65:6772","1.36.64.55:6486");
   
 }
