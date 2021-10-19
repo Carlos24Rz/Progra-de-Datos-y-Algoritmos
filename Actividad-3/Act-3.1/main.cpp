@@ -22,19 +22,30 @@ struct Node* newNode(int data) {
   return temp;
 }
 
-struct Node* Insertar(struct Node * &root, int data) {
+void Insertar(struct Node * &root, int data) {
   if (root == NULL) {
-    newNode(data);
+    root = newNode(data);
+    return;
   }
   else {
     if (data < root->data) {
-      root->left = Insertar(root->left, data);
+      Insertar(root->left, data);
     }
     else if (data > root->data) {
-      root->right = Insertar(root->left, data);
+      Insertar(root->right, data);
     }
   }
-  return root;
+}
+
+void Inorden(struct Node* root) {
+  if (root == NULL) {
+    return;
+  }
+  Inorden(root->left);
+
+  cout << root->data << " ";
+
+  Inorden(root->right);
 }
 
 
@@ -42,16 +53,16 @@ int main(int argc, char const *argv[]) {
   struct Node * root = NULL;
   Insertar(root, 10);
   Insertar(root, 5);
-  Insertar(root, 8);
-  Insertar(root, 13);
-  Insertar(root, 3);
+  Insertar(root, 2);
   Insertar(root, 7);
-  Insertar(root, 16);
-  Insertar(root, 14);
-  Insertar(root, 12);
+
   Insertar(root, 15);
+  Insertar(root, 12);
+  Insertar(root, 17);
 
 
 
+  Inorden(root);
+  cout << endl;
   return 0;
 }
