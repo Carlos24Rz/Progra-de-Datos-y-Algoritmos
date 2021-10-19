@@ -37,15 +37,15 @@ void Insertar(struct Node * &root, int data) {
   }
 }
 
-void Inorden(struct Node* root) {
+void Inorder(struct Node* root) {
   if (root == NULL) {
     return;
   }
-  Inorden(root->left);
+  Inorder(root->left);
 
   cout << root->data << " ";
 
-  Inorden(root->right);
+  Inorder(root->right);
 }
 
 void Preorder(struct Node* root){
@@ -70,6 +70,25 @@ void Postorder(struct Node* root){
   cout << root->data << " ";
 }
 
+void LevelByLevel(struct Node* root){
+
+}
+
+void traversal(struct Node* root, int n) {
+  if (n == 1)
+    Preorder(root);
+
+  else if (n == 2)
+    Inorder(root);
+
+  else if (n == 3)
+    Postorder(root);
+
+  else if (n == 4)
+    LevelByLevel(root);
+}
+
+
 int getLevel(struct Node* root, int data, int i) {
   if (root == NULL) {
     return -1;
@@ -92,6 +111,8 @@ int getLevel(struct Node* root, int data, int i) {
 int whatlevelamI(struct Node* root, int data) {
   return getLevel(root, data, 0);
 }
+
+
 
 int main(int argc, char const *argv[]) {
   struct Node * root = NULL;
