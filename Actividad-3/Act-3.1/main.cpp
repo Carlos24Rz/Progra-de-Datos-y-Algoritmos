@@ -48,6 +48,28 @@ void Inorden(struct Node* root) {
   Inorden(root->right);
 }
 
+void Preorder(struct Node* root){
+  if(root == NULL)
+    return;
+  
+  cout << root->data << " ";
+
+  Preorder(root->left);
+
+  Preorder(root->right);
+}
+
+void Postorder(struct Node* root){
+  if(root == NULL)
+    return;
+  
+  Postorder(root->left);
+
+  Postorder(root->right);
+
+  cout << root->data << " ";
+}
+
 
 int main(int argc, char const *argv[]) {
   struct Node * root = NULL;
@@ -64,5 +86,12 @@ int main(int argc, char const *argv[]) {
 
   Inorden(root);
   cout << endl;
+  Preorder(root);
+  cout << endl;
+  Postorder(root);
+  cout << endl;
+
+
+
   return 0;
 }
