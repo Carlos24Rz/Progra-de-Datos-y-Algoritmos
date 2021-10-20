@@ -71,6 +71,24 @@ void Postorder(struct Node* root){
 }
 
 
+
+int height(struct Node* root){
+
+  if(root == NULL)
+    return 0;
+  
+  int leftHeight = height(root->left);
+  int rightHeight = height(root->right);
+
+  if(leftHeight > rightHeight)
+    return leftHeight+1;
+  else
+    return rightHeight+1;
+}
+
+
+
+
 int main(int argc, char const *argv[]) {
   struct Node * root = NULL;
   Insertar(root, 10);
@@ -81,7 +99,7 @@ int main(int argc, char const *argv[]) {
   Insertar(root, 15);
   Insertar(root, 12);
   Insertar(root, 17);
-
+  Insertar(root, 18);
 
 
   Inorden(root);
@@ -91,6 +109,7 @@ int main(int argc, char const *argv[]) {
   Postorder(root);
   cout << endl;
 
+  cout << "Height: " << height(root) << endl;
 
 
   return 0;
