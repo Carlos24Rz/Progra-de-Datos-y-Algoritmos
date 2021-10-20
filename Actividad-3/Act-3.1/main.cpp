@@ -14,6 +14,7 @@ struct Node {
   struct Node *right;
 };
 
+
 struct Node* newNode(int data) {
   struct Node *temp = new Node;
   temp->data = data;
@@ -21,6 +22,7 @@ struct Node* newNode(int data) {
   temp->right = NULL;
   return temp;
 }
+
 
 void Insertar(struct Node * &root, int data) {
   if (root == NULL) {
@@ -37,6 +39,7 @@ void Insertar(struct Node * &root, int data) {
   }
 }
 
+
 void Inorder(struct Node* root) {
   if (root == NULL) {
     return;
@@ -47,6 +50,7 @@ void Inorder(struct Node* root) {
 
   Inorder(root->right);
 }
+
 
 void Preorder(struct Node* root){
   if(root == NULL)
@@ -59,6 +63,7 @@ void Preorder(struct Node* root){
   Preorder(root->right);
 }
 
+
 void Postorder(struct Node* root){
   if(root == NULL)
     return;
@@ -70,9 +75,45 @@ void Postorder(struct Node* root){
   cout << root->data << " ";
 }
 
+
+int height(struct Node* root){
+
+  if(root == NULL)
+    return 0;
+  
+  int leftHeight = height(root->left);
+  int rightHeight = height(root->right);
+
+  if(leftHeight > rightHeight)
+    return leftHeight+1;
+  else
+    return rightHeight+1;
+}
+
+
+void printCurrentLevel(struct Node* root, int level){
+
+  if(root != NULL)
+
+    if(level == 1)
+      cout << root->data << " ";
+    else if(level > 1){
+      printCurrentLevel(root->left, level-1);
+      printCurrentLevel(root->right, level-1);
+    }
+}
+
+
 void LevelByLevel(struct Node* root){
 
+  int hgt = height(root);
+  
+  if(root!=NULL)
+
+    for(int i=1; i<=hgt; i++)
+      printCurrentLevel(root, i);
 }
+
 
 void traversal(struct Node* root, int n) {
   if (n == 1)
@@ -84,8 +125,8 @@ void traversal(struct Node* root, int n) {
   else if (n == 3)
     Postorder(root);
 
-  else if (n == 4)
-    LevelByLevel(root);
+  // else if (n == 4)
+  //   LevelByLevel(root);
 }
 
 
@@ -108,26 +149,11 @@ int getLevel(struct Node* root, int data, int i) {
   return downlevel;
 }
 
+
 int whatlevelamI(struct Node* root, int data) {
   return getLevel(root, data, 0);
 }
 
-
-
-
-int height(struct Node* root){
-
-  if(root == NULL)
-    return 0;
-  
-  int leftHeight = height(root->left);
-  int rightHeight = height(root->right);
-
-  if(leftHeight > rightHeight)
-    return leftHeight+1;
-  else
-    return rightHeight+1;
-}
 
 
 
@@ -137,7 +163,7 @@ int main(int argc, char const *argv[]) {
   Insertar(root, 10);
   Insertar(root, 5);
   Insertar(root, 2);
-  Insertar(root, 1);
+  // Insertar(root, 1);
   Insertar(root, 7);
 
   Insertar(root, 15);
@@ -154,6 +180,8 @@ int main(int argc, char const *argv[]) {
   // cout << endl;
 
   cout << "height: " << height(root) << endl;
+  LevelByLevel(root);
+  cout << endl;
 
 
   return 0;
