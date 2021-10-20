@@ -5,6 +5,7 @@
 // 8/10/21
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 struct Node
@@ -272,6 +273,28 @@ int whatlevelamI(struct Node *root, int data)
   return getLevel(root, data, 0);
 }
 
+void ancestors(struct Node *root, int data)
+{
+  vector<int> ancestors;
+  struct Node* tmp = root;
+
+  while(tmp !=NULL)
+  {
+    if (tmp->data == data) break;
+    else
+    {
+      ancestors.push_back(tmp->data);
+      if(data > tmp->data) tmp = tmp->right;
+      else tmp = tmp = tmp->left;
+    }
+  }
+
+  if(tmp == NULL) ancestors.clear();
+
+  for (int i = 0; i < ancestors.size(); i++) cout << ancestors[i] << " " ;
+  
+  cout << endl;
+}
 
 
 int main(int argc, char const *argv[])
@@ -280,7 +303,7 @@ int main(int argc, char const *argv[])
   Insertar(root, 10);
   Insertar(root, 5);
   Insertar(root, 2);
-  // Insertar(root, 1);
+  Insertar(root, 1);
   Insertar(root, 7);
   Insertar(root, 15);
   Insertar(root, 12);
@@ -299,7 +322,9 @@ int main(int argc, char const *argv[])
   LevelByLevel(root);
   cout << endl;
 
-  Eliminar(root, 1);
+  ancestors(root, 17);
+  Eliminar(root,10);
+  ancestors(root, 17);
 
   return 0;
 }
