@@ -241,8 +241,8 @@ void traversal(struct Node* root, int n) {
   else if (n == 3)
     Postorder(root);
 
-  // else if (n == 4)
-  //   LevelByLevel(root);
+  else if (n == 4)
+    LevelByLevel(root);
 }
 
 int getLevel(struct Node *root, int data, int i)
@@ -273,7 +273,7 @@ int whatlevelamI(struct Node *root, int data)
   return getLevel(root, data, 0);
 }
 
-void ancestors(struct Node *root, int data)
+vector<int> ancestors(struct Node *root, int data)
 {
   vector<int> ancestors;
   struct Node* tmp = root;
@@ -291,40 +291,93 @@ void ancestors(struct Node *root, int data)
 
   if(tmp == NULL) ancestors.clear();
 
-  for (int i = 0; i < ancestors.size(); i++) cout << ancestors[i] << " " ;
-  
-  cout << endl;
+  return ancestors;
 }
 
 
 int main(int argc, char const *argv[])
 {
   struct Node *root = NULL;
-  Insertar(root, 10);
-  Insertar(root, 5);
-  Insertar(root, 2);
-  Insertar(root, 1);
-  Insertar(root, 7);
-  Insertar(root, 15);
-  Insertar(root, 12);
-  Insertar(root, 17);
+  // Insertar(root, 10);
+  // Insertar(root, 5);
+  // Insertar(root, 2);
+  // Insertar(root, 1);
+  // Insertar(root, 7);
+  // Insertar(root, 15);
+  // Insertar(root, 12);
+  // Insertar(root, 17);
 
-  cout << whatlevelamI(root, 1) << endl;
+  // cout << whatlevelamI(root, 1) << endl;
 
-  Inorder(root);
-  cout << endl;
-  // Preorder(root);
+  // Inorder(root);
   // cout << endl;
-  // Postorder(root);
+  // // Preorder(root);
+  // // cout << endl;
+  // // Postorder(root);
+  // // cout << endl;
+
+  // cout << "height: " << height(root) << endl;
+  // LevelByLevel(root);
   // cout << endl;
 
-  cout << "height: " << height(root) << endl;
-  LevelByLevel(root);
-  cout << endl;
+  // ancestors(root, 17);
+  // Eliminar(root,10);
+  // ancestors(root, 17);
 
-  ancestors(root, 17);
-  Eliminar(root,10);
-  ancestors(root, 17);
+  int input, elemento;
+
+  cin >> input;
+
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    Insertar(root,elemento);
+  }
+
+  cin >> input;
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    Eliminar(root,elemento);
+  }
+
+  vector<vector<int>> ancestors_v;
+  cin >> input;
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    ancestors_v.push_back(ancestors(root,elemento));
+  }
+
+  vector<int> level_v;
+  cin >> input;
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    level_v.push_back(whatlevelamI(root,elemento));
+  }
+
+  traversal(root, 1);
+  cout << endl;
+  traversal(root, 2);
+  cout << endl;
+  traversal(root, 3);
+  cout << endl;
+  traversal(root, 4);
+  cout << endl;
+  cout << height(root) <<endl;
+  for (int i = 0; i < ancestors_v.size(); i++)
+  {
+    for(int j = 0; j < ancestors_v[i].size(); j++)
+    {
+      cout << ancestors_v[i][j] << " ";
+    }
+    cout << endl;
+  }
+  for (int i = 0; i < level_v.size(); i++)
+  {
+    cout << level_v[i] << endl;
+  }
 
   return 0;
 }
