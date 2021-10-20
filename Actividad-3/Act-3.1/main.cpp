@@ -153,7 +153,7 @@ int main(int argc, char const *argv[]) {
   // Postorder(root);
   // cout << endl;
 
-  cout << "Height: " << height(root) << endl;
+  cout << "height: " << height(root) << endl;
 
 
   return 0;
