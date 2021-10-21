@@ -24,16 +24,17 @@ struct Node *newNode(int data)
   return temp;
 }
 
-
+// Descripcion: Insertar de nodo
+// Entrada: Referencia del apuntador a la raiz del arbol, dato a insertar
+// Salida: Nada
+// Complejidad: O(n?)
 void Insertar(struct Node *&root, int data)
 {
-  if (root == NULL)
-  {
+  if (root == NULL) {
     root = newNode(data);
     return;
   }
-  else
-  {
+  else {
     if (data < root->data)
       Insertar(root->left, data);
     else if (data > root->data)
@@ -41,11 +42,15 @@ void Insertar(struct Node *&root, int data)
   }
 }
 
+// Descripcion: Contar la cantidad de hijos de un nodo
+// Entrada: Apuntador a la raiz del arbol, dato del cual se desea conocer los ancestros
+// Salida: Cantidad de hijos
+// Complejidad: O(1?)
 int countNodeChildren(struct Node *&root)
 {
   struct Node *temp = root;
   int children = 0;
-
+  //Cambiar while por if??
   while (temp != NULL) {
     if (temp->left != NULL && temp->right != NULL)
       children = 2;
@@ -56,6 +61,10 @@ int countNodeChildren(struct Node *&root)
   return children;
 }
 
+// Descripcion: Eliminar nodo
+// Entrada: Referencia del apuntador a la raiz del arbol, dato a eliminar
+// Salida: Nada
+// Complejidad: O(n?)
 void Eliminar(struct Node *&root, int valor)
 {
   struct Node *tmp = root;
@@ -133,19 +142,24 @@ void Eliminar(struct Node *&root, int valor)
 }
 
 
+
+
+// Descripcion: Obtener altura del arbol
+// Entrada: Apuntador a la raiz del arbol
+// Salida: Altura del arbol
+// Complejidad: O(n)
 int height(struct Node* root)
 {
   if(root == NULL)
     return 0;
-
   int leftHeight = height(root->left);
   int rightHeight = height(root->right);
-
   if(leftHeight > rightHeight)
     return leftHeight+1;
   else
     return rightHeight+1;
 }
+
 
 
 
