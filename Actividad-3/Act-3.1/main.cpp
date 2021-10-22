@@ -313,35 +313,21 @@ int main(int argc, char const *argv[])
 
   int input, elemento;
 
-  // cin >> input;
+  cin >> input;
 
-  // for (int i = 0; i < input; i++)
-  // {
-  //   cin >> elemento;
-  //   Insertar(root,elemento);
-  // }
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    Insertar(root,elemento);
+  }
 
-  Insertar(root, 45);
-  Insertar(root, 98);
-  Insertar(root, 32);
-  Insertar(root, 85);
-  Insertar(root, 96);
-  Insertar(root, 36);
-  Insertar(root, 25);
-  Insertar(root, 74);
-  Insertar(root, 98);
-  Insertar(root, 95);
 
-  // cin >> input;
-  // for (int i = 0; i < input; i++)
-  // {
-  //   cin >> elemento;
-  //   Eliminar(root,elemento);
-  // }
-
-  Eliminar(root, 98);
-  Eliminar(root, 85);
-  Eliminar(root, 36);
+  cin >> input;
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    Eliminar(root,elemento);
+  }
 
 
   // ancestros
