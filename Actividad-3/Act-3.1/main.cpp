@@ -27,7 +27,7 @@ struct Node *newNode(int data)
 // Descripcion: Insertar de nodo
 // Entrada: Referencia del apuntador a la raiz del arbol, dato a insertar
 // Salida: Nada
-// Complejidad: O(n?)
+// Complejidad: O(n)
 void Insertar(struct Node *&root, int data)
 {
   if (root == NULL) {
@@ -45,18 +45,16 @@ void Insertar(struct Node *&root, int data)
 // Descripcion: Contar la cantidad de hijos de un nodo
 // Entrada: Apuntador a la raiz del arbol, dato del cual se desea conocer los ancestros
 // Salida: Cantidad de hijos
-// Complejidad: O(1?)
+// Complejidad: O(1)
 int countNodeChildren(struct Node *&root)
 {
   struct Node *temp = root;
   int children = 0;
-  //Cambiar while por if??
-  while (temp != NULL) {
+  if (temp != NULL) {
     if (temp->left != NULL && temp->right != NULL)
       children = 2;
     else if ((temp->left != NULL && temp->right == NULL) || (temp->left == NULL && temp->right != NULL))
       children = 1;
-    break;
   }
   return children;
 }
@@ -64,7 +62,7 @@ int countNodeChildren(struct Node *&root)
 // Descripcion: Eliminar nodo
 // Entrada: Referencia del apuntador a la raiz del arbol, dato a eliminar
 // Salida: Nada
-// Complejidad: O(n?)
+// Complejidad: O(n)
 void Eliminar(struct Node *&root, int valor)
 {
   struct Node *tmp = root;
@@ -79,7 +77,6 @@ void Eliminar(struct Node *&root, int valor)
           root = NULL; // si el elemento al eliminar es el unico elemento en la lista
         else {
           // se corta el enlace del elemento a lista
-          cout << "LAAAA " << padre->data << endl;
           if (valor > padre->data)
             padre->right = NULL;
           else if (valor < padre->data)
@@ -222,7 +219,7 @@ void printCurrentLevel(struct Node* root, int level)
 // Descripcion: Imprimir por nivel
 // Entrada: Apuntador a la raiz del arbol
 // Salida: Nada
-// Complejidad: O(n)
+// Complejidad: O(n^2)
 void LevelByLevel(struct Node* root)
 {
   int hgt = height(root);
@@ -234,7 +231,7 @@ void LevelByLevel(struct Node* root)
 // Descripcion: Imprimir el arbol
 // Entrada: Apuntador a la raiz del arbol, opcion de impresion
 // Salida: Nada
-// Complejidad: O(n??)
+// Complejidad: O(n^2) peor caso por LevelByLevel
 void traversal(struct Node* root, int n)
 {
   if (n == 1)
@@ -255,11 +252,10 @@ void traversal(struct Node* root, int n)
 
 // Descripcion: Desplegar los ancestros de un dato
 // Entrada: Apuntador a la raiz del arbol, dato del cual se desea conocer los ancestros
-// Salida: Vector con los ancestros??
-// Complejidad: O(n?)
-vector<int> ancestors(struct Node *root, int data)
+// Salida: Nada
+// Complejidad: O(n)
+void ancestors(struct Node *root, int data, vector<int> &ancestors)
 {
-  vector<int> ancestors;
   struct Node* tmp = root;
   while(tmp !=NULL) {
     if (tmp->data == data)
@@ -274,7 +270,6 @@ vector<int> ancestors(struct Node *root, int data)
   }
   if(tmp == NULL)
     ancestors.clear();
-  return ancestors;
 }
 
 
@@ -283,7 +278,7 @@ vector<int> ancestors(struct Node *root, int data)
 // Descripcion: Devolver nivel del dato correspondiente
 // Entrada: Apuntador a la raiz del arbol, dato del cual se desea conocer el nivel, contador de posicion
 // Salida: Nivel del dato
-// Complejidad: O(n??)
+// Complejidad: O(n)
 int getLevel(struct Node *root, int data, int i)
 {
   if (root == NULL)
@@ -304,7 +299,7 @@ int getLevel(struct Node *root, int data, int i)
 // Descripcion: Desplegar los ancestros de un dato
 // Entrada: Apuntador a la raiz del arbol, dato del cual se desea conocer su altura
 // Salida: Nivel del dato
-// Complejidad: O(1?)
+// Complejidad: O(n)
 int whatlevelamI(struct Node *root, int data)
 {
   return getLevel(root, data, 0);
@@ -315,64 +310,61 @@ int whatlevelamI(struct Node *root, int data)
 int main(int argc, char const *argv[])
 {
   struct Node *root = NULL;
-  // Insertar(root, 10);
-  // Insertar(root, 5);
-  // Insertar(root, 2);
-  // Insertar(root, 1);
-  // Insertar(root, 7);
-  // Insertar(root, 15);
-  // Insertar(root, 12);
-  // Insertar(root, 17);
-
-  // cout << whatlevelamI(root, 1) << endl;
-
-  // Inorder(root);
-  // cout << endl;
-  // // Preorder(root);
-  // // cout << endl;
-  // // Postorder(root);
-  // // cout << endl;
-
-  // cout << "height: " << height(root) << endl;
-  // LevelByLevel(root);
-  // cout << endl;
-
-  // ancestors(root, 17);
-  // Eliminar(root,10);
-  // ancestors(root, 17);
 
   int input, elemento;
 
-  cin >> input;
+  // cin >> input;
 
-  for (int i = 0; i < input; i++)
-  {
-    cin >> elemento;
-    Insertar(root,elemento);
-  }
+  // for (int i = 0; i < input; i++)
+  // {
+  //   cin >> elemento;
+  //   Insertar(root,elemento);
+  // }
 
-  cin >> input;
-  for (int i = 0; i < input; i++)
-  {
-    cin >> elemento;
-    Eliminar(root,elemento);
-  }
+  Insertar(root, 45);
+  Insertar(root, 98);
+  Insertar(root, 32);
+  Insertar(root, 85);
+  Insertar(root, 96);
+  Insertar(root, 36);
+  Insertar(root, 25);
+  Insertar(root, 74);
+  Insertar(root, 98);
+  Insertar(root, 95);
 
+  // cin >> input;
+  // for (int i = 0; i < input; i++)
+  // {
+  //   cin >> elemento;
+  //   Eliminar(root,elemento);
+  // }
+
+  Eliminar(root, 98);
+  Eliminar(root, 85);
+  Eliminar(root, 36);
+
+
+  // ancestros
   vector<vector<int>> ancestors_v;
+  vector<int> ancestor;
   cin >> input;
+
   for (int i = 0; i < input; i++)
   {
     cin >> elemento;
-    ancestors_v.push_back(ancestors(root,elemento));
+    ancestors(root, elemento, ancestor);
+    ancestors_v.push_back(ancestor);
+    ancestor.clear();
   }
 
   vector<int> level_v;
-  cin >> input;
+  cin >> input; // cuantos niveles
   for (int i = 0; i < input; i++)
   {
     cin >> elemento;
     level_v.push_back(whatlevelamI(root,elemento));
   }
+
 
   traversal(root, 1);
   cout << endl;
@@ -382,7 +374,9 @@ int main(int argc, char const *argv[])
   cout << endl;
   traversal(root, 4);
   cout << endl;
+
   cout << height(root) <<endl;
+
   for (int i = 0; i < ancestors_v.size(); i++)
   {
     for(int j = 0; j < ancestors_v[i].size(); j++)
@@ -391,10 +385,12 @@ int main(int argc, char const *argv[])
     }
     cout << endl;
   }
+
   for (int i = 0; i < level_v.size(); i++)
   {
     cout << level_v[i] << endl;
   }
+
 
   return 0;
 }
