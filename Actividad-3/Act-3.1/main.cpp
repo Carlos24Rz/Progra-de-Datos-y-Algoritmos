@@ -310,45 +310,28 @@ int whatlevelamI(struct Node *root, int data)
 int main(int argc, char const *argv[])
 {
   struct Node *root = NULL;
-
   int input, elemento;
 
-  // cin >> input;
+  // Insertar
+  cin >> input;
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    Insertar(root,elemento);
+  }
 
-  // for (int i = 0; i < input; i++)
-  // {
-  //   cin >> elemento;
-  //   Insertar(root,elemento);
-  // }
+  // Eliminar
+  cin >> input;
+  for (int i = 0; i < input; i++)
+  {
+    cin >> elemento;
+    Eliminar(root,elemento);
+  }
 
-  Insertar(root, 45);
-  Insertar(root, 98);
-  Insertar(root, 32);
-  Insertar(root, 85);
-  Insertar(root, 96);
-  Insertar(root, 36);
-  Insertar(root, 25);
-  Insertar(root, 74);
-  Insertar(root, 98);
-  Insertar(root, 95);
-
-  // cin >> input;
-  // for (int i = 0; i < input; i++)
-  // {
-  //   cin >> elemento;
-  //   Eliminar(root,elemento);
-  // }
-
-  Eliminar(root, 98);
-  Eliminar(root, 85);
-  Eliminar(root, 36);
-
-
-  // ancestros
+  // Ancestros
   vector<vector<int>> ancestors_v;
   vector<int> ancestor;
   cin >> input;
-
   for (int i = 0; i < input; i++)
   {
     cin >> elemento;
@@ -357,6 +340,8 @@ int main(int argc, char const *argv[])
     ancestor.clear();
   }
 
+
+  // Niveles
   vector<int> level_v;
   cin >> input; // cuantos niveles
   for (int i = 0; i < input; i++)
@@ -366,6 +351,8 @@ int main(int argc, char const *argv[])
   }
 
 
+  // Salida
+  // Impresion
   traversal(root, 1);
   cout << endl;
   traversal(root, 2);
@@ -375,8 +362,10 @@ int main(int argc, char const *argv[])
   traversal(root, 4);
   cout << endl;
 
+  // Altura
   cout << height(root) <<endl;
 
+  // Ancestros
   for (int i = 0; i < ancestors_v.size(); i++)
   {
     for(int j = 0; j < ancestors_v[i].size(); j++)
@@ -386,6 +375,7 @@ int main(int argc, char const *argv[])
     cout << endl;
   }
 
+  // Niveles
   for (int i = 0; i < level_v.size(); i++)
   {
     cout << level_v[i] << endl;
