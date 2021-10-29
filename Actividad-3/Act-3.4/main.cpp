@@ -54,7 +54,7 @@ void Insertar(struct Node *&root, Registro data)
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacora.txt");
+  ifstream file("bitacora2.txt");
   if (file.is_open())
   {
     while (getline(file, line))
@@ -96,15 +96,13 @@ void leerArchivo(struct Node *&root)
 // Entrada: Apuntador a la raiz del arbol
 // Salida: Nada
 // Complejidad: O(n)
-void Inorder(struct Node *root)
+void InorderConvexo(struct Node *root, vector<Registro> &registro)
 {
   if (root == NULL)
     return;
-  Inorder(root->left);
-  cout << root->data.getIP() << " ";
-  Inorder(root->right);
-
-  cout << endl;
+  InorderConvexo(root->right, registro);
+  registro.push_back(root->data);
+  InorderConvexo(root->left, registro);
 
 }
 
@@ -118,9 +116,15 @@ int main()
 //   cout << root->right->data.getIP() << endl;
 //   cout << root->right->left->left << endl;
 
-Inorder(root);
+cout << "--------------------" << endl;
+vector<Registro> registros;
+InorderConvexo(root, registros);
+
+for (int i = 0; i < 5; i++)
+{
+    cout << registros[i].getRegistro() << endl;
+}
+
   
   
-
-
 }
