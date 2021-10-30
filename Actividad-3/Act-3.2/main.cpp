@@ -2,17 +2,6 @@
 using namespace std;
 
 
-// TODO
-// Trabajando con un heap max
-
-// Modificar el metodo pop:
-    // al eliminar el elemento front, el ultimo elemento (rear) pasa a la posicion del front
-    // despues de esto, se debe hacer el heapify para ver que se cumpla el heap
-
-// Modificar el metodo push:
-    // al agregar un elemento, se hace en el rear
-    // posteriormente, se debe verificar con heapify que sus padres sean mayores que el nuevo elemento
-
 
 class priority_queue{
 
@@ -30,7 +19,7 @@ class priority_queue{
         void push(int data){
 
             if(isFull()){               // Cuando la fila esta llena, no se puede agregar nada
-                cout << "Queue is full" << endl;
+                // cout << "Queue is full" << endl;
                 return;
             }
 
@@ -52,21 +41,22 @@ class priority_queue{
         void pop(){
 
             if(empty()){                // No podemos eliminar algo de una queue vacia
-                cout << "Queue is already empty" << endl;
+                // cout << "Queue is already empty" << endl;
                 return;
             }
 
             else if(front==rear){       // front y rear estan en 0, ahora la fila debe quedarse vacia
+                cout << queue[front] << endl;
                 front = rear = -1;
             }
 
             else{                       // En otro caso, solo movemos el front un lugar
                 // front++;
-
+                cout << queue[front] << endl;
                 queue[front] = queue[rear];
-                cout << "My value in front is: " << front << " " << queue[front] << endl;
+                // cout << "My value in front is: " << front << " " << queue[front] << endl;
                 rear--;
-                cout << "My rear is: " << rear << " " << queue[rear] << endl;
+                // cout << "My rear is: " << rear << " " << queue[rear] << endl;
                 heapifyDown(front);
 
             }
@@ -97,9 +87,10 @@ class priority_queue{
 
         void print(){
             if(!empty()){
-                cout << "\nPrinting queue: " << endl;
+                // cout << "\nPrinting queue: " << endl;
                 for(int i=front; i<=rear; i++)
                     cout << queue[i] << " " ;
+                cout << endl;
             }   
         }
 
@@ -125,8 +116,8 @@ class priority_queue{
             int indexLeftChild = (2*indexParent) + 1;
             int indexRigthChild = (2*indexParent) + 2;
 
-            cout << "IndLeftChild: " << indexLeftChild << endl;
-            cout << "IndexRightChild: " << indexRigthChild << endl;
+            // cout << "IndLeftChild: " << indexLeftChild << endl;
+            // cout << "IndexRightChild: " << indexRigthChild << endl;
 
             if(indexRigthChild > rear && indexLeftChild > rear)
                 return;
@@ -136,8 +127,7 @@ class priority_queue{
             else
                 indexChildHigher = (queue[indexLeftChild] > queue[indexRigthChild]) ? indexLeftChild : indexRigthChild;
 
-            cout << "The childHiger is: " << queue[indexChildHigher] << endl;
-            cout << endl;
+            // cout << "The childHiger is: " << queue[indexChildHigher] << endl;
             if(queue[indexChildHigher] > queue[indexParent]){
                 swap(indexChildHigher, indexParent);
                 heapifyDown(indexChildHigher);
@@ -147,41 +137,49 @@ class priority_queue{
 };
 
 
-
 int main(){
 
     priority_queue myQueue;
 
-    cout << myQueue.empty() << endl;
+    int option;
+    int numToPush;
 
-    myQueue.push(40);
-    myQueue.push(31);
-    myQueue.push(25);
-    myQueue.push(17);
-    myQueue.push(23);
-    myQueue.push(22);
-    myQueue.push(12);
+    while(option != 0){
 
-    myQueue.push(39);
-    myQueue.push(44);
+        cin >> option;
 
-    myQueue.pop();
+        switch (option)
+        {
+        case 1:
+            cin >> numToPush;
+            myQueue.push(numToPush);
+            break;
+        
+        case 2:
+            myQueue.pop();
+            break;
 
-    cout << "\n\nBorrando el 40\n " << endl;
-    myQueue.pop();
+        case 3:
+            myQueue.print();
+            break;
+        
+        case 4:
+            cout << myQueue.top() << endl;
+            break;
+        
+        case 5:
+            cout << boolalpha << myQueue.empty() << endl;
+            break;
+        
+        case 6:
+            cout << myQueue.size() << endl;
+            break;
 
-    cout << "\n\nBorrando el 39\n " << endl;
-    myQueue.pop();
-   
+        default:
+            break;
+        }
+    }
 
-    myQueue.print();
-
-
-    cout << "\n\n----------------------" << endl;
-    cout << myQueue.top() << endl;
-
-
-    cout << endl;
     return 0;
 }
 
