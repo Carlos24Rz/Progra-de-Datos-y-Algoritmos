@@ -40,9 +40,11 @@ void Insertar(struct Node *&root, Registro data)
   }
   else {
     if (data < root->data)
-      Insertar(root->left, data);
+      if(root->left == NULL) root->left = newNode(data);
+      else Insertar(root->left, data);
     else if (root->data < data )
-      Insertar(root->right, data);
+      if(root->right == NULL) root->right = newNode(data);
+      else Insertar(root->right, data);
   }
 }
 
@@ -54,7 +56,7 @@ void Insertar(struct Node *&root, Registro data)
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacora2.txt");
+  ifstream file("bitacora.txt");
   if (file.is_open())
   {
     while (getline(file, line))
