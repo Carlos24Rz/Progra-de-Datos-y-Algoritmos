@@ -43,6 +43,9 @@ class priority_queue{
             }
 
             queue[rear] = data;         // Agreamos el valor en la posicion del rear
+
+            // Ahora debemos verificar que se cumpla el heap
+            heapifyUp(rear);
         }
 
 
@@ -77,15 +80,31 @@ class priority_queue{
         }
 
 
-        // Extra functions -------------------------------------------
+        // Extra functions -------------------------------------------------
         bool isFull(){
             return ((rear == 1024-1) ? true : false);
         }
 
         void print(){
-            if(!empty())
+            if(!empty()){
+                cout << "\nPrinting queue: " << endl;
                 for(int i=front; i<=rear; i++)
                     cout << queue[i] << " " ;
+            }   
+        }
+
+        void heapifyUp(int indexChild){
+
+            int indexParent = (indexChild-1) / 2;
+
+            if(queue[indexChild] > queue[indexParent]){
+
+                int temp = queue[indexChild];
+                queue[indexChild] = queue[indexParent];
+                queue[indexParent] = temp;
+
+                heapifyUp(indexParent);
+            }
         }
 
 
@@ -101,13 +120,18 @@ int main(){
 
     cout << myQueue.empty() << endl;
 
-    myQueue.push(2);
-    myQueue.push(5);
-    myQueue.push(7);
-    myQueue.pop();
+    myQueue.push(40);
+    myQueue.push(31);
+    myQueue.push(25);
+    myQueue.push(17);
+    myQueue.push(23);
+    myQueue.push(22);
+    myQueue.push(12);
 
+    myQueue.push(39);
+    myQueue.push(44);
+   
 
-    cout << "\nPrinting queue: " << endl;
     myQueue.print();
 
 
