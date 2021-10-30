@@ -61,7 +61,14 @@ class priority_queue{
             }
 
             else{                       // En otro caso, solo movemos el front un lugar
-                front++;
+                // front++;
+
+                queue[front] = queue[rear];
+                cout << "My value in front is: " << front << " " << queue[front] << endl;
+                rear--;
+                cout << "My rear is: " << rear << " " << queue[rear] << endl;
+                heapifyDown(front);
+
             }
 
         }
@@ -93,22 +100,46 @@ class priority_queue{
             }   
         }
 
+        void swap(int indexChild, int indexParent){
+            int temp = queue[indexChild];
+            queue[indexChild] = queue[indexParent];
+            queue[indexParent] = temp;
+        }
+
         void heapifyUp(int indexChild){
 
             int indexParent = (indexChild-1) / 2;
 
             if(queue[indexChild] > queue[indexParent]){
-
-                int temp = queue[indexChild];
-                queue[indexChild] = queue[indexParent];
-                queue[indexParent] = temp;
-
+                swap(indexChild, indexParent);
                 heapifyUp(indexParent);
             }
         }
 
+        void heapifyDown(int indexParent){
 
+            int indexChildHigher = 0;
+            int indexLeftChild = (2*indexParent) + 1;
+            int indexRigthChild = (2*indexParent) + 2;
 
+            cout << "IndLeftChild: " << indexLeftChild << endl;
+            cout << "IndexRightChild: " << indexRigthChild << endl;
+
+            if(indexRigthChild > rear && indexLeftChild > rear)
+                return;
+
+            if(indexRigthChild > rear)
+                indexChildHigher = indexLeftChild;
+            else
+                indexChildHigher = (queue[indexLeftChild] > queue[indexRigthChild]) ? indexLeftChild : indexRigthChild;
+
+            cout << "The childHiger is: " << queue[indexChildHigher] << endl;
+            cout << endl;
+            if(queue[indexChildHigher] > queue[indexParent]){
+                swap(indexChildHigher, indexParent);
+                heapifyDown(indexChildHigher);
+            }
+        }
     
 };
 
@@ -130,6 +161,14 @@ int main(){
 
     myQueue.push(39);
     myQueue.push(44);
+
+    myQueue.pop();
+
+    cout << "\n\nBorrando el 40\n " << endl;
+    myQueue.pop();
+
+    cout << "\n\nBorrando el 39\n " << endl;
+    myQueue.pop();
    
 
     myQueue.print();
