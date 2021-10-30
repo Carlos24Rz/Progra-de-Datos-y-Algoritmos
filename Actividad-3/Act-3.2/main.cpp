@@ -75,7 +75,10 @@ class priority_queue{
 
 
         int top(){
-            return queue[front];
+            if(front!=-1)
+                return queue[front];
+            else
+                return -1;
         }
 
         bool empty(){
@@ -172,6 +175,10 @@ int main(){
    
 
     myQueue.print();
+
+
+    cout << "\n\n----------------------" << endl;
+    cout << myQueue.top() << endl;
 
 
     cout << endl;
