@@ -34,7 +34,7 @@ class priority_queue{
         }
 
         // Descripcion: Insertar un elemento
-        // Entrada: Valor del dato a insertar
+        // Entrada: Entero a insertar
         // Salida: Nada
         // Complejidad: O(1)
         void push(int data){
@@ -88,7 +88,7 @@ class priority_queue{
 
         // Descripcion: Obtener el valor con mayor prioridad
         // Entrada: Nada
-        // Salida: Valor del dato
+        // Salida: Entero del dato
         // Complejidad: O(1)
         int top(){
             if(front!=-1)
