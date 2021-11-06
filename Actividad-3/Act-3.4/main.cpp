@@ -65,7 +65,7 @@ int n = 0;
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacora15MB.txt");
+  ifstream file("bitacora10MB.txt");
   if (file.is_open())
   {
     while (getline(file, line))
