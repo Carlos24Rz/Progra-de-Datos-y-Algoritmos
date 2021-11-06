@@ -104,7 +104,7 @@ void leerArchivo(struct Node *&root)
   }
 }
 
-// Descripcion: Imprimir en inorden
+// Descripcion: Almacenar nodos en inorden convexo en un vector
 // Entrada: Apuntador a la raiz del arbol
 // Salida: Nada
 // Complejidad: O(n)
@@ -138,12 +138,18 @@ int main()
   //   cout << root->right->data.getIP() << endl;
   //   cout << root->right->left->left << endl;
 
-
+  cout << "--------------------" << endl;
   vector<Registro> registros;
   InorderConvexo(root, registros);
 
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < registros.size(); i++)
   {
     cout << registros[i].getRegistro() << endl;
+    if (i == 4) {
+      break;
+    }
   }
+
+
+  return 0;
 }
