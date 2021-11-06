@@ -29,8 +29,11 @@ int main(){
 
     // int lines = 500000; // 25MB
     // int lines = 250000; // 15MB
-    int lines = 40000; // 6MB
+    // int lines = 120000; // 6MB
+    // int lines = 60000; // 3MB
+    int lines = 21272; // 2MB
     // int lines = 20000; // 1MB
+    // int lines = 10000; // .5MB
     // int lines = 25;
 
     ofstream myfile;
@@ -61,7 +64,7 @@ int main(){
         int ip4 = numAleatorio(0,996,i);
         int port = numAleatorio(0,9998,i);
         string msg = messages[numAleatorio(0,3,i)];
-        
+
         myfile << month << " " << day << " " << time1 << ":" << time2 << ":" << time3 <<
         " " << ip1 << "." << ip2 << "." << ip3 << "." << ip4 << ":" << port << " " << msg << "\n";
     }
