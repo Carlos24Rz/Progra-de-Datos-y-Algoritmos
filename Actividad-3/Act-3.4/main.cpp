@@ -62,47 +62,84 @@ void Insertar(struct Node *&root, Registro data)
 // Salida: Nada
 // Complejidad: O(n)
 int n = 0;
+stringstream ss;
+stringstream sss;
+string line;
+string fechas[3];
+string fecha;
+string myString[5];
+
 void leerArchivo(struct Node *&root)
 {
-  string line;
-  ifstream file("bitacora10MB.txt");
+  // string line;
+  ifstream file("bitacora2MB.txt");
   if (file.is_open())
   {
     while (getline(file, line))
     {
-      stringstream ss(line); // Renglon individual
-      string fechas[3];
-      string fecha;
-      string string[5];
+      // stringstream ss(line); // Renglon individual
+      ss << line;
+      // cout << line << endl;
+
+      // string fechas[3];
+      // string fecha;
+      // string myString[5];
+
       for (int i = 0; i < 5; i++)
       {
         if (i == 4)
-          getline(ss, string[i]);
+          getline(ss, myString[i]);
         else
-          getline(ss, string[i], ' ');
+          getline(ss, myString[i], ' ');
       }
-      fecha = string[2];
-      stringstream sss(fecha);
+
+      fecha = myString[2];
+      // stringstream sss(fecha);
+      sss << fecha;
+
+
       for (int i = 0; i < 3; i++)
       {
         getline(sss, fechas[i], ':');
       }
 
-      Registro r(
-          string[0],
-          stoi(string[1]),
+      //  Registro(string mes, int dia, int hora, int minuto, int segundo, string ip, string log)
+
+      Registro* myRegister = new Registro(
+          myString[0],
+          stoi(myString[1]),
           stoi(fechas[0]),
           stoi(fechas[1]),
           stoi(fechas[2]),
-          string[3],
-          string[4]);
+          myString[3],
+          myString[4]);
+      // Registro r(
+      //     myString[0],
+      //     stoi(myString[1]),
+      //     stoi(fechas[0]),
+      //     stoi(fechas[1]),
+      //     stoi(fechas[2]),
+      //     myString[3],
+      //     myString[4]);
 
+      // cout << myRegister->getRegistro() << endl;
       cout << "Insertando nodo: " << n << endl;
       n++;
-      Insertar(root, r);
+      Insertar(root, *myRegister);
+
+      delete  myRegister;
+      ss.str("");
+      ss.clear(); // Clear state flags.
+      sss.str("");
+      sss.clear(); // Clear state flags.
+      
     }
   }
 }
+
+
+// LLega al 41,526
+
 
 // Descripcion: Almacenar nodos en inorden convexo en un vector
 // Entrada: Apuntador a la raiz del arbol

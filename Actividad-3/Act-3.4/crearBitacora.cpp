@@ -28,13 +28,13 @@ int main(){
     // Aug 28 23:07:49 897.53.984.6:6710 Failed password for root
 
     // int lines = 500000; // 25MB
-    int lines = 250000; // 15MB
-    // int lines = 120000; // 6MB
-    // int lines = 60000; // 3MB
+    // int lines = 250000; // 15MB
+    int lines = 40000; // 6MB
+    // int lines = 20000; // 1MB
     // int lines = 25;
 
     ofstream myfile;
-    myfile.open ("bitacora3MB.txt");
+    myfile.open ("bitacora2MB.txt");
 
     for(int i=0; i<lines; i++){
 

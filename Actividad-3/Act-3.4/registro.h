@@ -14,6 +14,10 @@ private:
 
 public:
 
+    // Destructor
+    ~Registro(){
+    }
+
     Registro(string mes, int dia, int hora, int minuto, int segundo, string ip, string log)
     {
         if (mes == "Jan")
