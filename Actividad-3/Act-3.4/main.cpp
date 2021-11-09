@@ -76,7 +76,7 @@ Node* Insertar(Node* root, Registro data)
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacora5MB.txt");
+  ifstream file("bitacora.txt");
   int n = 0;
   if (file.is_open())
   {
