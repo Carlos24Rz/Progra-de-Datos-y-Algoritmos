@@ -1,0 +1,8 @@
+* Carlos Eduardo Ruiz Lira / a01735706
+    - Función para leer archivos
+
+* Carlos Daniel Díaz Arrazate / a01734902
+    - Función inorder convexo y distintos casos de prueba
+
+* Jose Angel González Carrera / a01552274
+    - Implementación del nuevo método de inserción de nodos
