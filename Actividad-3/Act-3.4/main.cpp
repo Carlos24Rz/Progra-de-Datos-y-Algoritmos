@@ -1,7 +1,7 @@
-// Programa que trabaja con una lista doblemente ligada de nodos
-// Carlos Daniel Diaz Arrazate - A01734902
-// Jose Angel Gonzalez Carrera - A01552274
-// Carlos Eduardo Ruiz Lira - A01735706
+// Programa que trabaja con un binary search tree
+// Carlos Daniel Diaz Arrazate  - A01734902
+// Jose Angel Gonzalez Carrera  - A01552274
+// Carlos Eduardo Ruiz Lira     - A01735706
 // 16/10/21
 #include <iostream>
 #include <fstream>
@@ -32,33 +32,7 @@ struct Node *newNode(Registro data)
 // Entrada: Referencia del apuntador a la raiz del arbol, dato a insertar
 // Salida: Nada
 // Complejidad: O(n)
-void Insertar(struct Node *&root, Registro data)
-{
-  if (root == NULL)
-  {
-    root = newNode(data);
-    return;
-  }
-
-  else
-  {
-    if (data < root->data)
-
-      if (root->left == NULL)
-        root->left = newNode(data);
-      else
-        Insertar(root->left, data);
-
-    else if (root->data < data)
-      if (root->right == NULL)
-        root->right = newNode(data);
-      else
-        Insertar(root->right, data);
-  }
-}
-
-
-Node* insert(Node* root, Registro data)
+Node* Insertar(Node* root, Registro data)
 {
     // Crear el nuevo nodo a agregar
     Node* newnode = newNode(data);
@@ -99,12 +73,11 @@ Node* insert(Node* root, Registro data)
 // Entrada: Apuntador a root de lista ligada
 // Salida: Nada
 // Complejidad: O(n)
-int n = 0;
-
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacora7MB.txt");
+  ifstream file("bitacora5MB.txt");
+  int n = 0;
   if (file.is_open())
   {
     while (getline(file, line))
@@ -141,13 +114,12 @@ void leerArchivo(struct Node *&root)
           myString[4]);
 
     //   Insertar(root, r);      
-    if(n==0)
-        root = insert(root, r);
-    else 
-        insert(root, r);
-
-      cout << "Insertando nodo: " << n << endl;
+    if(n==0){
+      root = Insertar(root, r);
       n++;
+    }
+    else 
+        Insertar(root, r);      
     }
   }
 }
@@ -172,7 +144,6 @@ int main()
   struct Node *root = NULL;
   leerArchivo(root);
 
-  cout << "--------------------" << endl;
   vector<Registro> registros;
   InorderConvexo(root, registros);
 
