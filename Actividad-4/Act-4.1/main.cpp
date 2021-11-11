@@ -1,4 +1,4 @@
-// Programa que trabaja con un binary search tree
+// Programa que trabaja con un grafo
 // Carlos Daniel Diaz Arrazate  - A01734902
 // Jose Angel Gonzalez Carrera  - A01552274
 // Carlos Eduardo Ruiz Lira     - A01735706
@@ -8,6 +8,60 @@
 #include <sstream>
 using namespace std;
 
+
+
+void Inserta_al_final(struct Node* &pthead, int node_data) {
+  struct Node* newNode = new Node;
+  struct Node* last = pthead;
+  newNode->data = node_data;
+  newNode->next = NULL;
+
+  if (pthead == NULL) {
+    pthead = newNode;
+    return;
+  }
+
+  while (last->next != NULL)
+    last = last->next;
+  last->next = newNode;
+  return;
+}
+
+
+class Node{
+
+  private:
+    int data;
+    bool status = false;
+    Node* next;
+
+  public:
+
+    Node(){}
+
+    Node(int m_data){
+      data = m_data;
+    }
+
+    int getData(){
+      return data;
+    }
+
+    bool getStatus(){
+      return status;
+    }
+
+    void process(){
+      status = true;
+    }
+
+    void setData(int m_data){
+      data = m_data;
+    }
+
+};
+
+
 int main() {
   int n;
   string str, input;
@@ -15,33 +69,31 @@ int main() {
   // Crear array
   cout << "Size: ";
   cin >> n;
-  int array[n][n];
+  int matrix[n][n];
 
-  // Input
-  int j = 0;
-  cout << "Fill array: " << endl;
-  for (int i = -1; i < n; i++) {
-    getline(cin, input);
-    istringstream ss(input);
-    while (ss >> str) {
-      cout << "[" << i << "]" << "[" << j << "]" << " = " << str << endl;
-      array[i][j] = stoi(str);
-      j++;
+
+  // Creando array de pointers
+  Node* arrAzul[n];
+
+  for(int i=0; i<n; i++){
+    for(int j=0; j<n; j++){
+      cin >> matrix[i][j];
     }
-    j = 0;
   }
+  
+    
+
+  // // Output
+  // cout << endl << "Print" << endl;
+  // for (int i = 0; i < n; ++i) {
+  //   for (int j = 0; j < n; ++j) {
+  //     cout << matrix[i][j] << " ";
+  //   }
+  //   cout << endl;
+  // }
 
 
-
-
-  // Output
-  cout << endl << "Print" << endl;
-  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < n; ++j) {
-      cout << array[i][j] << " ";
-    }
-    cout << endl;
-  }
+  cout << char(65) << endl;
 
 
 	return 0;
