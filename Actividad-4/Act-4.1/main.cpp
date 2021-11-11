@@ -61,10 +61,9 @@ void Inserta_al_final(Node* &pthead, int node_data) {
 
 void Imprime(Node *tmp) {
    //traverse the list to display each node
-   cout << "A->";
    while (tmp != NULL)
    {
-      cout << tmp->data << "->" ;
+      cout << " - " << char((tmp->data)+65);
       tmp = tmp->next;
    }
    cout << endl;
@@ -102,6 +101,7 @@ int main() {
   cout << "\n------------" << endl;
   
   for(int i=0; i<n; i++){
+    cout << char(i+65);
     Imprime(arrAzul[i]);
   }
   
