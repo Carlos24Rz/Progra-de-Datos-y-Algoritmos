@@ -2,7 +2,7 @@
 // Carlos Daniel Diaz Arrazate  - A01734902
 // Jose Angel Gonzalez Carrera  - A01552274
 // Carlos Eduardo Ruiz Lira     - A01735706
-// 16/10/21
+// 17/10/21
 
 #include <iostream>
 #include <string>
