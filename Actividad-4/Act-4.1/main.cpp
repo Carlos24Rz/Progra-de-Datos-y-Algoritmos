@@ -8,34 +8,12 @@
 #include <sstream>
 using namespace std;
 
-
-
-void Inserta_al_final(struct Node* &pthead, int node_data) {
-  struct Node* newNode = new Node;
-  struct Node* last = pthead;
-  newNode->data = node_data;
-  newNode->next = NULL;
-
-  if (pthead == NULL) {
-    pthead = newNode;
-    return;
-  }
-
-  while (last->next != NULL)
-    last = last->next;
-  last->next = newNode;
-  return;
-}
-
-
 class Node{
 
-  private:
+  public:
     int data;
     bool status = false;
     Node* next;
-
-  public:
 
     Node(){}
 
@@ -61,6 +39,42 @@ class Node{
 
 };
 
+void Inserta_al_final(Node* &pthead, int node_data) {
+  Node* newNode = new Node;
+  Node* last = pthead;
+  newNode->data = node_data;
+  newNode->next = NULL;
+
+  if (pthead == NULL) {
+    pthead = newNode;
+    return;
+  }
+
+  while (last->next != NULL)
+    last = last->next;
+  last->next = newNode;
+  return;
+}
+
+
+
+
+
+void Imprime(Node *tmp) {
+   //traverse the list to display each node
+   cout << "A->";
+   while (tmp != NULL)
+   {
+      cout << tmp->data << "->" ;
+      tmp = tmp->next;
+   }
+   cout << endl;
+}
+
+
+
+
+// poner ascii con alt
 
 int main() {
   int n;
@@ -78,10 +92,23 @@ int main() {
   for(int i=0; i<n; i++){
     for(int j=0; j<n; j++){
       cin >> matrix[i][j];
+      // Aqui tenemos A en i==0
+      if(matrix[i][j] == 1){
+        Node* newNode = new Node(j);
+        if(arrAzul[i] != NULL){
+          arrAzul[i] = newNode;
+        }
+        else{
+          Inserta_al_final(arrAzul[i], j);
+        }
+      }
     }
   }
-  
-    
+
+  cout << "\n------------" << endl;
+  Imprime(arrAzul[0]);
+
+
 
   // // Output
   // cout << endl << "Print" << endl;
@@ -92,8 +119,6 @@ int main() {
   //   cout << endl;
   // }
 
-
-  cout << char(65) << endl;
 
 
 	return 0;
