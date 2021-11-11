@@ -3,31 +3,39 @@
 // Jose Angel Gonzalez Carrera  - A01552274
 // Carlos Eduardo Ruiz Lira     - A01735706
 // 16/10/21
+
 #include <iostream>
 #include <string>
 #include <sstream>
 using namespace std;
 
-class Node{
+class NodeRed{
+  NodeBlue* data = NULL;
+  NodeRed* next = NULL;
+
+  NodeRed(){}
+}
+
+class NodeBlue{
 
   public:
     int data;
     bool status = false;
-    Node* next = NULL;
+    NodeRed* next = NULL;
 
-    Node(){}
+    NodeBlue(){}
 
-    Node(int m_data){
+    NodeBlue(int m_data){
       data = m_data;
     }
 
-    int getData(){
-      return data;
-    }
+    // int getData(){
+    //   return data;
+    // }
 
-    bool getStatus(){
-      return status;
-    }
+    // bool getStatus(){
+    //   return status;
+    // }
 
     void process(){
       status = true;
@@ -39,12 +47,15 @@ class Node{
 
 };
 
-void Inserta_al_final(Node* &pthead, int node_data) {
-  Node* newNode = new Node(node_data);
-  Node* last = pthead;
 
-  if (pthead == NULL) {
-    pthead = newNode;
+void Inserta_al_final(Node* &arrAzul, int blueIndex, int value) {
+  NodeRed* newNode = new NodeRed();
+  Node* last = arrAzul[blueIndex];
+
+  newNode.data = arrAzul[value];
+
+  if (arrAzul[blueIndex].next == NULL) {
+    arrAzul[blueIndex].next = newNode;
     return;
   }
 
@@ -85,14 +96,18 @@ int main() {
 
 
   // Creando array de pointers
-  Node* arrAzul[n] = {0};
+  NodeBlue arrAzul[n];
 
+  for(int i=0; i<n; i++){
+    arrAzul[i].data = i;
+  }
+  
   for(int i=0; i<n; i++){
     for(int j=0; j<n; j++){
       cin >> matrix[i][j];
       // Aqui tenemos A en i==0
       if(matrix[i][j] == 1){
-        Inserta_al_final(arrAzul[i], j);
+        Inserta_al_final(arrAzul, i, j);
   
       }
     }
