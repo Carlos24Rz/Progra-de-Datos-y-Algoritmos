@@ -13,7 +13,7 @@ class Node{
   public:
     int data;
     bool status = false;
-    Node* next;
+    Node* next = NULL;
 
     Node(){}
 
@@ -40,10 +40,8 @@ class Node{
 };
 
 void Inserta_al_final(Node* &pthead, int node_data) {
-  Node* newNode = new Node;
+  Node* newNode = new Node(node_data);
   Node* last = pthead;
-  newNode->data = node_data;
-  newNode->next = NULL;
 
   if (pthead == NULL) {
     pthead = newNode;
@@ -52,6 +50,7 @@ void Inserta_al_final(Node* &pthead, int node_data) {
 
   while (last->next != NULL)
     last = last->next;
+
   last->next = newNode;
   return;
 }
@@ -87,27 +86,26 @@ int main() {
 
 
   // Creando array de pointers
-  Node* arrAzul[n];
+  Node* arrAzul[n] = {0};
 
   for(int i=0; i<n; i++){
     for(int j=0; j<n; j++){
       cin >> matrix[i][j];
       // Aqui tenemos A en i==0
       if(matrix[i][j] == 1){
-        Node* newNode = new Node(j);
-        if(arrAzul[i] != NULL){
-          arrAzul[i] = newNode;
-        }
-        else{
-          cout << "Entrando a funcion inse" << endl;
-          Inserta_al_final(arrAzul[i], j);
-        }
+        Inserta_al_final(arrAzul[i], j);
+  
       }
     }
   }
 
   cout << "\n------------" << endl;
-  Imprime(arrAzul[0]);
+  
+  for(int i=0; i<n; i++){
+    Imprime(arrAzul[i]);
+  }
+  
+  
 
 
 
