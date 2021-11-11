@@ -99,6 +99,7 @@ int main() {
           arrAzul[i] = newNode;
         }
         else{
+          cout << "Entrando a funcion inse" << endl;
           Inserta_al_final(arrAzul[i], j);
         }
       }
