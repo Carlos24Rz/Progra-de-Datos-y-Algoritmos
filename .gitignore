@@ -1,6 +1,9 @@
 # Test files
 out.txt
 
+# VSCode
+*.vscode
+
 # Prerequisites
 *.d
 
