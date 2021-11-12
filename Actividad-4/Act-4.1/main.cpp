@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 using namespace std;
+#include <vector>
 
 // IMPORTANTE, DEBEMOS DECLARAR LAS CLASES PARA QUE SE LLAMEN UNAS A OTRAS
 class NodeRed;
@@ -87,29 +88,102 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
 }
 
 
+
+void imprimeLetra(int index){
+
+  index +=65;
+  if(index <= 90){
+    cout << char(index);
+  }
+
+
+
+  // Agregar para que añada las demas AA- AB- AC
+
+}
+
+
 void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
-
-  cout << char(indexArrAzul + 65);
-
+  // cout << char(indexArrAzul + 65);
+  imprimeLetra(indexArrAzul);
+  
   // Verificar que el NodeBlue apunte a algo que no sea NULL
   if(tmpBlue->next != NULL){
     NodeRed* tmpRed = tmpBlue->next;
 
     // Imprimir mientras haya NodeRed
     while(tmpRed != NULL){
-      cout << " - " << char((tmpRed->data->index)+65); // char((tmpRed->data)+65)
+      cout << " - "; imprimeLetra(tmpRed->data->index); // char((tmpRed->data)+65)
       tmpRed = tmpRed->next;
     }
     cout << endl;
   }
 }
 
+
+
+
+
+
 NodeBlue* createNodeBlue(){
   NodeBlue* newNodeBlue = new NodeBlue();
   return newNodeBlue;
 }
 
-// poner ascii con alt
+
+
+class arrQueue{
+
+  int front = -1;
+  int rear = -1;
+  NodeBlue* queue[1024]; // Preguntar por hacer esto
+
+  void enQueue(NodeBlue* node){
+
+    if(isFull()){
+      cout << "Queue is full" << endl;
+      return;
+    }
+    else if(isEmpty()){
+      front = rear = 0;
+    }
+    else{
+      rear++;
+    }
+    queue[rear] = node; 
+  }
+
+  void deQueue(){
+    
+    if(isEmpty()){
+      cout << "Queue already empty" << endl;
+      return;
+    }
+    // when the queue has only one element
+    else if(front == rear){
+      front = rear = -1;
+    }
+    else{
+      queue[front] = NULL;
+      front++;
+    }
+  }
+
+  bool isEmpty(){
+    return front == -1 && rear == -1 ? true : false;
+  }
+
+  bool isFull(){
+    return rear == 1023 ? true : false;
+  }
+
+
+
+};
+
+
+
+
 
 int main() {
   int n;
@@ -147,7 +221,12 @@ int main() {
     ImprimeListaNodeBlue(arrAzul[i], i);
   }
 
+  cout << "\n------------" << endl;
   
+
+  int x = 70;
+  int mod = x % 90;
+  cout << "Mod es: " << mod << endl;
   
   // for(int i=0; i<n; i++){
   //   cout << char(i+65);
