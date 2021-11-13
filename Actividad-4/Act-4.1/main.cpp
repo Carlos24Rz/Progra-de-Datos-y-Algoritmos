@@ -9,9 +9,13 @@
 using namespace std;
 #include <vector>
 
+// NOTAS:
+// PROBAR EL CODIGO CON UNA MATRIZ DE TO_DO 0
+
 // IMPORTANTE, DEBEMOS DECLARAR LAS CLASES PARA QUE SE LLAMEN UNAS A OTRAS
 class NodeRed;
 class NodeBlue;
+
 
 
 
@@ -95,9 +99,6 @@ void imprimeLetra(int index){
   if(index <= 90){
     cout << char(index);
   }
-
-
-
   // Agregar para que añada las demas AA- AB- AC
 
 }
@@ -122,9 +123,6 @@ void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
 
 
 
-
-
-
 NodeBlue* createNodeBlue(){
   NodeBlue* newNodeBlue = new NodeBlue();
   return newNodeBlue;
@@ -138,48 +136,107 @@ class arrQueue{
   int rear = -1;
   NodeBlue* queue[1024]; // Preguntar por hacer esto
 
-  void enQueue(NodeBlue* node){
 
-    if(isFull()){
-      cout << "Queue is full" << endl;
-      return;
-    }
-    else if(isEmpty()){
-      front = rear = 0;
-    }
-    else{
-      rear++;
-    }
-    queue[rear] = node; 
-  }
+  public:
 
-  void deQueue(){
-    
-    if(isEmpty()){
-      cout << "Queue already empty" << endl;
-      return;
-    }
-    // when the queue has only one element
-    else if(front == rear){
-      front = rear = -1;
-    }
-    else{
-      queue[front] = NULL;
-      front++;
-    }
-  }
+    arrQueue(){}
 
-  bool isEmpty(){
-    return front == -1 && rear == -1 ? true : false;
-  }
+    void enQueue(NodeBlue* node){
 
-  bool isFull(){
-    return rear == 1023 ? true : false;
-  }
+      if(isFull()){
+        cout << "Queue is full" << endl;
+        return;
+      }
+      else if(isEmpty()){
+        front = rear = 0;
+      }
+      else{
+        rear++;
+      }
+      queue[rear] = node; 
+    }
+
+    void deQueue(){
+      
+      if(isEmpty()){
+        cout << "Queue already empty" << endl;
+        return;
+      }
+      // when the queue has only one element
+      else if(front == rear){
+        front = rear = -1;
+      }
+      else{
+        queue[front] = NULL;
+        front++;
+      }
+    }
+
+    NodeBlue* top(){
+      return queue[front];
+    }
+
+    bool isEmpty(){
+      return front == -1 && rear == -1 ? true : false;
+    }
+
+    bool isFull(){
+      return rear == 1023 ? true : false;
+    }
 
 
 
 };
+
+
+
+void BSF(NodeBlue* arrAzul[], int inicio) {
+  
+  // Crear queue
+  arrQueue myQueue;
+
+  // Insertar nodo inicial al queue
+  myQueue.enQueue(arrAzul[inicio]);
+  arrAzul[inicio]->process();
+  
+  while(!myQueue.isEmpty())
+  {
+    NodeBlue* topQueue = myQueue.top();
+
+    if(topQueue->next != NULL){
+      NodeRed* tempRed = topQueue->next;
+
+      // Agregar los nodos rojos del Top al queue:
+      while(tempRed != NULL){
+        if(tempRed->data->getStatus() == false){
+          // cout << "Valor que se guardara en la queue: "; imprimeLetra(tempRed->data->index); cout  << endl;
+          myQueue.enQueue(tempRed->data);
+          tempRed->data->process();
+        }
+        tempRed = tempRed->next;
+      }
+    
+      imprimeLetra(topQueue->index); cout << " ";
+      myQueue.deQueue();
+
+    }
+
+    // Acceder al nodo azul inicial
+    // Procesar el nodo (Actualizar status y enviarlo al queue)
+    // Imprimir y sacar del queue
+
+    // Funcion de ImprimirRojos
+    // Acceder a los nodos rojos apuntados por el nodo azul
+    // if status == 0 
+    // Procesar los nodos
+    // Imprimir y sacar del queue
+
+    // Acceder al primer nodo rojo al que el nodo azul apunta y encontrar su equivalente en nodo azul
+    // El nuevo nodo azul sera el temporal -> ImprimirRojos
+  }
+  cout << endl;
+}
+
 
 
 
@@ -224,14 +281,16 @@ int main() {
   cout << "\n------------" << endl;
   
 
-  int x = 70;
-  int mod = x % 90;
-  cout << "Mod es: " << mod << endl;
+  // int x = 70;
+  // int mod = x % 90;
+  // cout << "Mod es: " << mod << endl;
   
   // for(int i=0; i<n; i++){
   //   cout << char(i+65);
   //   Imprime(arrAzul[i]);
   // }
+
+  BSF(arrAzul, 0);
 
 
   
