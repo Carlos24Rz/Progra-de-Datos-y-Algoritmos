@@ -305,14 +305,6 @@ bool isInVector(vector<int> vecValues, int val){
 
 void DFS(int* matrixAdj, int altura, int inicio){
 
-
-  // for(int i=0; i<altura; i++){
-  //   for(int j=0; j<altura; j++){
-  //     cout << *((matrixAdj+i*altura) + j) << " ";
-  //   }
-  //   cout << endl;
-  // }
-
   // Creando vector de los valores ya procesados
   vector<int> vecValues;
 
@@ -321,14 +313,9 @@ void DFS(int* matrixAdj, int altura, int inicio){
   myStack.push(inicio);
   vecValues.push_back(inicio);
 
-  
-
   while(!myStack.isEmpty()){
+    
     int topStack = myStack.theTop();
-
-    // if(!isInVector(vecValues, topStack)){
-    //   vecValues.push_back(topStack);
-    // }
 
     imprimeLetra(topStack); cout << " ";
     myStack.pop();
@@ -336,27 +323,15 @@ void DFS(int* matrixAdj, int altura, int inicio){
     int i=altura-1;
 
     while(i >= 0){
-      // cout << "Indice: " << i << endl;
-      // cout << "Valor topStack: " << topStack << endl;
       if(*((matrixAdj+topStack*altura) + i)==1 && !isInVector(vecValues, i)){
         vecValues.push_back(i);
-
-        // cout << "Entrando al if" << endl;
-        // cout << "matrixAdj[" << topStack << "][" << i << "] == ";
-        // cout << *((matrixAdj+topStack*altura) + i) << " Letra: "; imprimeLetra(i); cout << endl;
-        // mtxStatus[topStack][i] = 1;
         myStack.push(i);
       }
       i--;
     }
   }
-
   cout << endl;
-
 }
-
-
-
 
 
 int main() {
@@ -364,7 +339,6 @@ int main() {
   string str, input;
 
   // Crear array
-  // cout << "Size: ";
   cin >> n;
   int matrix[n][n];
 
@@ -400,12 +374,12 @@ int main() {
   
 
   cout << "BFS" << endl;
-  BFS(arrAzul, 9);
+  BFS(arrAzul, 0);
 
   cout << "\n------------" << endl;
 
   cout << "Working with DFS" << endl;
-  DFS((int *)matrix, n, 9);
+  DFS((int *)matrix, n, 0);
 
 
 
