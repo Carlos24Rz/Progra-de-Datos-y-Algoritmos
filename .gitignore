@@ -1,5 +1,6 @@
 # Test files
 out.txt
+ignore*.txt
 
 # Prerequisites
 *.d
