@@ -11,6 +11,7 @@ using namespace std;
 
 // NOTAS:
 // PROBAR EL CODIGO CON UNA MATRIZ DE TO_DO 0
+// FALTA ARREGLAR PARA CUANDO SE TENGAN MAS DE 27 ENTRADAS
 
 // IMPORTANTE, DEBEMOS DECLARAR LAS CLASES PARA QUE SE LLAMEN UNAS A OTRAS
 class NodeRed;
@@ -190,7 +191,7 @@ class arrQueue{
 
 
 
-void BSF(NodeBlue* arrAzul[], int inicio) {
+void BFS(NodeBlue* arrAzul[], int inicio) {
   
   // Crear queue
   arrQueue myQueue;
@@ -239,6 +240,126 @@ void BSF(NodeBlue* arrAzul[], int inicio) {
 
 
 
+class arrStack{
+
+  int stack[1024];
+  int top = -1;
+
+  public:
+
+    arrStack(){};
+
+    void push(int data){
+      if(!isFull()){
+        top++;
+        stack[top] = data;
+      }
+      else{
+        cout << "The stack is full" << endl;
+      }
+    }
+
+    void pop(){
+      if(!isEmpty()){
+        stack[top] = -1;
+        top--;
+      }
+      else{
+        cout << "Stack already empty. Nothing to pop" << endl;
+      }
+    }
+
+    int theTop(){
+      return stack[top];
+    }
+
+    bool isEmpty(){
+      return top == -1 ? true : false;
+    }
+
+    bool isFull(){
+      return top == 1024-1 ? true : false;
+    }
+
+    void print(){
+      for(int i=0; i<=top; i++){
+        imprimeLetra(stack[i]); cout << "  ";
+      }
+      cout << endl;
+    }
+
+};
+
+
+
+bool isInVector(vector<int> vecValues, int val){
+
+  int size = vecValues.size();
+
+  for(int i=0; i<size; i++)
+    if(vecValues[i] == val)
+      return true;
+  return false;
+}
+
+
+void DFS(int* matrixAdj, int altura, int inicio){
+
+  // Creando la matriz de los estados
+  int mtxStatus[altura][altura] = {};
+
+  // for(int i=0; i<altura; i++){
+  //   for(int j=0; j<altura; j++){
+  //     // cout << mtxStatus[i][j] << " ";
+  //     cout << *((matrixAdj+i*altura) + j) << " ";
+  //   }
+  //   cout << endl;
+  // }
+
+  // Array de los procesados
+  // int arrProceseed[altura+1] = {-1};
+  vector<int> vecValues;
+
+
+  // Creando el stack
+  arrStack myStack;
+  myStack.push(inicio);
+
+  
+
+  while(!myStack.isEmpty()){
+    int topStack = myStack.theTop();
+
+    if(!isInVector(vecValues, topStack)){
+      vecValues.push_back(topStack);
+      imprimeLetra(topStack); cout << " ";
+    }
+    myStack.pop();
+
+    int i=altura-1;
+
+    while(i >= 0){
+      // cout << "Indice: " << i << endl;
+      // cout << "Valor topStack: " << topStack << endl;
+      if(*((matrixAdj+topStack*altura) + i)==1 && mtxStatus[topStack][i]==0){
+        // cout << "Entrando al if" << endl;
+        // cout << "matrixAdj[" << topStack << "][" << i << "] == ";
+        // cout << *((matrixAdj+topStack*altura) + i) << " Letra: "; imprimeLetra(i); cout << endl;
+        mtxStatus[topStack][i] = 1;
+        myStack.push(i);
+      }
+      i--;
+    }
+  }
+
+
+  cout << endl;
+  
+
+
+}
+
+
 
 
 
@@ -274,6 +395,7 @@ int main() {
   cout << "\n------------" << endl;
 
 
+  
   for(int i=0; i<n; i++){
     ImprimeListaNodeBlue(arrAzul[i], i);
   }
@@ -281,20 +403,14 @@ int main() {
   cout << "\n------------" << endl;
   
 
-  // int x = 70;
-  // int mod = x % 90;
-  // cout << "Mod es: " << mod << endl;
-  
-  // for(int i=0; i<n; i++){
-  //   cout << char(i+65);
-  //   Imprime(arrAzul[i]);
-  // }
+  cout << "BFS" << endl;
+  BFS(arrAzul, 0);
 
-  BSF(arrAzul, 0);
+  cout << "\n------------" << endl;
 
+  cout << "Working with DFS" << endl;
+  DFS((int *)matrix, n, 0);
 
-  
-  
 
 
 
