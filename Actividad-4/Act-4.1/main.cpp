@@ -17,9 +17,6 @@ using namespace std;
 class NodeRed;
 class NodeBlue;
 
-
-
-
 class NodeRed{
 
   public:
@@ -64,6 +61,12 @@ class NodeBlue{
 };
 
 
+NodeBlue* createNodeBlue(){
+  NodeBlue* newNodeBlue = new NodeBlue();
+  return newNodeBlue;
+}
+
+
 void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
 
   // Posicion del array al que se le debe insertar un nodo rojo
@@ -93,22 +96,22 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
 }
 
 
-
 void imprimeLetra(int index){
-
-  index +=65;
-  if(index <= 90){
-    cout << char(index);
+  // Si es de A - Z
+  if(index <= 25){
+    cout << char(index+65);
   }
-  // Agregar para que añada las demas AA- AB- AC
-
+  // Si requiere de mas de 1 letra
+  else if (index >=26){
+    imprimeLetra(index/26-1);
+    imprimeLetra(index%26);
+  }
 }
 
 
 void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
-  // cout << char(indexArrAzul + 65);
   imprimeLetra(indexArrAzul);
-  
+
   // Verificar que el NodeBlue apunte a algo que no sea NULL
   if(tmpBlue->next != NULL){
     NodeRed* tmpRed = tmpBlue->next;
@@ -123,14 +126,7 @@ void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
 }
 
 
-
-NodeBlue* createNodeBlue(){
-  NodeBlue* newNodeBlue = new NodeBlue();
-  return newNodeBlue;
-}
-
-
-
+// BFS
 class arrQueue{
 
   int front = -1;
@@ -154,11 +150,11 @@ class arrQueue{
       else{
         rear++;
       }
-      queue[rear] = node; 
+      queue[rear] = node;
     }
 
     void deQueue(){
-      
+
       if(isEmpty()){
         cout << "Queue already empty" << endl;
         return;
@@ -189,17 +185,15 @@ class arrQueue{
 
 };
 
-
-
 void BFS(NodeBlue* arrAzul[], int inicio) {
-  
+
   // Crear queue
   arrQueue myQueue;
 
   // Insertar nodo inicial al queue
   myQueue.enQueue(arrAzul[inicio]);
   arrAzul[inicio]->process();
-  
+
   while(!myQueue.isEmpty())
   {
     NodeBlue* topQueue = myQueue.top();
@@ -216,7 +210,7 @@ void BFS(NodeBlue* arrAzul[], int inicio) {
         }
         tempRed = tempRed->next;
       }
-    
+
       imprimeLetra(topQueue->index); cout << " ";
       myQueue.deQueue();
 
@@ -228,7 +222,7 @@ void BFS(NodeBlue* arrAzul[], int inicio) {
 
     // Funcion de ImprimirRojos
     // Acceder a los nodos rojos apuntados por el nodo azul
-    // if status == 0 
+    // if status == 0
     // Procesar los nodos
     // Imprimir y sacar del queue
 
@@ -239,7 +233,7 @@ void BFS(NodeBlue* arrAzul[], int inicio) {
 }
 
 
-
+// DFS
 class arrStack{
 
   int stack[1024];
@@ -290,8 +284,6 @@ class arrStack{
 
 };
 
-
-
 bool isInVector(vector<int> vecValues, int val){
 
   int size = vecValues.size();
@@ -301,7 +293,6 @@ bool isInVector(vector<int> vecValues, int val){
       return true;
   return false;
 }
-
 
 void DFS(int* matrixAdj, int altura, int inicio){
 
@@ -314,7 +305,7 @@ void DFS(int* matrixAdj, int altura, int inicio){
   vecValues.push_back(inicio);
 
   while(!myStack.isEmpty()){
-    
+
     int topStack = myStack.theTop();
 
     imprimeLetra(topStack); cout << " ";
@@ -334,11 +325,12 @@ void DFS(int* matrixAdj, int altura, int inicio){
 }
 
 
+
+
 int main() {
+  // Crear array
   int n;
   string str, input;
-
-  // Crear array
   cin >> n;
   int matrix[n][n];
 
@@ -348,15 +340,15 @@ int main() {
   for(int i=0; i<n; i++){
     arrAzul[i] = createNodeBlue();
     arrAzul[i]->setIndex(i); // cada NodeBlue guarda su indice correspondiente al arrAzul
-    cout << i << " - ";
+    // cout << i << " - ";
   }
 
+  // INPUT
   for(int i=0; i<n; i++){
     for(int j=0; j<n; j++){
       cin >> matrix[i][j];
-      // Aqui tenemos A en i==0
+      // Creacion de lista de adyacencias
       if(matrix[i][j] == 1){
-        // Aqui va la magia 
         Inserta_al_final(arrAzul, i, j);
       }
     }
@@ -365,36 +357,44 @@ int main() {
   cout << "\n------------" << endl;
 
 
-  
+  // OUTPUT
+  // Matriz de adyacencias
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < n; ++j) {
+      cout << matrix[i][j] << " ";
+    }
+    cout << endl;
+  }
+  cout << "\n------------" << endl;
+
+  // Lista de adyacencias
   for(int i=0; i<n; i++){
     ImprimeListaNodeBlue(arrAzul[i], i);
   }
 
   cout << "\n------------" << endl;
-  
 
+  // Recorridos
+  // BFS
   cout << "BFS" << endl;
   BFS(arrAzul, 0);
 
   cout << "\n------------" << endl;
 
-  cout << "Working with DFS" << endl;
+  // DFS
+  cout << "DFS" << endl;
   DFS((int *)matrix, n, 0);
 
-
-
-
-  // // Output
-  // cout << endl << "Print" << endl;
-  // for (int i = 0; i < n; ++i) {
-  //   for (int j = 0; j < n; ++j) {
-  //     cout << matrix[i][j] << " ";
-  //   }
-  //   cout << endl;
+  // Test case ImprimirLetra
+  // for (int i = 0; i < 200; i++) {
+  //   imprimeLetra(i);
+  //   cout << " ";
+  //   if (i%11 == 0)
+  //     cout << endl;
   // }
 
 
 
+  cout << endl;
 	return 0;
-
 }
