@@ -1,3 +1,9 @@
+// Descripcion: 
+// Entrada: 
+// Salida: 
+// Complejidad: O(n)
+
+
 // Programa que trabaja con un grafo
 // Carlos Daniel Diaz Arrazate  - A01734902
 // Jose Angel Gonzalez Carrera  - A01552274
@@ -6,12 +12,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-using namespace std;
 #include <vector>
-
-// NOTAS:
-// PROBAR EL CODIGO CON UNA MATRIZ DE TO_DO 0
-// FALTA ARREGLAR PARA CUANDO SE TENGAN MAS DE 27 ENTRADAS
+using namespace std;
 
 // IMPORTANTE, DEBEMOS DECLARAR LAS CLASES PARA QUE SE LLAMEN UNAS A OTRAS
 class NodeRed;
@@ -61,12 +63,20 @@ class NodeBlue{
 };
 
 
+// Descripcion: Funcion que permite crear un nuevo nodo azul en el heap
+// Entrada: Nada
+// Salida: Un apuntador a un nodo azul
+// Complejidad: O(1)
 NodeBlue* createNodeBlue(){
   NodeBlue* newNodeBlue = new NodeBlue();
   return newNodeBlue;
 }
 
 
+// Descripcion: Funcion que permite agregar un nodo rojo a un nodo azul
+// Entrada: Arreglo de pointers de nodo azul, indice del nodo azul al que se le desea insertar un nodo rojo, indice del valor que se le debe adjuntar al nodo rojo
+// Salida: Nada
+// Complejidad: O(n)
 void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
 
   // Posicion del array al que se le debe insertar un nodo rojo
@@ -95,7 +105,10 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
   return;
 }
 
-
+// Descripcion: Funcion que permite convertir un indice en una letra
+// Entrada: Indice a imprimir
+// Salida: Nada
+// Complejidad: O(1)
 void imprimeLetra(int index){
   // Si es de A - Z
   if(index <= 25){
@@ -108,7 +121,10 @@ void imprimeLetra(int index){
   }
 }
 
-
+// Descripcion: Funcion que permite imprimir los nodos rojos de un nodo azul
+// Entrada: Pointer a un nodo azul del que se imprimira la lista de nodos rojos, posicion del nodo azul
+// Salida: Nada
+// Complejidad: O(n)
 void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
   imprimeLetra(indexArrAzul);
 
@@ -185,6 +201,10 @@ class arrQueue{
 
 };
 
+// Descripcion: Imprimir recorrido de BFS
+// Entrada: Lista de adyacencia, nodo inicial
+// Salida: Nada
+// Complejidad: O(n2)
 void BFS(NodeBlue* arrAzul[], int inicio) {
 
   // Crear queue
@@ -215,19 +235,6 @@ void BFS(NodeBlue* arrAzul[], int inicio) {
       myQueue.deQueue();
 
     }
-
-    // Acceder al nodo azul inicial
-    // Procesar el nodo (Actualizar status y enviarlo al queue)
-    // Imprimir y sacar del queue
-
-    // Funcion de ImprimirRojos
-    // Acceder a los nodos rojos apuntados por el nodo azul
-    // if status == 0
-    // Procesar los nodos
-    // Imprimir y sacar del queue
-
-    // Acceder al primer nodo rojo al que el nodo azul apunta y encontrar su equivalente en nodo azul
-    // El nuevo nodo azul sera el temporal -> ImprimirRojos
   }
   cout << endl;
 }
@@ -294,6 +301,11 @@ bool isInVector(vector<int> vecValues, int val){
   return false;
 }
 
+
+// Descripcion: Imprimir recorrido de DFS
+// Entrada: Matriz de adyacencia, nodo inicial
+// Salida: Nada
+// Complejidad: O(n2)
 void DFS(int* matrixAdj, int altura, int inicio){
 
   // Creando vector de los valores ya procesados
@@ -328,6 +340,7 @@ void DFS(int* matrixAdj, int altura, int inicio){
 
 
 int main() {
+
   // Crear array
   int n;
   string str, input;
@@ -340,7 +353,6 @@ int main() {
   for(int i=0; i<n; i++){
     arrAzul[i] = createNodeBlue();
     arrAzul[i]->setIndex(i); // cada NodeBlue guarda su indice correspondiente al arrAzul
-    // cout << i << " - ";
   }
 
   // INPUT
@@ -354,10 +366,10 @@ int main() {
     }
   }
 
-  cout << "\n------------" << endl;
-
 
   // OUTPUT
+  cout << endl;
+
   // Matriz de adyacencias
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
@@ -365,36 +377,22 @@ int main() {
     }
     cout << endl;
   }
-  cout << "\n------------" << endl;
+  cout << endl;
 
   // Lista de adyacencias
   for(int i=0; i<n; i++){
     ImprimeListaNodeBlue(arrAzul[i], i);
   }
 
-  cout << "\n------------" << endl;
+  cout << endl;
 
   // Recorridos
   // BFS
-  cout << "BFS" << endl;
   BFS(arrAzul, 0);
-
-  cout << "\n------------" << endl;
+  cout << endl;
 
   // DFS
-  cout << "DFS" << endl;
   DFS((int *)matrix, n, 0);
 
-  // Test case ImprimirLetra
-  // for (int i = 0; i < 200; i++) {
-  //   imprimeLetra(i);
-  //   cout << " ";
-  //   if (i%11 == 0)
-  //     cout << endl;
-  // }
-
-
-
-  cout << endl;
 	return 0;
 }
