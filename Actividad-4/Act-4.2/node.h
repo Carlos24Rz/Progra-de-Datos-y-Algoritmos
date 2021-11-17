@@ -47,13 +47,13 @@ class NodeBlue{
 class arrQueue{
   int front = -1;
   int rear = -1;
-  NodeBlue* queue[1024]; // Preguntar por hacer esto
+  int queue[1024]; // Preguntar por hacer esto
 
   public:
 
     arrQueue(){}
 
-    void enQueue(NodeBlue* node){
+    void enQueue(int node){
 
       if(isFull()){
         cout << "Queue is full" << endl;
@@ -79,12 +79,12 @@ class arrQueue{
         front = rear = -1;
       }
       else{
-        queue[front] = NULL;
+        queue[front] = -1;
         front++;
       }
     }
 
-    NodeBlue* top(){
+    int top(){
       return queue[front];
     }
 
@@ -94,6 +94,11 @@ class arrQueue{
 
     bool isFull(){
       return rear == 1023 ? true : false;
+    }
+
+    void print(){
+      for(int i=0; i<=rear; i++)
+        cout << queue[i] << " - ";
     }
 
 

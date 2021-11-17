@@ -95,20 +95,32 @@ void loadGraph(NodeBlue** arrAzul, int n, int m){
 }
 
 
-void loadStatus(NodeBlue* arrAzul, int* status, int n) {
+void loadStatus(NodeBlue* arrAzul, int* status) {
   NodeBlue* tmpBlue = arrAzul;
   if(tmpBlue->next != NULL){
     NodeRed* tmpRed = tmpBlue->next;
     while(tmpRed != NULL){
-
       status[tmpRed->data->index] += 1;
-      // cout << tmpRed->data->index << endl;
+      tmpRed = tmpRed->next;
+    }
+  }
+}
+
+
+void changeStatus(NodeBlue* arrAzul, int* status) {
+  NodeBlue* tmpBlue = arrAzul;
+  if(tmpBlue->next != NULL){
+    NodeRed* tmpRed = tmpBlue->next;
+    while(tmpRed != NULL){
+      status[tmpRed->data->index] -= 1;
       tmpRed = tmpRed->next;
     }
   }
 }
 
 void topologicalSort(NodeBlue** arrAzul, int n, int m) {
+  arrQueue myQueue;
+  int index;
 
   // Array de restricciones
   int status[n] = {0};
@@ -116,12 +128,37 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
   // Recorrer lista y asignar restricciones
   // Recorrido de nodos azules
   for (int i = 0; i < n; i++) {
-    loadStatus(arrAzul[i], status, i);
+    loadStatus(arrAzul[i], status);
   }
 
   for (int i = 0; i < n; i++) {
     cout << "Nodo " << intToChar(i) << " - " << status[i] << endl;
   }
+ 
+  // Iniciando agregando los nodos con entradas de cero
+  for (int i = 0; i < n; i++) {
+    if(status[i] == 0) {
+      myQueue.enQueue(i);
+    }
+  }
+
+  // Pop y updates
+  while(!myQueue.isEmpty())
+  {
+    myQueue.print();
+    cout << endl;
+    index = myQueue.top();
+    myQueue.deQueue();
+    // changeStatus(arrAzul[index], status);
+    // for (int i = 0; i < n; i++) {
+    //   if(status[i] == 0) myQueue.enQueue(i);
+    // }
+    
+  }
+  
+  cout << endl;
+
+
 }
 
 int main() {
