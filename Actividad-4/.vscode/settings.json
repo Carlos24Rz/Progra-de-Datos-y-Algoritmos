@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "\"bracket-pair-colorizer-2.colors\"": " [     \"#fafafa\",     \"#9F51B6\",     \"#F7C244\",     \"#F07850\",     \"#9CDD29\",     \"#C497D4\" ]",
+        "iostream": "cpp",
+        "limits": "cpp",
+        "*.tcc": "cpp",
+        "iosfwd": "cpp"
+    }
+}
