@@ -58,7 +58,7 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
 }
 
 
-void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
+void printList(NodeBlue* tmpBlue, int indexArrAzul){
   cout << intToChar(indexArrAzul);
 
   // Verificar que el NodeBlue apunte a algo que no sea NULL
@@ -75,7 +75,7 @@ void ImprimeListaNodeBlue(NodeBlue* tmpBlue, int indexArrAzul){
 }
 
 
-// n = vertices m = arcos
+
 void loadGraph(NodeBlue** arrAzul, int n, int m){
   char input1, input2;
   int blueValue, redValue;
@@ -95,6 +95,35 @@ void loadGraph(NodeBlue** arrAzul, int n, int m){
 }
 
 
+void loadStatus(NodeBlue* arrAzul, int* status, int n) {
+  NodeBlue* tmpBlue = arrAzul;
+  if(tmpBlue->next != NULL){
+    NodeRed* tmpRed = tmpBlue->next;
+    while(tmpRed != NULL){
+
+      status[tmpRed->data->index] += 1;
+      // cout << tmpRed->data->index << endl;
+      tmpRed = tmpRed->next;
+    }
+  }
+}
+
+void topologicalSort(NodeBlue** arrAzul, int n, int m) {
+
+  // Array de restricciones
+  int status[n] = {0};
+
+  // Recorrer lista y asignar restricciones
+  // Recorrido de nodos azules
+  for (int i = 0; i < n; i++) {
+    loadStatus(arrAzul[i], status, i);
+  }
+
+  for (int i = 0; i < n; i++) {
+    cout << "Nodo " << intToChar(i) << " - " << status[i] << endl;
+  }
+}
+
 int main() {
   int n; // Vertices
   int m; // Arcos
@@ -113,9 +142,11 @@ int main() {
   loadGraph(arrAzul, n, m);
 
 //   Lista de adyacencias
-  for(int i=0; i<n; i++){
-    ImprimeListaNodeBlue(arrAzul[i], i);
-  }
+  // for(int i=0; i<n; i++){
+  //   printList(arrAzul[i], i);
+  // }
+
+  topologicalSort(arrAzul, n, m);
 
   return 0;
 }
