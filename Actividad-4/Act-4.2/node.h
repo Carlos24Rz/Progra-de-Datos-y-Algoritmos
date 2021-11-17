@@ -97,7 +97,7 @@ class arrQueue{
     }
 
     void print(){
-      for(int i=0; i<=rear; i++)
+      for(int i=front; i<=rear; i++)
         cout << queue[i] << " - ";
     }
 

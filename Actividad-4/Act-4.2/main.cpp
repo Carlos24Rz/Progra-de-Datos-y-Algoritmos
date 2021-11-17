@@ -145,14 +145,23 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
   // Pop y updates
   while(!myQueue.isEmpty())
   {
-    myQueue.print();
+    cout << "Entrando al ciclo" << endl;
+    myQueue.print();     // 2 - 4  |  4
     cout << endl;
+
     index = myQueue.top();
     myQueue.deQueue();
-    // changeStatus(arrAzul[index], status);
+    status[index] = -1;
+    changeStatus(arrAzul[index], status);
+
     // for (int i = 0; i < n; i++) {
-    //   if(status[i] == 0) myQueue.enQueue(i);
+    //   cout << "Status: " << intToChar(i) << " - " << status[i] << endl;
     // }
+    for (int i = 0; i < n; i++) {
+      if(status[i] == 0) {
+        myQueue.enQueue(i);
+      }
+    }
     
   }
   
