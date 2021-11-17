@@ -155,6 +155,9 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
     }
   }
 
+  char ar1[n];
+  int ar2[n];
+  
   // Pop y updates
   while(!myQueue.isEmpty())
   {
@@ -166,13 +169,12 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
     changeStatus(arrAzul[index], status);
 
     // for (int i = 0; i < n; i++) {
-    //   cout << "Nodo " << intToChar(i) << " - " << status[i] << endl;
+    //   cout << "Status: " << intToChar(i) << " - " << status[i];
     // }
 
     for (int i = 0; i < n; i++) {
       if(status[i] == 0 && !isInVector(myVector,i)){
         myQueue.enQueue(i);
-        myVector.push_back(i);
       }
     }
   }
