@@ -7,50 +7,10 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "node.h"
 using namespace std;
 
-class NodeRed;
-class NodeBlue;
 
-class NodeRed{
-  public:
-    NodeBlue* data = NULL;
-    NodeRed* next = NULL;
-    NodeRed(){};
-    NodeRed(NodeBlue* m_data){
-      data = m_data;
-    };
-
-};
-
-class NodeBlue{
-  public:
-    int index;
-    bool status = false;
-    NodeRed* next = NULL;
-
-    NodeBlue(){
-      status = false;
-      next = NULL;
-    }
-
-    int getData(){
-      return index;
-    }
-
-    bool getStatus(){
-      return status;
-    }
-
-    void process(){
-      status = true;
-    }
-
-    void setIndex(int m_index){
-      index = m_index;
-    }
-
-};
 
 NodeBlue* createNodeBlue(){
   NodeBlue* newNodeBlue = new NodeBlue();
@@ -76,7 +36,7 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
   NodeBlue* tempToInsert = arrAzul[indexValue];
   NodeRed* newNodeRed = new NodeRed(tempToInsert);
 
-    
+
 
   // Si mi NodeBlue en la posicion en su posicion no apunta a nada:
   if(temp->next == NULL){
@@ -93,7 +53,7 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
     lastRed = lastRed->next;
 
   lastRed->next = newNodeRed;
-  
+
   return;
 }
 
@@ -123,7 +83,7 @@ void loadGraph(NodeBlue** arrAzul, int n, int m){
     arrAzul[i] = createNodeBlue();
     arrAzul[i]->setIndex(i); // cada NodeBlue guarda su indice correspondiente al arrAzul
   }
-  
+
   // Creacion de nodos
   for(int i=0; i<m; i++){
     cin >> input1 >> input2;
@@ -139,22 +99,18 @@ int main() {
   int n; // Vertices
   int m; // Arcos
 
-//   cout << "Vertices: ";
+  // "Vertices: ";
   cin >> n;
-// //   cout << "Arcos: ";
+  // "Arcos: ";
   cin >> m;
-    
-    // n = 13;
-    // m = 18;
-    
+
+  // n = 13;
+  // m = 18;
+
   // Crear array de nodos azules
   NodeBlue* arrAzul[n];
 
   loadGraph(arrAzul, n, m);
-
-
-
-    // TODO REVISAR N-2, POR QUE???????
 
 //   Lista de adyacencias
   for(int i=0; i<n; i++){
