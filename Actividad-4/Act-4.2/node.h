@@ -43,3 +43,59 @@ class NodeBlue{
     }
 
 };
+
+class arrQueue{
+  int front = -1;
+  int rear = -1;
+  NodeBlue* queue[1024]; // Preguntar por hacer esto
+
+  public:
+
+    arrQueue(){}
+
+    void enQueue(NodeBlue* node){
+
+      if(isFull()){
+        cout << "Queue is full" << endl;
+        return;
+      }
+      else if(isEmpty()){
+        front = rear = 0;
+      }
+      else{
+        rear++;
+      }
+      queue[rear] = node;
+    }
+
+    void deQueue(){
+
+      if(isEmpty()){
+        cout << "Queue already empty" << endl;
+        return;
+      }
+      // when the queue has only one element
+      else if(front == rear){
+        front = rear = -1;
+      }
+      else{
+        queue[front] = NULL;
+        front++;
+      }
+    }
+
+    NodeBlue* top(){
+      return queue[front];
+    }
+
+    bool isEmpty(){
+      return front == -1 && rear == -1 ? true : false;
+    }
+
+    bool isFull(){
+      return rear == 1023 ? true : false;
+    }
+
+
+
+};
