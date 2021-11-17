@@ -118,6 +118,16 @@ void changeStatus(NodeBlue* arrAzul, int* status) {
   }
 }
 
+bool isInVector(vector<int> vecValues, int val){
+
+  int size = vecValues.size();
+
+  for(int i=0; i<size; i++)
+    if(vecValues[i] == val)
+      return true;
+  return false;
+}
+
 void topologicalSort(NodeBlue** arrAzul, int n, int m) {
   arrQueue myQueue;
   int index;
@@ -125,20 +135,23 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
   // Array de restricciones
   int status[n] = {0};
 
+  vector<int> myVector;
+
   // Recorrer lista y asignar restricciones
   // Recorrido de nodos azules
   for (int i = 0; i < n; i++) {
     loadStatus(arrAzul[i], status);
   }
 
-  for (int i = 0; i < n; i++) {
-    cout << "Nodo " << intToChar(i) << " - " << status[i] << endl;
-  }
+  // for (int i = 0; i < n; i++) {
+  //   cout << "Nodo " << intToChar(i) << " - " << status[i] << endl;
+  // }
  
   // Iniciando agregando los nodos con entradas de cero
   for (int i = 0; i < n; i++) {
     if(status[i] == 0) {
       myQueue.enQueue(i);
+      myVector.push_back(i);
     }
   }
 
@@ -148,12 +161,10 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
   // Pop y updates
   while(!myQueue.isEmpty())
   {
-    cout << "Entrando al ciclo" << endl;
-    myQueue.print();     // 2 - 4  |  4
-    cout << endl;
-
+    // myQueue.print();
+    // cout << endl;
     index = myQueue.top();
-    status[index] = -1;
+    cout << intToChar(index) << " ";
     myQueue.deQueue();
     changeStatus(arrAzul[index], status);
 
@@ -161,26 +172,11 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
     //   cout << "Status: " << intToChar(i) << " - " << status[i];
     // }
 
-        // Status print
     for (int i = 0; i < n; i++) {
-      ar1[i] = intToChar(i);
-      ar2[i] = status[i];
-    }
-    for (int i = 0; i < n; i++) {
-      cout << ar1[i] << "\t";
-    }
-    cout << endl;
-    for (int i = 0; i < n; i++) {
-      cout << ar2[i] << "\t";
-    }
-    cout << endl;
-    
-    for (int i = 0; i < n; i++) {
-      if(status[i] == 0) {
+      if(status[i] == 0 && !isInVector(myVector,i)){
         myQueue.enQueue(i);
       }
     }
-    
   }
   
   cout << endl;
