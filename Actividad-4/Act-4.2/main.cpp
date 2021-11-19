@@ -12,6 +12,8 @@ using namespace std;
 
 // NOTAS:
 // para saber si un nodo solo tiene una raiz, se checa una vez el array status
+// HINT:
+// SE PUEDE RESOLVER CON: EL ARRAY STATUS DEBE TENER SOLO 1 Y UN CERO
 
 // Tree definition
 // The tree contains a single node called the root of the tree
@@ -185,6 +187,7 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
     for (int i = 0; i < n; i++) {
       if(status[i] == 0 && !isInVector(myVector,i)){
         myQueue.enQueue(i);
+        myVector.push_back(i);
       }
     }
   }
@@ -211,10 +214,10 @@ int main() {
 
   loadGraph(arrAzul, n, m);
 
-//   Lista de adyacencias
-  // for(int i=0; i<n; i++){
-  //   printList(arrAzul[i], i);
-  // }
+  // Lista de adyacencias
+  for(int i=0; i<n; i++){
+    printList(arrAzul[i], i);
+  }
 
   topologicalSort(arrAzul, n, m);
 
