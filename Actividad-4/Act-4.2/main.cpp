@@ -10,6 +10,16 @@
 #include "node.h"
 using namespace std;
 
+// NOTAS:
+// para saber si un nodo solo tiene una raiz, se checa una vez el array status
+
+// Tree definition
+// The tree contains a single node called the root of the tree
+// Each node, except the root, must have a single parent
+// The tree should always be connected.
+// https://www.baeldung.com/cs/determine-graph-is-tree
+
+
 
 
 NodeBlue* createNodeBlue(){
