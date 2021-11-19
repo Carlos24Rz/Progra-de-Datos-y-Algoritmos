@@ -197,6 +197,39 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
 
 }
 
+
+// La lista de Adjacencia, n (Vertices) y m (Arcos) (pointer)
+
+bool isTree(NodeBlue* arrAzul[], int n, int m){
+
+  int status[n] = {0};
+  
+  // Recorrer lista y asignar restricciones
+  // Recorrido de nodos azules
+  for (int i = 0; i < n; i++) {
+    loadStatus(arrAzul[i], status);
+  }
+
+
+  int raiz = 0; 
+
+  for(int i=0; i<n; i++){
+    
+    if(status[i] != 1 && raiz == 0)
+      raiz = 1;
+      
+    else if(status[i] == 0 && raiz == 1)
+      return false;
+
+    else if(status[i] != 1 && raiz == 1)
+      return false;
+  }
+  return true;
+}
+
+
+
+
 int main() {
   int n; // Vertices
   int m; // Arcos
@@ -220,6 +253,8 @@ int main() {
   }
 
   topologicalSort(arrAzul, n, m);
+
+  cout << boolalpha << isTree(arrAzul, n, m) << endl;
 
   return 0;
 }
