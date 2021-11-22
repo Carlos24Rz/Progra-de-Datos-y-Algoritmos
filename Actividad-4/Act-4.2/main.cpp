@@ -10,35 +10,39 @@
 #include "node.h"
 using namespace std;
 
-// NOTAS:
-// para saber si un nodo solo tiene una raiz, se checa una vez el array status
-// HINT:
-// SE PUEDE RESOLVER CON: EL ARRAY STATUS DEBE TENER SOLO 1 Y UN CERO
-
-// Tree definition
-// The tree contains a single node called the root of the tree
-// Each node, except the root, must have a single parent
-// The tree should always be connected.
+// is tree?
 // https://www.baeldung.com/cs/determine-graph-is-tree
 
 
-
-
+// Descripcion: Funcion que permite crear un nuevo nodo azul en el heap
+// Entrada: Nada
+// Salida: Un apuntador a un nodo azul
+// Complejidad: O(1)
 NodeBlue* createNodeBlue(){
   NodeBlue* newNodeBlue = new NodeBlue();
   return newNodeBlue;
 }
 
+// Descripcion: Convertir int a char
+// Entrada: int
+// Salida: char
+// Complejidad: O(1)
 char intToChar(int index){
   return char(index+65);
 }
 
-
+// Descripcion: Convertir char a int
+// Entrada: char
+// Salida: int
+// Complejidad: O(1)
 int charToInt(char c){
   return ((int)c)-65;
 }
 
-
+// Descripcion: Funcion que permite agregar un nodo rojo a un nodo azul
+// Entrada: Arreglo de pointers de nodo azul, indice del nodo azul al que se le desea insertar un nodo rojo, indice del valor que se le debe adjuntar al nodo rojo
+// Salida: Nada
+// Complejidad: O(n)
 void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
 
   // Posicion del array al que se le debe insertar un nodo rojo
@@ -47,8 +51,6 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
   // Posicion que debe ser insertada en el nodo rojo
   NodeBlue* tempToInsert = arrAzul[indexValue];
   NodeRed* newNodeRed = new NodeRed(tempToInsert);
-
-
 
   // Si mi NodeBlue en la posicion en su posicion no apunta a nada:
   if(temp->next == NULL){
@@ -65,29 +67,14 @@ void Inserta_al_final(NodeBlue* arrAzul[], int indexArr, int indexValue){
     lastRed = lastRed->next;
 
   lastRed->next = newNodeRed;
-
   return;
 }
 
 
-void printList(NodeBlue* tmpBlue, int indexArrAzul){
-  cout << intToChar(indexArrAzul);
-
-  // Verificar que el NodeBlue apunte a algo que no sea NULL
-  if(tmpBlue->next != NULL){
-    NodeRed* tmpRed = tmpBlue->next;
-
-    // Imprimir mientras haya NodeRed
-    while(tmpRed != NULL){
-      cout << " - " << intToChar(tmpRed->data->index); // char((tmpRed->data)+65)
-      tmpRed = tmpRed->next;
-    }
-  }
-  cout << endl;
-}
-
-
-
+// Descripcion: Crear lista de adyacencias
+// Entrada: Double pointer al inicio del array azul, vertices, arcos
+// Salida: nada
+// Complejidad: O(n2)
 void loadGraph(NodeBlue** arrAzul, int n, int m){
   char input1, input2;
   int blueValue, redValue;
@@ -103,10 +90,13 @@ void loadGraph(NodeBlue** arrAzul, int n, int m){
     redValue = charToInt(input2);
     Inserta_al_final(arrAzul, blueValue, redValue);
   }
-
 }
 
 
+// Descripcion: Llenar array de restricciones de entrada
+// Entrada: Pointer a nodo azul, pointer al inicio del array status
+// Salida: Nada
+// Complejidad: O(n)
 void loadStatus(NodeBlue* arrAzul, int* status) {
   NodeBlue* tmpBlue = arrAzul;
   if(tmpBlue->next != NULL){
@@ -119,6 +109,10 @@ void loadStatus(NodeBlue* arrAzul, int* status) {
 }
 
 
+// Descripcion: Actualizar grado de entrada de cada nodo al restarle 1
+// Entrada: Pointer a nodo azul, pointer al inicio del array status
+// Salida: Nada
+// Complejidad: O(n)
 void changeStatus(NodeBlue* arrAzul, int* status) {
   NodeBlue* tmpBlue = arrAzul;
   if(tmpBlue->next != NULL){
@@ -130,8 +124,12 @@ void changeStatus(NodeBlue* arrAzul, int* status) {
   }
 }
 
-bool isInVector(vector<int> vecValues, int val){
 
+// Descripcion: Verificar si un elemento esta en un vector
+// Entrada: Vector de int, valor a buscar
+// Salida: Bool de si el valor esta o no
+// Complejidad: O(n)
+bool isInVector(vector<int> vecValues, int val){
   int size = vecValues.size();
 
   for(int i=0; i<size; i++)
@@ -140,6 +138,12 @@ bool isInVector(vector<int> vecValues, int val){
   return false;
 }
 
+
+
+// Descripcion: Imprimir los nodos del DAG usando el algoritmo de Kahn
+// Entrada: Double pointer al inicio del array azul, vertices, arcos
+// Salida: Nada
+// Complejidad: O(n2)
 void topologicalSort(NodeBlue** arrAzul, int n, int m) {
   arrQueue myQueue;
   int index;
@@ -191,15 +195,14 @@ void topologicalSort(NodeBlue** arrAzul, int n, int m) {
       }
     }
   }
-  
   cout << endl;
-
-
 }
 
 
-// La lista de Adjacencia, n (Vertices) y m (Arcos) (pointer)
-
+// Descripcion: Funcion que verifica si el Grafo Dirigido (DAG) es un árbol o no
+// Entrada: Pointer a array azul, nodos, arcos
+// Salida: Bool
+// Complejidad: O(n2)
 bool isTree(NodeBlue* arrAzul[], int n, int m){
 
   int status[n] = {0};
@@ -210,9 +213,7 @@ bool isTree(NodeBlue* arrAzul[], int n, int m){
     loadStatus(arrAzul[i], status);
   }
 
-
   int raiz = 0; 
-
   for(int i=0; i<n; i++){
     
     if(status[i] != 1 && raiz == 0)
@@ -234,27 +235,20 @@ int main() {
   int n; // Vertices
   int m; // Arcos
 
-  // "Vertices: ";
   cin >> n;
-  // "Arcos: ";
   cin >> m;
-
-  // n = 13;
-  // m = 18;
 
   // Crear array de nodos azules
   NodeBlue* arrAzul[n];
 
+  // Cargar arcos en lista de adyacencia
   loadGraph(arrAzul, n, m);
 
-  // Lista de adyacencias
-  for(int i=0; i<n; i++){
-    printList(arrAzul[i], i);
-  }
-
-  topologicalSort(arrAzul, n, m);
-
+  // Checar si el grafo es un arbol
   cout << boolalpha << isTree(arrAzul, n, m) << endl;
+
+  // Topological sort con algoritmo de Kahn
+  topologicalSort(arrAzul, n, m);
 
   return 0;
 }
