@@ -149,19 +149,23 @@ void leerArchivo(RedNode* pthead)
 int main(){
   RedNode* pthead = NULL;
 
-  //cout << "Hello world" << endl;
-
-
+// (pthead, redData, hostData, regDate, regTime, regPort, regLog){
+//   Insertar(pthead, "250.320", "226.075", "Jul 04", "02:22:15", "11278","Failed password for admin");
+//   Insertar(pthead, "250.320", "226.075", "Jan 08", "01:17:23", "11278", "Failed password for admin");
+//   Insertar(pthead, "250.320", "840.621", "Feb 05", "11:11:01", "11278", "Failed password for admin");
+  
 
   leerArchivo(pthead);
 
+
+  
   cout << "-----" << endl;
   cout << "pthead" << endl;
   cout << "↓" << endl;
-  pthead->m_data;
-  //cout << "↓" << endl;  
-  //pthead->next->m_data;
-  //cout << "↓" << endl;  
+  cout << pthead->m_data;
+  cout << "↓" << endl;  
+  cout << pthead->next->m_data;
+  cout << "↓" << endl;  
 
   
   return 0;
