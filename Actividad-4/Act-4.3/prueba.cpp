@@ -129,7 +129,7 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
 
 void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost) {
   string line;
-  ifstream file("bitacoraM2.txt");
+  ifstream file("bitacora2.txt");
   int n = 0;
   if (file.is_open())
   {
