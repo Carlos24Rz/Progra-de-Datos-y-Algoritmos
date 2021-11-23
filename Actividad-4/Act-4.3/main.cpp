@@ -210,7 +210,6 @@ void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*
 
 
 int main(){
-
   RedNode* pthead = NULL;
   
   // Vectores
@@ -219,23 +218,8 @@ int main(){
   vector<RedNode*> vecRedAux;
 
   leerArchivo(pthead, vecRed, vecHost, vecRedAux);
-  RedNode* tmpRed = pthead;
 
-  // IMPRIMIENDO TO_DO EL ARCHIVO
-  // while(tmpRed != NULL){
-  //   cout << tmpRed->m_data;
-  //   cout << "(" << tmpRed->m_counter << ") → ";
-  //   HostNode* tmpHost = tmpRed->next;
-  //   while(tmpHost != NULL){
-  //     cout << tmpHost->m_data;
-  //     cout << "(" << tmpHost->m_counter << ") → ";
-  //     tmpHost = tmpHost->down;
-  //   }
-  //   tmpRed = tmpRed->down;
-  //   cout << endl;
-  // }
-  // cout << "\n********************************" << endl;
-
+  // Red con mas host
   for(auto x : vecRed)
   {
     cout << x->m_data << endl;
@@ -243,11 +227,10 @@ int main(){
   
   cout << endl;
 
+  // Host con mas registros
   for(int i=0; i< vecHost.size(); i++){
     cout << vecRedAux.at(i)->m_data << "." << vecHost.at(i)->m_data << endl;
   }
-
-
 
   return 0;
 }
