@@ -1,10 +1,66 @@
+// Programa que trabaja con un grafo dirigido de IPs
+// Carlos Daniel Diaz Arrazate - A01734902
+// Jose Angel Gonzalez Carrera - A01552274
+// Carlos Eduardo Ruiz Lira    - A01735706
+// 23/11/21
 #include <bits/stdc++.h>
 #include "class.h"
 using namespace std;
 
+// Descripcion: Obtener red con mayor cantidad de host 
+// Entrada: Vector de nodos de red, nodo de red
+// Salida: Nada
+// Complejidad: O(1)
+void getMaxRed(vector<RedNode*> &vectorRed, RedNode* redNode) {
+  if(vectorRed.empty()) {
+    vectorRed.push_back(redNode);
+    return;
+  }
+  if(vectorRed[0]->m_counter == redNode->m_counter){
+    if (vectorRed[0]->m_data == redNode->m_data) return;
+    vectorRed.push_back(redNode);
+    return;
+  }
+  if(vectorRed[0]->m_counter < redNode->m_counter) {
+    vectorRed.clear();
+    vectorRed.push_back(redNode);
+  } 
+  // En caso de que el counter del redNode sea menor a los del vector no hace nada
+}
 
 
-void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog){
+// Descripcion: Obtener host con mayor cantidad de red 
+// Entrada: Vector de nodos de host, nodo de host, nodo de red, vector de nodos de red
+// Salida: Nada
+// Complejidad: O(1)
+void getMaxHost(vector<HostNode*> &vectorHost, HostNode* hostNode, RedNode* tmpRed, vector<RedNode*> &vecRedAux) {
+  if(vectorHost.empty()) {
+    vectorHost.push_back(hostNode);
+    vecRedAux.push_back(tmpRed);
+    return;
+  }
+  if(vectorHost[0]->m_counter == hostNode->m_counter){
+    if (vecRedAux[0]->m_data == tmpRed->m_data && vectorHost[0]->m_data == hostNode->m_data) return;
+    vectorHost.push_back(hostNode);
+    vecRedAux.push_back(tmpRed);
+    return;
+  }
+  if(vectorHost[0]->m_counter < hostNode->m_counter) {
+    vectorHost.clear();
+    vecRedAux.clear();
+    vectorHost.push_back(hostNode);
+    vecRedAux.push_back(tmpRed);
+  } 
+  // En caso de que el counter del hostNode sea menor a los del vector no hace nada
+}
+
+
+// Descripcion: Agregar nodos al grafo evitando las repeticiones del mismo nodo de red, host y registro
+// Entrada: Apuntador a la head de la lista de red, informacion para crear los nodos, 
+// vector de red que guarda el mas grande, vector de host que guarda el mas grande, vector de red auxiliar al vector host
+// Salida: Nada
+// Complejidad: O(n^3)
+void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost, vector<RedNode*> &vecRedAux){
 
   RedNode* newRedNode = new RedNode(redData);
   HostNode* newHostNode = new HostNode(hostData);
@@ -15,6 +71,10 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
     pthead = newRedNode;
     pthead->next = newHostNode;
     pthead->next->next = newRegistroNode;
+    pthead->addToCounter(); // +1 Red
+    pthead->next->addToCounter(); // +1 Host
+    getMaxRed(vectorRed,pthead);
+    getMaxHost(vectorHost,pthead->next, newRedNode, vecRedAux);
     return;
   }
 
@@ -59,6 +119,7 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
           lastRegistro->down = newRegistroNode;
           // Agregar el addCounter al host
           tmpHost->addToCounter();
+          getMaxHost(vectorHost, tmpHost, tmpRed, vecRedAux);
           return;
         }
         tmpHost = tmpHost->down;
@@ -66,8 +127,10 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
       // El host no esta en la lista
       lastHost->down = newHostNode;
       lastHost->down->next = newRegistroNode;
-      // Agregar el addCounter al red
       tmpRed->addToCounter();
+      lastHost->down->addToCounter();
+      getMaxRed(vectorRed, tmpRed);
+      getMaxHost(vectorHost, lastHost->down, tmpRed, vecRedAux);
       return;
     }
     tmpRed = tmpRed->down;
@@ -76,13 +139,21 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
   lastRed->down = newRedNode;
   lastRed->down->next = newHostNode;
   lastRed->down->next->next = newRegistroNode;
-  //
+  lastRed->down->addToCounter();        // +1 Red
+  lastRed->down->next->addToCounter();  // +1 Host
+  getMaxRed(vectorRed,lastRed->down);
+  getMaxHost(vectorHost,lastRed->down->next, lastRed->down, vecRedAux);
   return;
 }
 
-void leerArchivo(RedNode* &pthead) {
+
+// Descripcion: Lectura del archivo para la creacion del grafo
+// Entrada: Apuntador a la cabeza de la lista de nodos de red, vector de red, vector de host, vector auxiliar
+// Salida: Nada
+// Complejidad: O(n^3)
+void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost, vector<RedNode*> &vecRedAux) {
   string line;
-  ifstream file("bitacoraModificado.txt");
+  ifstream file("bitacora2.txt");
   int n = 0;
   if (file.is_open())
   {
@@ -132,7 +203,7 @@ void leerArchivo(RedNode* &pthead) {
 
       //  cout << red << "." << host << ":" << port << endl;
         
-       InsertarNuevo(pthead, red,host,fecha,hora,port,log);
+       InsertarNuevo(pthead, red,host,fecha,hora,port,log,vectorRed, vectorHost, vecRedAux);
     }
   }
 }
@@ -141,33 +212,43 @@ void leerArchivo(RedNode* &pthead) {
 int main(){
 
   RedNode* pthead = NULL;
+  
+  // Vectores
+  vector<RedNode*> vecRed;
+  vector<HostNode*> vecHost;
+  vector<RedNode*> vecRedAux;
 
-  leerArchivo(pthead);
-
-  // Vector de redes
-  vector<RedNode*> vecRedes;
-
-
-  cout << "\n Imprimiendo todo " << endl << endl;
+  leerArchivo(pthead, vecRed, vecHost, vecRedAux);
   RedNode* tmpRed = pthead;
-  while(tmpRed != NULL){
 
-    cout << tmpRed->m_data << " → ";
+  // IMPRIMIENDO TO_DO EL ARCHIVO
+  // while(tmpRed != NULL){
+  //   cout << tmpRed->m_data;
+  //   cout << "(" << tmpRed->m_counter << ") → ";
+  //   HostNode* tmpHost = tmpRed->next;
+  //   while(tmpHost != NULL){
+  //     cout << tmpHost->m_data;
+  //     cout << "(" << tmpHost->m_counter << ") → ";
+  //     tmpHost = tmpHost->down;
+  //   }
+  //   tmpRed = tmpRed->down;
+  //   cout << endl;
+  // }
+  // cout << "\n********************************" << endl;
 
-    HostNode* tmpHost = tmpRed->next;
-    while(tmpHost != NULL){
-      cout << tmpHost->m_data << " → ";
+  for(auto x : vecRed)
+  {
+    cout << x->m_data << endl;
+  }
+  
+  cout << endl;
 
-      tmpHost = tmpHost->down;
-    }
-    tmpRed = tmpRed->down;
-    cout << endl;
+  for(int i=0; i< vecHost.size(); i++){
+    cout << vecRedAux.at(i)->m_data << "." << vecHost.at(i)->m_data << endl;
   }
 
 
 
-
-  
   return 0;
 }
 

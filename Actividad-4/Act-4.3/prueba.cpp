@@ -19,20 +19,27 @@ void getMaxRed(vector<RedNode*> &vectorRed, RedNode* redNode) {
   // En caso de que el counter del redNode sea menor a los del vector no hace nada
 }
 
+// 1.1 → 2.2(10)
 
-void getMaxHost(vector<HostNode*> &vectorHost, HostNode* hostNode) {
+// 2.2 → 2.2(10)
+
+void getMaxHost(vector<HostNode*> &vectorHost, HostNode* hostNode, RedNode* tmpRed, vector<RedNode*> &vecRedAux) {
   if(vectorHost.empty()) {
     vectorHost.push_back(hostNode);
+    vecRedAux.push_back(tmpRed);
     return;
   }
   if(vectorHost[0]->m_counter == hostNode->m_counter){
-    if (vectorHost[0]->m_data == hostNode->m_data) return;
+    if (vecRedAux[0]->m_data == tmpRed->m_data && vectorHost[0]->m_data == hostNode->m_data) return;
     vectorHost.push_back(hostNode);
+    vecRedAux.push_back(tmpRed);
     return;
   }
   if(vectorHost[0]->m_counter < hostNode->m_counter) {
     vectorHost.clear();
+    vecRedAux.clear();
     vectorHost.push_back(hostNode);
+    vecRedAux.push_back(tmpRed);
   } 
   // En caso de que el counter del hostNode sea menor a los del vector no hace nada
 }
@@ -40,7 +47,7 @@ void getMaxHost(vector<HostNode*> &vectorHost, HostNode* hostNode) {
 
 
 
-void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost){
+void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost, vector<RedNode*> &vecRedAux){
 
   RedNode* newRedNode = new RedNode(redData);
   HostNode* newHostNode = new HostNode(hostData);
@@ -54,7 +61,7 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
     pthead->addToCounter(); // +1 Red
     pthead->next->addToCounter(); // +1 Host
     getMaxRed(vectorRed,pthead);
-    getMaxHost(vectorHost,pthead->next);
+    getMaxHost(vectorHost,pthead->next, newRedNode, vecRedAux);
     return;
   }
 
@@ -99,7 +106,7 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
           lastRegistro->down = newRegistroNode;
           // Agregar el addCounter al host
           tmpHost->addToCounter();
-          getMaxHost(vectorHost, tmpHost);
+          getMaxHost(vectorHost, tmpHost, tmpRed, vecRedAux);
           return;
         }
         tmpHost = tmpHost->down;
@@ -110,7 +117,7 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
       tmpRed->addToCounter();
       lastHost->down->addToCounter();
       getMaxRed(vectorRed, tmpRed);
-      getMaxHost(vectorHost, lastHost->down);
+      getMaxHost(vectorHost, lastHost->down, tmpRed, vecRedAux);
       return;
     }
     tmpRed = tmpRed->down;
@@ -122,12 +129,12 @@ void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string reg
   lastRed->down->addToCounter();        // +1 Red
   lastRed->down->next->addToCounter();  // +1 Host
   getMaxRed(vectorRed,lastRed->down);
-  getMaxHost(vectorHost,lastRed->down->next);
+  getMaxHost(vectorHost,lastRed->down->next, lastRed->down, vecRedAux);
   return;
 }
 
 
-void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost) {
+void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost, vector<RedNode*> &vecRedAux) {
   string line;
   ifstream file("bitacora2.txt");
   int n = 0;
@@ -179,7 +186,7 @@ void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*
 
       //  cout << red << "." << host << ":" << port << endl;
         
-       InsertarNuevo(pthead, red,host,fecha,hora,port,log,vectorRed, vectorHost);
+       InsertarNuevo(pthead, red,host,fecha,hora,port,log,vectorRed, vectorHost, vecRedAux);
     }
   }
 }
@@ -192,52 +199,40 @@ int main(){
   // Vectores
   vector<RedNode*> vecRed;
   vector<HostNode*> vecHost;
+  vector<RedNode*> vecRedAux;
 
-  leerArchivo(pthead, vecRed, vecHost);
-
-  cout << "--------------------------------" << endl;
-  cout << "\n Imprimiendo todo " << endl << endl;
+  leerArchivo(pthead, vecRed, vecHost, vecRedAux);
   RedNode* tmpRed = pthead;
-  while(tmpRed != NULL){
 
-    cout << tmpRed->m_data;
-    cout << "(" << tmpRed->m_counter << ") → ";
-    HostNode* tmpHost = tmpRed->next;
-    while(tmpHost != NULL){
-      cout << tmpHost->m_data;
-      cout << "(" << tmpHost->m_counter << ") → ";
-      tmpHost = tmpHost->down;
-    }
-    tmpRed = tmpRed->down;
-    cout << endl;
-  }
+  // IMPRIMIENDO TO_DO EL ARCHIVO
+  // while(tmpRed != NULL){
+  //   cout << tmpRed->m_data;
+  //   cout << "(" << tmpRed->m_counter << ") → ";
+  //   HostNode* tmpHost = tmpRed->next;
+  //   while(tmpHost != NULL){
+  //     cout << tmpHost->m_data;
+  //     cout << "(" << tmpHost->m_counter << ") → ";
+  //     tmpHost = tmpHost->down;
+  //   }
+  //   tmpRed = tmpRed->down;
+  //   cout << endl;
+  // }
+  // cout << "\n********************************" << endl;
 
-  cout << "\n********************************" << endl;
   for(auto x : vecRed)
   {
-    cout << x->m_data << "(" << x->m_counter << ") - ";
+    cout << x->m_data << endl;
   }
+  
   cout << endl;
 
-  for(auto x : vecHost)
-  {
-    cout << x->m_data << "(" << x->m_counter << ") - ";
-  } 
-  cout << endl;
-
-
-
-
-  ofstream myfile;
-  myfile.open ("example.txt");
-  while(pthead != NULL)
-  {
-    myfile << pthead->m_data << "\n";
-    pthead = pthead->down;
+  for(int i=0; i< vecHost.size(); i++){
+    cout << vecRedAux.at(i)->m_data << "." << vecHost.at(i)->m_data << endl;
   }
-  myfile.close();
 
 
+
+  
   return 0;
 }
 
