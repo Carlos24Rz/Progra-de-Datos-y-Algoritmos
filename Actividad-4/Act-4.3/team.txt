@@ -1,0 +1,11 @@
+* Carlos Eduardo Ruiz Lira / a01735706
+    - Función para leer archivos
+    - Insertar nuevo nodo
+
+* Carlos Daniel Díaz Arrazate / a01734902
+    - Obtencion red y host con mayor grado de salida
+    - Insertar nuevo nodo
+
+* Jose Angel González Carrera / a01552274
+    - Obtencion red y host con mayor grado de salida
+    - Insertar nuevo nodo
