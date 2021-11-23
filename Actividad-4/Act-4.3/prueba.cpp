@@ -2,166 +2,134 @@
 #include "class.h"
 using namespace std;
 
+void getMaxRed(vector<RedNode*> &vectorRed, RedNode* redNode) {
+  if(vectorRed.empty()) {
+    vectorRed.push_back(redNode);
+    return;
+  }
+  if(vectorRed[0]->m_counter == redNode->m_counter){
+    if (vectorRed[0]->m_data == redNode->m_data) return;
+    vectorRed.push_back(redNode);
+    return;
+  }
+  if(vectorRed[0]->m_counter < redNode->m_counter) {
+    vectorRed.clear();
+    vectorRed.push_back(redNode);
+  } 
+  // En caso de que el counter del redNode sea menor a los del vector no hace nada
+}
 
-// RegistroNode(string date, string time, string port, string log)
-void Insertar(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog){
+
+void getMaxHost(vector<HostNode*> &vectorHost, HostNode* hostNode) {
+  if(vectorHost.empty()) {
+    vectorHost.push_back(hostNode);
+    return;
+  }
+  if(vectorHost[0]->m_counter == hostNode->m_counter){
+    if (vectorHost[0]->m_data == hostNode->m_data) return;
+    vectorHost.push_back(hostNode);
+    return;
+  }
+  if(vectorHost[0]->m_counter < hostNode->m_counter) {
+    vectorHost.clear();
+    vectorHost.push_back(hostNode);
+  } 
+  // En caso de que el counter del hostNode sea menor a los del vector no hace nada
+}
+
+
+
+
+void InsertarNuevo(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost){
+
   RedNode* newRedNode = new RedNode(redData);
   HostNode* newHostNode = new HostNode(hostData);
   RegistroNode* newRegistroNode = new RegistroNode(regDate, regTime, regPort, regLog);
-    
-  //cout << newRedNode->m_data << "." << newHostNode->m_data << ":" << newRegistroNode->getRegistro() << endl;
 
- 
-  // Lista vacia
-  if (pthead == NULL) {
-    
+  // Si la lista de red nodes esta vacia, se apunta a ella
+  if(pthead==NULL){
     pthead = newRedNode;
     pthead->next = newHostNode;
     pthead->next->next = newRegistroNode;
+    pthead->addToCounter(); // +1 Red
+    pthead->next->addToCounter(); // +1 Host
+    getMaxRed(vectorRed,pthead);
+    getMaxHost(vectorHost,pthead->next);
     return;
   }
-  
-  // Recorrer lista RedNode
-  RedNode* tempRed = pthead;
 
-  while (tempRed->down != NULL){
+  // En caso de que no, se busca el ultimo nodo de red
+  RedNode* tmpRed = pthead;
+  RedNode* lastRed = NULL; // A este nodo, a su down se le agrega el nuevo valor
 
-    // Red duplicada
-    if (tempRed->m_data == newRedNode->m_data){
-        delete newRedNode;
-        
-        // Recorrer lista HostNode
-        HostNode* tempHost = tempRed->next;
-        while (tempHost->down != NULL) {
-          
-          // Host duplicado
-          if (tempHost->m_data == newHostNode->m_data){
-            delete newHostNode;
+  // Se recorre la lista de red nodes
+  while(tmpRed != NULL){
+    lastRed = tmpRed;
 
-            // Recorrer lista RegistroNode
-            RegistroNode* tempRegistro = tempHost->next;
-            while (tempRegistro->down != NULL) {
-                
-              // Registro duplicado ¡??¡?¡?¡??¡
-              if(tempRegistro->getRegistro() == newRegistroNode->getRegistro()){
-                delete newRegistroNode;
-                return;
-              }
-              tempRegistro = tempRegistro->down; // Recorrer ciclo
+    // El red node esta en la lista
+    if(tmpRed->m_data == newRedNode->m_data){
+      // Eliminar un nodo
+      delete newRedNode;
+
+      // Se recorre la lista de hosts de la red encontrada
+      HostNode* tmpHost = tmpRed->next;
+      HostNode* lastHost = NULL; // A este nodo, a su down se le agrega el nuevo valor
+      while(tmpHost != NULL){
+        lastHost = tmpHost;
+
+        // El host esta en la lista
+        if(tmpHost->m_data == newHostNode->m_data){
+          // Eliminamos un nodo
+          delete newHostNode;
+
+          // Se recorre la lista de registros
+          RegistroNode* tmpRegistro = tmpHost->next;
+          RegistroNode* lastRegistro = NULL; // A este nodo, a su down se le agrega el nuevo valor
+          while(tmpRegistro != NULL){
+            lastRegistro = tmpRegistro;
+            // El registro esta en la lista
+            if(tmpRegistro->getRegistro() == newRegistroNode->getRegistro()){
+              // Eliminar un nodo
+              delete newRegistroNode;
+              return;
             }
-            
-            // Insertar registro
-            tempRegistro->down = newRegistroNode;
-            tempHost->addToCounter(); // Sumar counter
-            return;
-          }            
-
-          tempHost = tempHost->down;  // Recorrer ciclo
+            tmpRegistro = tmpRegistro->down;
+          }
+          // El registro no esta en la lista
+          lastRegistro->down = newRegistroNode;
+          // Agregar el addCounter al host
+          tmpHost->addToCounter();
+          getMaxHost(vectorHost, tmpHost);
+          return;
         }
-        // Insertar host
-        tempHost->down = newHostNode;
-        
-        newHostNode->next = newRegistroNode;
-        tempRed->addToCounter(); // Sumar counter
-        return;
+        tmpHost = tmpHost->down;
+      }
+      // El host no esta en la lista
+      lastHost->down = newHostNode;
+      lastHost->down->next = newRegistroNode;
+      tmpRed->addToCounter();
+      lastHost->down->addToCounter();
+      getMaxRed(vectorRed, tmpRed);
+      getMaxHost(vectorHost, lastHost->down);
+      return;
     }
-    tempRed = tempRed->down;
+    tmpRed = tmpRed->down;
   }
-
-  // Insertar red
-  tempRed->down = newRedNode;
-  newRedNode->addToCounter();
-  newRedNode->next = newHostNode;
-  newHostNode->addToCounter();
-  newHostNode->next = newRegistroNode;
-
-
-
+  // El red node no esta en la lista
+  lastRed->down = newRedNode;
+  lastRed->down->next = newHostNode;
+  lastRed->down->next->next = newRegistroNode;
+  lastRed->down->addToCounter();        // +1 Red
+  lastRed->down->next->addToCounter();  // +1 Host
+  getMaxRed(vectorRed,lastRed->down);
+  getMaxHost(vectorHost,lastRed->down->next);
   return;
 }
 
 
-
-
-void InsertarRegistro(HostNode* &tmpHost, RegistroNode* &newRegistroNode) {
-  
-  RegistroNode* tmpRegistro = tmpHost->next;
-  
-  while(tmpRegistro != NULL)
-  {
-    if (tmpRegistro->getRegistro() == newRegistroNode->getRegistro()){
-      delete newRegistroNode;
-      return;
-    }
-    
-    if(tmpRegistro->down != NULL) tmpRegistro = tmpRegistro->down; 
-  }
-  tmpRegistro->down = newRegistroNode;
-
-}
-
-
-void InsertarHost(RedNode* &tmpRed, HostNode* &newHostNode, RegistroNode* & newRegistroNode) {
-  HostNode* tmpHost = tmpRed->next;
-
-  while (tmpHost != NULL) {
-    if (tmpHost->m_data == newHostNode->m_data) {
-      delete newHostNode;
-      // void InsertarRegistro(HostNode* &tmpHost, RegistroNode* &newRegistroNode)
-      InsertarRegistro(tmpHost, newRegistroNode);
-      return;
-    }
-    if(tmpHost->down != NULL) tmpHost = tmpHost->down;
-  }
-  tmpHost->down = newHostNode;
-  InsertarRegistro(tmpHost->down, newRegistroNode);
-}
-
-void InsertarRed(RedNode* &pthead, string redData, string hostData, string regDate, string regTime, string regPort, string regLog){
-  RedNode* newRedNode = new RedNode(redData);
-  HostNode* newHostNode = new HostNode(hostData);
-  RegistroNode* newRegistroNode = new RegistroNode(regDate, regTime, regPort, regLog);
-
- 
-  // Lista vacia
-  if (pthead == NULL) {
-    pthead = newRedNode;
-    pthead->next = newHostNode;
-    pthead->next->next = newRegistroNode;
-    return;
-  }
-
-  // Recorrer lista
-  RedNode* tmpRed = pthead;
-  while (tmpRed != NULL) {
-    //Si la red coincide
-    if (tmpRed->m_data == newRedNode->m_data) {
-      // Ya no necesitamos el nodo de Red
-      delete newRedNode;
-      // (RedNode* &tmpRed, HostNode* &newHostNode, RegistroNode* & newRegistroNode) {
-      InsertarHost(tmpRed, newHostNode, newRegistroNode);
-      return;
-    }
-    //De lo contrario, mientras el siguiente nodo de Red no sea NULL:
-    if(tmpRed->down != NULL) tmpRed = tmpRed->down; // avanza en el ciclo
-  }
-  
-  // Crear una nueva red
-  tmpRed->down = newRedNode;
-  // InsertarHost()
-  InsertarHost(tmpRed->down, newHostNode, newRegistroNode);
-}
-
-
-
-
-
-
-
-void leerArchivo(RedNode* &pthead) 
-{
+void leerArchivo(RedNode* &pthead, vector<RedNode*> &vectorRed, vector<HostNode*> &vectorHost) {
   string line;
-  ifstream file("bitacoraModificado.txt");
+  ifstream file("bitacoraM2.txt");
   int n = 0;
   if (file.is_open())
   {
@@ -207,42 +175,69 @@ void leerArchivo(RedNode* &pthead)
        string port = ips[1];
        fecha = myString[0] + " " + myString[1];
        string hora = myString[2];
-       string log = redes_host[4];
+       string log = myString[4];
 
-       //cout << red << "." << host << ":" << port << endl;
+      //  cout << red << "." << host << ":" << port << endl;
         
-       InsertarRed(pthead, red,host,fecha,hora,port,log);
+       InsertarNuevo(pthead, red,host,fecha,hora,port,log,vectorRed, vectorHost);
     }
   }
 }
 
 
-    
-
-
-
-    
-
-
 int main(){
+
   RedNode* pthead = NULL;
-
-  cout << "Bucle";
-  leerArchivo(pthead);
-
-  cout << "-----" << endl;
-  cout << "pthead" << endl;
-  cout << "↓" << endl;
-
-  cout << pthead->m_data << "→" << pthead->next->m_data
-   << "→" << pthead->next->down->m_data << "→" 
-   << pthead->next->down->down->m_data << endl;
-
-  cout << "↓" << endl;  
-  cout << pthead->down->m_data << endl;
-  cout << "↓" << endl;  
   
-  
+  // Vectores
+  vector<RedNode*> vecRed;
+  vector<HostNode*> vecHost;
+
+  leerArchivo(pthead, vecRed, vecHost);
+
+  cout << "--------------------------------" << endl;
+  cout << "\n Imprimiendo todo " << endl << endl;
+  RedNode* tmpRed = pthead;
+  while(tmpRed != NULL){
+
+    cout << tmpRed->m_data;
+    cout << "(" << tmpRed->m_counter << ") → ";
+    HostNode* tmpHost = tmpRed->next;
+    while(tmpHost != NULL){
+      cout << tmpHost->m_data;
+      cout << "(" << tmpHost->m_counter << ") → ";
+      tmpHost = tmpHost->down;
+    }
+    tmpRed = tmpRed->down;
+    cout << endl;
+  }
+
+  cout << "\n********************************" << endl;
+  for(auto x : vecRed)
+  {
+    cout << x->m_data << "(" << x->m_counter << ") - ";
+  }
+  cout << endl;
+
+  for(auto x : vecHost)
+  {
+    cout << x->m_data << "(" << x->m_counter << ") - ";
+  } 
+  cout << endl;
+
+
+
+
+  ofstream myfile;
+  myfile.open ("example.txt");
+  while(pthead != NULL)
+  {
+    myfile << pthead->m_data << "\n";
+    pthead = pthead->down;
+  }
+  myfile.close();
+
+
   return 0;
 }
 
