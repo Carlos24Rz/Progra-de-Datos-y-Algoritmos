@@ -222,7 +222,7 @@ int main(){
   // Red con mas host
   for(auto x : vecRed)
   {
-    cout << x->m_data << endl;
+    cout << x->m_data  << endl;
   }
   
   cout << endl;
