@@ -1,0 +1,49 @@
+                
+() = Hash - [] = index de array
+
+1. Se insert (7) en [7]
+2. Insertar (52)
+2. Espacio [7] esta ocupado, entonces (52) se recorre hasta encontrar espacio
+3. (52) se inserta en [8]
+4. Delete (7) en [7]
+5. Insertar (52)
+6. Espacio [7] esta vacio, entonces (52) se inserta en [7]
+7. Valores duplicados
+    (52) en [7] y (52) en (8)
+
+// 7 7 8
+// 
+// 
+// 0000007 = 7
+// 0000052 = 7
+// -007
+// 0000052 = 7
+
+
+1. Borrar objeto
+¿Que ocurre a un objeto que queremos insertar?
+
+
+2. El eliminar debe tener la llave, no??
+
+
+3. Para eliminar un elemento, la casilla debe estar en ocupada???
+
+4. Debemos imprimir todo aunque este vacio o borrado? 
+Solo llena el outpu
+
+5. Si un dato a eliminar no se encuentra, que imprima algo?
+
+
+Cada vez que se ejecuta una operación, 
+al final se debe imprimir una linea en blanco 
+(que servira como seaprador visual de cada parte del output) 
+
+
+
+
+
+
+
+
+
