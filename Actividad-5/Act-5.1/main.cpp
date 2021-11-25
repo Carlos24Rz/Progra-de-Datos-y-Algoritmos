@@ -1,3 +1,11 @@
+// Programa que trabaja con un hash table que maneja 
+// las colisiones con el método de Dirección Abierta de la prueba lineal
+
+// Carlos Daniel Diaz Arrazate - A01734902
+// Jose Angel Gonzalez Carrera - A01552274
+// Carlos Eduardo Ruiz Lira    - A01735706
+// 24/11/21
+
 #include <iostream>
 #include <utility>
 #include <string>
@@ -57,17 +65,16 @@ class HashTable{
         // v= vacío
         // b= borrado
 
-        // para el pair
-        // pair.first = Auto
-        // pair.second = char
-
     public:
         HashTable(){
             for(int i=0; i<size; i++)
                 hashT[i] = make_pair(Auto(), 'v');
         };
 
-        // hash function
+        // Descripcion: Funcion hash que genera un hashcode
+        // Entrada: llave (placa)
+        // Salida: hashCode
+        // Complejidad: O(N)
         int hashCode(string placa){
 
             int counter = 0;
@@ -81,7 +88,10 @@ class HashTable{
 
         // NOTA: next position = (i+1)%N, where N=numberElements
 
-        // insertar y eliminar requieren de la busqueda
+        // Descripcion: Buscar un elemento de acuerdo a su llave (placa)
+        // Entrada: llave del elemento (placa)
+        // Salida: string del objeto encontrado o no
+        // Complejidad: O(N)
         string search(string placa){
 
             // Guardar el indice
@@ -118,16 +128,14 @@ class HashTable{
                     return "dato no encontrado";
                 }
             }
-            // obtener el hashcode
-            // NOTA, IMPORTANTE VERIFICAR LA FLAG DEL ELEMENTO PAIR
-            // comparar el hashcode con la posicion del array
-            // si es el elemento buscado, se termina
-            // si no, se mueve a la siguiente casilla
-            // si se llego a una posicion vacia o a la direccion base, no esta el elemento
             return 0;
         }
 
 
+        // Descripcion: Insertar un dato en la estructura de 
+        // Entrada: El objeto a insertar que tiene su llave (placa)
+        // Salida: Nada
+        // Complejidad: O(N)
         void ins(Auto car){
             // Guardar el indice
             int hashC = hashCode(car.getPlaca());
@@ -165,7 +173,10 @@ class HashTable{
             }
         }
 
-
+        // Descripcion: Eliminar un dato en la estructura
+        // Entrada: llave del elemento (placa)
+        // Salida: Nada
+        // Complejidad: O(N)
         void del(string placa){
             
             // Guardar el indice
@@ -205,15 +216,14 @@ class HashTable{
 
         }
 
-
+        // Descripcion: Impresión de los datos contenidos en la tabla 
+        // Entrada: Nada
+        // Salida: Nada
+        // Complejidad: O(N)
         void print(){
 
             // NOTA, IMPORTANTE VERIFICAR LA FLAG DEL ELEMENTO PAIR
-            cout << "-------------" << endl;
-            cout << "Printing" << endl;
             for(int i=0; i<size; i++){
-
-                
                 if(hashT[i].second == 'o') {
                     cout << i << " " ;
                     cout << hashT[i].first.getAuto();
@@ -221,15 +231,8 @@ class HashTable{
                 }
 
             }
-            cout << "-------------" << endl;
-            
         }
-
-
-
-
 };
-
 
 
 
@@ -238,8 +241,6 @@ int main(){
 
     HashTable myHashTable;
 
-    cout << "\n--------" << endl;
-
     int input = 10;
     string placa, marca, modelo;
     int anio;
@@ -247,31 +248,30 @@ int main(){
 
 
     while(input != 0) {
+        cout << "-------------" << endl;
         cin >> input;
         
         switch(input) {
             case 1: {
-                // cout << "Insertar" << endl;
+                cout << "Insertar" << endl;
                 cin >> placa >> marca >> modelo >> anio;
-                // Auto miAuto(placa, marca, modelo, anio);
                 miAuto.setAuto(placa, marca, modelo, anio);
-                // Borrar si el objeto no se puede insertar
                 myHashTable.ins(miAuto);
                 break;
             }
             case 2: {
-                cout << "Delete:" << endl;
+                cout << "Delete" << endl;
                 cin >> placa;
                 myHashTable.del(placa);
                 break;
             }
             case 3: {
-                // cout << "Imprimir" << endl;
+                cout << "Imprimir" << endl;
                 myHashTable.print();
                 break;
             }
             case 4: {
-                cout << "Search: " << endl;
+                cout << "Search" << endl;
                 cin >> placa;
                 cout << myHashTable.search(placa) << endl;
             }
