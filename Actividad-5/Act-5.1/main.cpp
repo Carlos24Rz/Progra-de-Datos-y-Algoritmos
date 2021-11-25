@@ -159,7 +159,7 @@ class HashTable{
                     // Si la placa ya se encuentra en el hash, se cierra
                     if(hashT[temp].first.getPlaca() == car.getPlaca()){
                         // cout << "BORRAR. La placa " << car.getPlaca() << " esta duplicada" << endl; // BORRAR
-                        cout << "imposible insertar, placa duplicada" << endl;
+                        cout << "imposible insertar, placa duplicada\n" << endl;
                         return;
                     }
                     
@@ -173,7 +173,7 @@ class HashTable{
                     return;
                 }
                 else{ // temp==hashC
-                    cout << "Tabla llena, imposible insertar" << endl;
+                    cout << "Tabla llena, imposible insertar\n" << endl;
                     return;
                 }
             }
@@ -208,7 +208,7 @@ class HashTable{
                     if(hashT[temp].second == 'o' && hashT[temp].first.getPlaca() == placa){
                         // cout << "Se elimino el elemento[" << temp << "]  " << hashT[temp].first.getAuto() << endl;
                         hashT[temp].second = 'b';
-                        cout << "Elemento eliminado" << endl;
+                        // cout << "Elemento eliminado" << endl;
                         return;
                     }
 
@@ -236,7 +236,6 @@ class HashTable{
                     cout << hashT[i].first.getAuto();
                 }
                     cout << endl;
-
             }
         }
 };
