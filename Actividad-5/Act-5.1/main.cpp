@@ -98,8 +98,10 @@ class HashTable{
             int hashC = hashCode(placa);
 
             // Verificar si la casilla del hashC esta vacia
-            if(hashT[hashC].second == 'v')
+            if(hashT[hashC].second == 'v'){
+                // cout << "BORRAR. La placa " << placa << " no esta en el hashtT" << endl; // BORRAR
                 return "dato no encontrado";
+            }
             
             // Verificar si la casilla del hashC esta ocupada
             // if(hashT[hashC].second == 'o')
@@ -125,6 +127,7 @@ class HashTable{
                         // next position = (i+1)%N
                         temp = (temp+1)%size;
                     }
+                    // cout << "BORRAR. La placa " << placa << " no esta en el hashtT" << endl; // BORRAR
                     return "dato no encontrado";
                 }
             }
@@ -143,6 +146,7 @@ class HashTable{
 
             // Si la casilla del hashC esta vacia o borrada, inserta el valor
             if(hashT[hashC].second == 'v' || hashT[hashC].second == 'b'){
+                // cout << "BORRAR. La placa " << car.getPlaca() << " se inserto" << endl; // BORRAR
                 hashT[hashC] = make_pair(car, 'o');
                 return;
             }
@@ -154,6 +158,7 @@ class HashTable{
                     
                     // Si la placa ya se encuentra en el hash, se cierra
                     if(hashT[temp].first.getPlaca() == car.getPlaca()){
+                        // cout << "BORRAR. La placa " << car.getPlaca() << " esta duplicada" << endl; // BORRAR
                         cout << "imposible insertar, placa duplicada" << endl;
                         return;
                     }
@@ -163,6 +168,7 @@ class HashTable{
                 }
 
                 if(hashT[temp].second != 'o'){
+                    // cout << "BORRAR. La placa " << car.getPlaca() << " se inserto" << endl; // BORRAR
                     hashT[temp] = make_pair(car, 'o');
                     return;
                 }
@@ -172,6 +178,7 @@ class HashTable{
                 }
             }
         }
+
 
         // Descripcion: Eliminar un dato en la estructura
         // Entrada: llave del elemento (placa)
@@ -186,11 +193,9 @@ class HashTable{
 
             // Cuando la casilla a eliminar coincide con su hashC y esta ocupada
             if(hashT[hashC].second == 'o' && hashT[hashC].first.getPlaca() == placa){
-                
                 hashT[hashC].second = 'b';
-                // cout << "Flag del elemento: " << hashT[hashC].second << endl;
                 // cout << "Elemento eliminado: " << hashT[hashC].first.getAuto() << endl;
-                cout << "Elemento eliminado" << endl;
+                // cout << "Elemento eliminado" << endl;
                 return;
                 
             }
@@ -210,11 +215,13 @@ class HashTable{
                     // next position = (i+1)%N
                     temp = (temp+1)%size;
                 }
+                // cout << "BORRAR. La placa " << placa << " no se encuentra en el hashTable" << endl;
                 cout << "Elemento no encontrado" << endl;
 
             }
 
         }
+
 
         // Descripcion: Impresión de los datos contenidos en la tabla 
         // Entrada: Nada
@@ -224,11 +231,11 @@ class HashTable{
 
             // NOTA, IMPORTANTE VERIFICAR LA FLAG DEL ELEMENTO PAIR
             for(int i=0; i<size; i++){
-                if(hashT[i].second == 'o') {
                     cout << i << " " ;
+                if(hashT[i].second == 'o') {
                     cout << hashT[i].first.getAuto();
-                    cout << endl;
                 }
+                    cout << endl;
 
             }
         }
@@ -248,37 +255,44 @@ int main(){
 
 
     while(input != 0) {
-        cout << "-------------" << endl;
+        
         cin >> input;
         
         switch(input) {
             case 1: {
-                cout << "Insertar" << endl;
+                // cout << "Insertar" << endl;
                 cin >> placa >> marca >> modelo >> anio;
                 miAuto.setAuto(placa, marca, modelo, anio);
                 myHashTable.ins(miAuto);
+                // cout << endl;
                 break;
             }
             case 2: {
-                cout << "Delete" << endl;
+                // cout << "Delete" << endl;
                 cin >> placa;
                 myHashTable.del(placa);
+                // cout << endl;
                 break;
             }
             case 3: {
-                cout << "Imprimir" << endl;
+                // cout << "Imprimir" << endl;
                 myHashTable.print();
+                cout << endl;
                 break;
             }
             case 4: {
-                cout << "Search" << endl;
+                // cout << "Search" << endl;
                 cin >> placa;
                 cout << myHashTable.search(placa) << endl;
+                cout << endl;
+                break;
             }
+            default:
+                break;
         }
+        // cout << "-------------" << endl;
+        
     }
-
-    cout << endl;
 
     return 0;
 }
