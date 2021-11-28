@@ -3,8 +3,6 @@ El dominio mas grande es 999.999
 
 El tamaño de la tabla debe ser menor de 32,768
 
-Entonces, debemos decidir como manejar al dominio, no?
-
 De cada dominio, cuantos ips tiene, hacer un procesamiento previo
 
 Ya con este procesamientol, ya lo metemos a la tabla, donde tengamos la llave y el resumen
