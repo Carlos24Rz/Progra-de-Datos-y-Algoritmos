@@ -70,6 +70,7 @@ Node* Insertar(Node* root, float red, float host)
           // Distinto host
           temp->data.m_countHost += 1; // Agregamos un nuevo host
           temp->data.m_vecHost.push_back(host);
+          return father;
         }
 
         if(red < temp->data.m_red){
@@ -107,7 +108,7 @@ Node* Insertar(Node* root, float red, float host)
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacoraPrueba.txt");
+  ifstream file("bitacoraModificado.txt");
   int n = 0;
   
   float redF;
@@ -211,17 +212,19 @@ int main()
   cout << "Hello world" << endl;
   struct Node *root = NULL;
   leerArchivo(root);
-  Preorder(root);
+  Inorder(root);
 
   cout << "\nTesting" << endl;
 
   // NOTA: Cambie los contadores de 0 a 1
+  // NOTA: Revisar cuando se repiten, en bitacora2: 10.03, este valor se repite varias veces
 
-  cout << "Registro: " << root->data.m_countReg << endl;
-
+  cout << "Red:           " << root->left->left->data.m_red << endl;
+  cout << "Num registros: " << root->left->left->data.m_countReg << endl;
+  cout << "Num hosts:     " << root->left->left->data.m_countHost << endl;
   cout << "Imprimiendo registros: " << endl;
 
-  for(auto h : root->data.m_vecHost)
+  for(auto h : root->left->left->data.m_vecHost)
     cout << h << endl;
   // cout << root->data.m_vecHost[0] << endl;
 
