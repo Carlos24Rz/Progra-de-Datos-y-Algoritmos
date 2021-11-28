@@ -7,17 +7,33 @@ using namespace std;
 class Resumen {
 
     private:
-        float m_red;
-        int m_countReg;
-        int m_countHost;
-        vector<float> m_vecHost;
+        
 
     
 
     public:
+        float m_red;
+        int m_countReg = 1;
+        int m_countHost = 1;
+        vector<float> m_vecHost;
+
+        Resumen(){};
+
+        Resumen(float red, float host){
+            m_red = red;
+            m_vecHost[0] = host;
+        }
 
         float getRed(){
             return m_red;
+        }
+
+        void setRed(float red){
+            m_red = red;
+        }
+
+        void setHost(float host){
+            m_vecHost[0] = host;
         }
         
 
