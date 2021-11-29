@@ -3,6 +3,7 @@
         "\"bracket-pair-colorizer-2.colors\"": " [     \"#fafafa\",     \"#9F51B6\",     \"#F7C244\",     \"#F07850\",     \"#9CDD29\",     \"#C497D4\" ]",
         "vector": "cpp",
         "iosfwd": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "type_traits": "cpp"
     }
 }

@@ -6,9 +6,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "resumen.h"
 #include <vector>
 #include <string>
+#include "hash.h"
 using namespace std;
 
 struct Node
@@ -18,7 +18,7 @@ struct Node
   struct Node *right;
 };
 
-struct Node *newNode(float red, float host)
+struct Node *newNode(string red, string host)
 {
   struct Node *temp;
   // temp = (Node *)malloc(sizeof(Node));
@@ -35,10 +35,7 @@ struct Node *newNode(float red, float host)
 }
 
 
-
-
-// Descripcion: Insertar 
-Node* Insertar(Node* root, float red, float host)
+Node* Insertar(Node* root, string red, string host)
 {
     // cout << "Insertando" << endl;
     // Crear el nuevo nodo resumen a agregar
@@ -56,12 +53,12 @@ Node* Insertar(Node* root, float red, float host)
 
         // Misma red (no hay que inserta otro nuevo nodo Resumen)
         if(temp->data.m_red == red){
+          // cout << "Entrando" << endl;
           temp->data.m_countReg += 1; // Agregamos un registro
           // Comparar el nuevo host con el vector de host 
           for(int i=0; i<temp->data.m_vecHost.size(); i++ ){
             // Mismo host
             if(temp->data.m_vecHost[i] == host){
-              // temp->m_countReg += 1;
               return father; // Para salirse de la funcion
             }
           }
@@ -71,12 +68,12 @@ Node* Insertar(Node* root, float red, float host)
           return father;
         }
 
-        if(red < temp->data.m_red){
-          temp = temp->left;
+        if(temp->data.isLess(red)){
+          temp = temp->right;
         }
 
         else{ // red > temp->data.m_red
-          temp = temp->right;
+          temp = temp->left;
         }
     }
     
@@ -87,7 +84,7 @@ Node* Insertar(Node* root, float red, float host)
         father = newnode;
  
     // Es un hijo menor
-    else if (red < father->data.m_red){
+    else if (father->data.isGreater(red)){
       father->left = newnode;
       // cout << "Father-left: " << newnode->data.m_red << endl;
     }
@@ -108,7 +105,7 @@ void leerArchivo(struct Node *&root)
   string line;
   ifstream file("bitacoraModificado.txt");
   int n = 0;
-  
+    
   float redF;
   float hostF;
 
@@ -153,81 +150,158 @@ void leerArchivo(struct Node *&root)
         getline(ssss,redes_host[i],'.');
        }
 
+      // to_string(stoi())
        
-       string red = redes_host[0] + "." + redes_host[1];
-       string host = redes_host[2] + "." + redes_host[3];
+       string red = to_string(stoi(redes_host[0])) + "." + to_string(stoi(redes_host[1]));
+       string host = to_string(stoi(redes_host[2])) + "." + to_string(stoi(redes_host[3]));
        string port = ips[1];
        fecha = myString[0] + " " + myString[1];
        string hora = myString[2];
        string log = myString[4];
 
-      redF = stof(red);
-      hostF = stof(host);
+      // redF = stof(red);
+      // hostF = stof(host);
 
-      cout << "Red:  " << red << endl;
-      cout << "Host: " << host << endl;
-      cout << "IP: " << ip << endl;
+      // cout << "Red:  " << red << endl;
+      // cout << "Host: " << host << endl;
+      // cout << "IP: " << ip << endl;
 
       if(n==0){
-        root = Insertar(root, redF, hostF);
+        root = Insertar(root, red, host);
         n++;
       }
       else{
-          Insertar(root, redF, hostF);      
+          Insertar(root, red, host);      
       }
 
     }
   }
 }
+ 
 
-
-void Inorder(Node *root)
+void InsertInorder(Node *root, HashTable &myHashTable)
 {
   if (root == NULL)
     return;
 
-  Inorder(root->left);
-  cout << root->data.m_red << endl;
-  Inorder(root->right);
+  InsertInorder(root->left, myHashTable);
+
+  myHashTable.ins(root->data);
+  // cout << root->data.m_red << endl;
+  InsertInorder(root->right, myHashTable);
+}
+
+void merge(int inicio, int mitad, int fin, vector<string> &vHost){
+
+    int i = inicio;
+    int j = mitad+1;
+    int k = inicio;
+    vector<string> temp;
+    
+    while(i<=mitad && j<=fin){
+        if(vHost[i] < vHost[j]){
+            temp.push_back(vHost[i]);
+            i++;
+        }
+        else{
+            temp.push_back(vHost[j]);
+            j++;
+        }
+        k++;
+    }
+
+    if(i>mitad){            // Se acabaron los elementos del vHosteglo de i
+        while(k<=fin){
+            temp.push_back(vHost[j]);
+            k++;
+            j++;
+        }
+    }
+    else{                // Se acabaron los elementos del arreglo j
+        while(k<=fin){
+            temp.push_back(vHost[i]);
+            k++;
+            i++;
+        }
+    }
+
+
+    // Copiando los elementos del temporal al original
+    for(auto element : temp){
+        vHost[inicio] = element;
+        inicio++;
+    }
+    
 }
 
 
-void Preorder(Node *root)
-{
-  if (root == NULL)
-    return;
-  cout << root->data.m_red << endl;
-  Preorder(root->left);
-  Preorder(root->right);
+void mergeSort(int inicio, int fin, vector<string> &vHost){
+
+    if(inicio < fin){
+
+        int mitad = (inicio+fin)/2;
+
+        mergeSort(inicio, mitad, vHost);
+        
+        mergeSort(mitad+1, fin, vHost);
+        
+        merge(inicio, mitad, fin, vHost);
+    }
 }
+
+
+
 
 
 int main()
 {
-  
+  // cout << "\nTesting" << endl;
+  // cout << "Red:           " << root->data.m_red << endl;
+  // cout << "Num registros: " << root->data.m_countReg << endl;
+  // cout << "Num hosts:     " << root->data.m_countHost << endl;
+  // cout << "Imprimiendo registros: " << endl;
+
+  // for(auto h : root->data.m_vecHost)
+  //   cout << h << endl;
+
+  // Creando hashTable
+  HashTable myHashTable;
+
   struct Node *root = NULL;
   leerArchivo(root);
-  // Inorder(root);
-
-  cout << "\nTesting" << endl;
-
-  // NOTA: Cambie los contadores de 0 a 1
-  // NOTA: Revisar cuando se repiten, en bitacora2: 10.03, este valor se repite varias veces
-
-  cout << "Red:           " << root->right->data.m_red << endl;
-  cout << "Num registros: " << root->right->data.m_countReg << endl;
-  cout << "Num hosts:     " << root->right->data.m_countHost << endl;
-  cout << "Imprimiendo registros: " << endl;
-
-  for(auto h : root->right->data.m_vecHost)
-    cout << h << endl;
+  InsertInorder(root, myHashTable);
     
-  // string ip1 = "33.300";
-  // string ip2 = "300.300";
-  // bool ans = (ip1 > ip2);
+  
+  
+  cout << "\n------------" << endl;
 
-  // cout << boolalpha << ans << endl;
+  cout << "Testing" << endl;
+  // Consultas
 
+  int n = 0;
+  string q;
+  Resumen* temp;
+  vector<float> vFHost;
+
+  cin >> n;
+  for(int i=0; i<n; i++) {
+    cin >> q;
+    temp = myHashTable.search(q);
+    if (temp){
+      temp->printResumen();
+      cout << "Check vector" << endl;
+      for(int i=0; i<temp->m_vecHost.size(); i++){
+        vFHost.push_back(stof(temp->m_vecHost[i]));
+        cout << vFHost[i] << endl;
+      }
+      // Sort->temp->vec
+    }
+
+    cout << "\n-------" << endl;
+  }
+  
+    
+  cout << endl;
 
   return 0;
 }
