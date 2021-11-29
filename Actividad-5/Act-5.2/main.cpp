@@ -103,7 +103,7 @@ Node* Insertar(Node* root, string red, string host)
 void leerArchivo(struct Node *&root)
 {
   string line;
-  ifstream file("bitacoraModificado.txt");
+  ifstream file("bitacora2.txt");
   int n = 0;
     
   float redF;
@@ -191,12 +191,12 @@ void InsertInorder(Node *root, HashTable &myHashTable)
   InsertInorder(root->right, myHashTable);
 }
 
-void merge(int inicio, int mitad, int fin, vector<string> &vHost){
+void merge(int inicio, int mitad, int fin, vector<float> &vHost){
 
     int i = inicio;
     int j = mitad+1;
     int k = inicio;
-    vector<string> temp;
+    vector<float> temp;
     
     while(i<=mitad && j<=fin){
         if(vHost[i] < vHost[j]){
@@ -235,7 +235,7 @@ void merge(int inicio, int mitad, int fin, vector<string> &vHost){
 }
 
 
-void mergeSort(int inicio, int fin, vector<string> &vHost){
+void mergeSort(int inicio, int fin, vector<float> &vHost){
 
     if(inicio < fin){
 
@@ -287,14 +287,24 @@ int main()
   for(int i=0; i<n; i++) {
     cin >> q;
     temp = myHashTable.search(q);
+
+    // Si existe el objeto
     if (temp){
+      // 
       temp->printResumen();
-      cout << "Check vector" << endl;
+      cout << "\nUnsorted" << endl;
       for(int i=0; i<temp->m_vecHost.size(); i++){
         vFHost.push_back(stof(temp->m_vecHost[i]));
         cout << vFHost[i] << endl;
       }
+      
+      mergeSort(0, vFHost.size()-1, vFHost);
+
+      cout << "\nSorted" << endl;
+      for(auto h : vFHost)
+        cout << h << endl;
       // Sort->temp->vec
+      vFHost.clear();
     }
 
     cout << "\n-------" << endl;
