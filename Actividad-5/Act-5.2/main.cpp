@@ -50,8 +50,6 @@ Node* Insertar(Node* root, float red, float host)
 
     // Pointer father mantiene el nodo al que se le debe insertar un hijo
     Node* father = NULL;
-
-    
  
     while (temp != NULL) {
         father = temp;
@@ -166,9 +164,9 @@ void leerArchivo(struct Node *&root)
       redF = stof(red);
       hostF = stof(host);
 
-      // cout << "Red:  " << redF << endl;
-      // cout << "Host: " << hostF << endl;
-      // cout << "IP: " << ip << endl;
+      cout << "Red:  " << red << endl;
+      cout << "Host: " << host << endl;
+      cout << "IP: " << ip << endl;
 
       if(n==0){
         root = Insertar(root, redF, hostF);
@@ -207,26 +205,29 @@ void Preorder(Node *root)
 int main()
 {
   
-
-
-  cout << "Hello world" << endl;
   struct Node *root = NULL;
   leerArchivo(root);
-  Inorder(root);
+  // Inorder(root);
 
   cout << "\nTesting" << endl;
 
   // NOTA: Cambie los contadores de 0 a 1
   // NOTA: Revisar cuando se repiten, en bitacora2: 10.03, este valor se repite varias veces
 
-  cout << "Red:           " << root->left->left->data.m_red << endl;
-  cout << "Num registros: " << root->left->left->data.m_countReg << endl;
-  cout << "Num hosts:     " << root->left->left->data.m_countHost << endl;
+  cout << "Red:           " << root->right->data.m_red << endl;
+  cout << "Num registros: " << root->right->data.m_countReg << endl;
+  cout << "Num hosts:     " << root->right->data.m_countHost << endl;
   cout << "Imprimiendo registros: " << endl;
 
-  for(auto h : root->left->left->data.m_vecHost)
+  for(auto h : root->right->data.m_vecHost)
     cout << h << endl;
-  // cout << root->data.m_vecHost[0] << endl;
+    
+  // string ip1 = "33.300";
+  // string ip2 = "300.300";
+  // bool ans = (ip1 > ip2);
+
+  // cout << boolalpha << ans << endl;
+
 
   return 0;
 }
