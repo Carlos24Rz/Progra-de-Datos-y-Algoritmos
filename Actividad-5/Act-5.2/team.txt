@@ -1,0 +1,11 @@
+* Carlos Eduardo Ruiz Lira / a01735706
+    - Función para leer archivos
+    - Merge sort
+
+* Carlos Daniel Díaz Arrazate / a01734902
+    - Clase Resumen
+    - InsercionInorder
+
+* Jose Angel González Carrera / a01552274
+    - Clase hashTable
+    - Creacion de arbol
