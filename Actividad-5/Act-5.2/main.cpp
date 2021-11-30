@@ -279,7 +279,6 @@ int main()
     
   
   // Consultas
-
   int n = 0;
   string q;
   Resumen* temp;
@@ -287,21 +286,24 @@ int main()
 
   cin >> n;
   for(int i=0; i<n; i++) {
+    // Buscar red en hashTable
     cin >> q;
     temp = myHashTable.search(q);
 
     // Si existe el objeto
     if (temp){
-      // 
+      // Imprimir datos de red
       temp->printResumen();
 
-      // Guardando valores del m_vecHost en otro para ordernarlo
+      // Guardar redes de m_vecHost
       for(int i=0; i<temp->m_vecHost.size(); i++){
         vFHost.push_back(stof(temp->m_vecHost[i]));
       }
       
+      // Ordernar vector de redes
       mergeSort(0, vFHost.size()-1, vFHost);
 
+      // Imprimir redes
       for(auto h : vFHost)
         cout << h << endl;
       vFHost.clear();

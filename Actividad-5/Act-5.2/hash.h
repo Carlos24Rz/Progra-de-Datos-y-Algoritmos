@@ -46,17 +46,21 @@ class HashTable{
         // Complejidad: O(n)
         Resumen* search(string red){
 
+            
+
             // Sacar hashC
             int hashC = hashCode(red);
-
+            
             // HashC vacio
             if(hashT[hashC].second == 'v'){
                 cout << "Dato no encontrado" << endl;
+                
                 return NULL;
             }
             
             // HashC ocupada
             else{
+                
                 // Resulta que el hashC tiene la misma placa que la llave
                 if(red == hashT[hashC].first.m_red){
                     return &hashT[hashC].first;
@@ -70,9 +74,9 @@ class HashTable{
                     while(hashT[temp].second == 'o' && temp!=hashC){
 
                         // Se encuentra la placa al recorrer a la derecha
-                        if(red == hashT[temp].first.m_red)
-                            return &hashT[hashC].first;
-                        
+                        if(red == hashT[temp].first.m_red) {
+                            return &hashT[temp].first;
+                        }
                         temp = (temp+1)%size;
                     }
                     cout << "Dato no encontrado" << endl;
