@@ -33,7 +33,6 @@ class Resumen {
         void setHost(string host){
             m_vecHost[0] = host;
         }
-        
 
         bool isLess(const string data){
 
@@ -57,16 +56,10 @@ class Resumen {
             return false;
         }
 
-
-
-
         void printResumen(){
             cout << m_red << endl;
             cout << m_countReg << endl;
             cout << m_countHost << endl;
-            // for(auto h : m_vecHost)
-            //     cout << h << endl;
-
         }
 
 };

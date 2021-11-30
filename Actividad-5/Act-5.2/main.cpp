@@ -18,16 +18,20 @@ struct Node
   struct Node *right;
 };
 
+
+// Descripcion: Crear un nuevo nodo
+// Entrada: red y host
+// Salida: Nuevo nodo
+// Complejidad: O(1)
 struct Node *newNode(string red, string host)
 {
   struct Node *temp;
   // temp = (Node *)malloc(sizeof(Node));
   temp = new Node;
   temp->data.m_red = red;
-  // cout << red << " - " << host << endl;
   temp->data.m_vecHost.push_back(host);
   // temp->data.m_vecHost[0] = host;
-//  cout << "--Prueba--" << endl;
+  //  cout << "--Prueba--" << endl;
 
   temp->left = NULL;
   temp->right = NULL;
@@ -35,9 +39,12 @@ struct Node *newNode(string red, string host)
 }
 
 
+// Descripcion: Insertar de nodo
+// Entrada: Referencia del apuntador a la raiz del arbol, dato a insertar
+// Salida: Nada
+// Complejidad: O(n)
 Node* Insertar(Node* root, string red, string host)
 {
-    // cout << "Insertando" << endl;
     // Crear el nuevo nodo resumen a agregar
     Node* newnode = newNode(red, host);
     // Resumen* nuevoResumen = newResumen(red, host);
@@ -53,7 +60,7 @@ Node* Insertar(Node* root, string red, string host)
 
         // Misma red (no hay que inserta otro nuevo nodo Resumen)
         if(temp->data.m_red == red){
-          // cout << "Entrando" << endl;
+          
           temp->data.m_countReg += 1; // Agregamos un registro
           // Comparar el nuevo host con el vector de host 
           for(int i=0; i<temp->data.m_vecHost.size(); i++ ){
@@ -76,8 +83,7 @@ Node* Insertar(Node* root, string red, string host)
           temp = temp->left;
         }
     }
-    
- 
+     
     // Si la raiz es NULL, el arbol esta vacio
     // El newnode es la raiz
     if (father == NULL)
@@ -86,13 +92,11 @@ Node* Insertar(Node* root, string red, string host)
     // Es un hijo menor
     else if (father->data.isGreater(red)){
       father->left = newnode;
-      // cout << "Father-left: " << newnode->data.m_red << endl;
     }
  
     // Es un hijo mayor
     else{
       father->right = newnode;
-      // cout << "Father-right: " << newnode->data.m_red << endl;
     }
  
     // Retorna el pointer en donde se inserto el newnode
@@ -100,6 +104,10 @@ Node* Insertar(Node* root, string red, string host)
 }
 
 
+// Descripcion: Lectura del archivo para la creacion del arbol
+// Entrada: Apuntador a root de lista ligada
+// Salida: Nada
+// Complejidad: O(n)
 void leerArchivo(struct Node *&root)
 {
   string line;
@@ -162,10 +170,6 @@ void leerArchivo(struct Node *&root)
       // redF = stof(red);
       // hostF = stof(host);
 
-      // cout << "Red:  " << red << endl;
-      // cout << "Host: " << host << endl;
-      // cout << "IP: " << ip << endl;
-
       if(n==0){
         root = Insertar(root, red, host);
         n++;
@@ -179,6 +183,10 @@ void leerArchivo(struct Node *&root)
 }
  
 
+// Descricion: Insercion inorder para el hash table
+// Entrada: Root del arbol, Referencia del hash table
+// Salida: Nada
+// Complejidad: O(n)
 void InsertInorder(Node *root, HashTable &myHashTable)
 {
   if (root == NULL)
@@ -187,11 +195,16 @@ void InsertInorder(Node *root, HashTable &myHashTable)
   InsertInorder(root->left, myHashTable);
 
   myHashTable.ins(root->data);
-  // cout << root->data.m_red << endl;
   InsertInorder(root->right, myHashTable);
 }
 
-void merge(int inicio, int mitad, int fin, vector<float> &vHost){
+
+// Descricion: Merge sort
+// Entrada: Inicio, mitad, fin, vector desordenado
+// Salida: Nada
+// Complejidad: O(n) 
+void merge(int inicio, int mitad, int fin, vector<float> &vHost)
+{
 
     int i = inicio;
     int j = mitad+1;
@@ -225,7 +238,6 @@ void merge(int inicio, int mitad, int fin, vector<float> &vHost){
         }
     }
 
-
     // Copiando los elementos del temporal al original
     for(auto element : temp){
         vHost[inicio] = element;
@@ -235,6 +247,10 @@ void merge(int inicio, int mitad, int fin, vector<float> &vHost){
 }
 
 
+// Descricion: Merge sort
+// Entrada: Inicio, fin, vector
+// Salida: Nada
+// Complejidad: O(log n)
 void mergeSort(int inicio, int fin, vector<float> &vHost){
 
     if(inicio < fin){
@@ -251,18 +267,8 @@ void mergeSort(int inicio, int fin, vector<float> &vHost){
 
 
 
-
-
 int main()
 {
-  // cout << "\nTesting" << endl;
-  // cout << "Red:           " << root->data.m_red << endl;
-  // cout << "Num registros: " << root->data.m_countReg << endl;
-  // cout << "Num hosts:     " << root->data.m_countHost << endl;
-  // cout << "Imprimiendo registros: " << endl;
-
-  // for(auto h : root->data.m_vecHost)
-  //   cout << h << endl;
 
   // Creando hashTable
   HashTable myHashTable;
@@ -272,10 +278,6 @@ int main()
   InsertInorder(root, myHashTable);
     
   
-  
-  cout << "\n------------" << endl;
-
-  cout << "Testing" << endl;
   // Consultas
 
   int n = 0;
@@ -292,26 +294,21 @@ int main()
     if (temp){
       // 
       temp->printResumen();
-      cout << "\nUnsorted" << endl;
+
+      // Guardando valores del m_vecHost en otro para ordernarlo
       for(int i=0; i<temp->m_vecHost.size(); i++){
         vFHost.push_back(stof(temp->m_vecHost[i]));
-        cout << vFHost[i] << endl;
       }
       
       mergeSort(0, vFHost.size()-1, vFHost);
 
-      cout << "\nSorted" << endl;
       for(auto h : vFHost)
         cout << h << endl;
-      // Sort->temp->vec
       vFHost.clear();
     }
 
-    cout << "\n-------" << endl;
+    cout << endl;
   }
-  
-    
-  cout << endl;
 
   return 0;
 }

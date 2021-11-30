@@ -11,7 +11,6 @@ class HashTable{
         // flags para el char: 
         // o = ocupado
         // v= vacío
-        // b= borrado
 
     public:
         HashTable(){
@@ -20,9 +19,9 @@ class HashTable{
         };
 
         // Descripcion: Funcion hash que genera un hashcode
-        // Entrada: llave (placa)
+        // Entrada: llave (red)
         // Salida: hashCode
-        // Complejidad: O(N)
+        // Complejidad: O(n)
         int hashCode(string red){
 
             int firstPoint = red.find('.');
@@ -41,10 +40,10 @@ class HashTable{
 
         // NOTA: next position = (i+1)%N, where N=numberElements
 
-        // Descripcion: Buscar un elemento de acuerdo a su llave (placa)
+        // Descripcion: Buscar un elemento de acuerdo a su llave (red)
         // Entrada: llave del elemento (placa)
-        // Salida: string del objeto encontrado o no
-        // Complejidad: O(N)
+        // Salida: objeto resumen encontrado
+        // Complejidad: O(n)
         Resumen* search(string red){
 
             // Sacar hashC
@@ -84,9 +83,9 @@ class HashTable{
 
 
         // Descripcion: Insertar un dato en la estructura de 
-        // Entrada: El objeto a insertar que tiene su llave (placa)
+        // Entrada: El objeto a insertar que tiene su llave (red)
         // Salida: Nada
-        // Complejidad: O(N)
+        // Complejidad: O(n)
         void ins(Resumen resumen){
             // Guardar el indice
             int hashC = hashCode(resumen.m_red);
